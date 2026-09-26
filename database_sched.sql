@@ -46,3 +46,24 @@ INSERT INTO tbl_classrooms (room_name, building, capacity) VALUES
 ('Room 301', 'Annex Building', 50);
 
 ALTER TABLE tbl_classrooms CHANGE COLUMN building room_type VARCHAR(50);
+
+SHOW databases 
+USE csta_sched_db
+SHOW TABLES
+
+SELECT COUNT(*) FROM tbl_schedules WHERE day_of_week = @day_of_week AND 
+(room_id = @room_id OR instructor_id = @instructor_id) AND 
+(@time_start < time_end AND @time_end > time_start)
+
+CREATE TABLE tbl_logs (
+    log_id INT AUTO_INCREMENT PRIMARY KEY,
+    action VARCHAR(255) NOT NULL,
+    details TEXT,
+    log_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO tbl_logs (action, details) VALUES ('Test Action', 'Manually inserted test log');
+
+ALTER TABLE tbl_logs ADD COLUMN performed_by VARCHAR(100) DEFAULT 'Unknown';
+
+TRUNCATE TABLE tbl_logs;
