@@ -27,7 +27,6 @@ Partial Class AddEditScheduleForm
         Me.txtDescription = New System.Windows.Forms.TextBox()
         Me.cmbDay = New System.Windows.Forms.ComboBox()
         Me.dtpTimeEnd = New System.Windows.Forms.DateTimePicker()
-        Me.dtpTimeStart = New System.Windows.Forms.DateTimePicker()
         Me.btnSave = New System.Windows.Forms.Button()
         Me.btnCancel = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -39,10 +38,12 @@ Partial Class AddEditScheduleForm
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.cmbInstructor = New System.Windows.Forms.ComboBox()
+        Me.dtpTimeStart = New System.Windows.Forms.DateTimePicker()
         Me.SuspendLayout()
         '
         'cmbRoom
         '
+        Me.cmbRoom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbRoom.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmbRoom.FormattingEnabled = True
         Me.cmbRoom.Location = New System.Drawing.Point(27, 94)
@@ -69,6 +70,7 @@ Partial Class AddEditScheduleForm
         '
         'cmbDay
         '
+        Me.cmbDay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbDay.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmbDay.FormattingEnabled = True
         Me.cmbDay.Location = New System.Drawing.Point(27, 187)
@@ -78,21 +80,14 @@ Partial Class AddEditScheduleForm
         '
         'dtpTimeEnd
         '
-        Me.dtpTimeEnd.Font = New System.Drawing.Font("Segoe UI Semibold", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.dtpTimeEnd.Format = System.Windows.Forms.DateTimePickerFormat.Time
+        Me.dtpTimeEnd.CustomFormat = "hh:mm tt"
+        Me.dtpTimeEnd.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dtpTimeEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.dtpTimeEnd.Location = New System.Drawing.Point(166, 240)
         Me.dtpTimeEnd.Name = "dtpTimeEnd"
-        Me.dtpTimeEnd.Size = New System.Drawing.Size(105, 29)
+        Me.dtpTimeEnd.ShowUpDown = True
+        Me.dtpTimeEnd.Size = New System.Drawing.Size(79, 25)
         Me.dtpTimeEnd.TabIndex = 5
-        '
-        'dtpTimeStart
-        '
-        Me.dtpTimeStart.Font = New System.Drawing.Font("Segoe UI Semibold", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.dtpTimeStart.Format = System.Windows.Forms.DateTimePickerFormat.Time
-        Me.dtpTimeStart.Location = New System.Drawing.Point(27, 240)
-        Me.dtpTimeStart.Name = "dtpTimeStart"
-        Me.dtpTimeStart.Size = New System.Drawing.Size(106, 29)
-        Me.dtpTimeStart.TabIndex = 6
         '
         'btnSave
         '
@@ -203,12 +198,24 @@ Partial Class AddEditScheduleForm
         '
         'cmbInstructor
         '
+        Me.cmbInstructor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbInstructor.Font = New System.Drawing.Font("Segoe UI Semibold", 12.0!, System.Drawing.FontStyle.Bold)
         Me.cmbInstructor.FormattingEnabled = True
         Me.cmbInstructor.Location = New System.Drawing.Point(160, 94)
         Me.cmbInstructor.Name = "cmbInstructor"
         Me.cmbInstructor.Size = New System.Drawing.Size(208, 29)
         Me.cmbInstructor.TabIndex = 18
+        '
+        'dtpTimeStart
+        '
+        Me.dtpTimeStart.CustomFormat = "hh:mm tt"
+        Me.dtpTimeStart.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dtpTimeStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpTimeStart.Location = New System.Drawing.Point(27, 240)
+        Me.dtpTimeStart.Name = "dtpTimeStart"
+        Me.dtpTimeStart.ShowUpDown = True
+        Me.dtpTimeStart.Size = New System.Drawing.Size(79, 25)
+        Me.dtpTimeStart.TabIndex = 6
         '
         'AddEditScheduleForm
         '
@@ -246,7 +253,6 @@ Partial Class AddEditScheduleForm
     Friend WithEvents txtDescription As System.Windows.Forms.TextBox
     Friend WithEvents cmbDay As System.Windows.Forms.ComboBox
     Friend WithEvents dtpTimeEnd As System.Windows.Forms.DateTimePicker
-    Friend WithEvents dtpTimeStart As System.Windows.Forms.DateTimePicker
     Friend WithEvents btnSave As System.Windows.Forms.Button
     Friend WithEvents btnCancel As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
@@ -258,4 +264,5 @@ Partial Class AddEditScheduleForm
     Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents cmbInstructor As System.Windows.Forms.ComboBox
+    Friend WithEvents dtpTimeStart As System.Windows.Forms.DateTimePicker
 End Class

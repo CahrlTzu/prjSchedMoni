@@ -49,6 +49,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="MySql.Data, Version=6.9.10.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 6.9.10\Assemblies\v4.0\MySql.Data.dll</HintPath>
@@ -132,6 +133,12 @@
     <Compile Include="ResolveConflictForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Toggle.Designer.vb">
+      <DependentUpon>Toggle.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Toggle.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserManagementForm.Designer.vb">
       <DependentUpon>UserManagementForm.vb</DependentUpon>
     </Compile>
@@ -163,6 +170,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ResolveConflictForm.resx">
       <DependentUpon>ResolveConflictForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Toggle.resx">
+      <DependentUpon>Toggle.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserManagementForm.resx">
       <DependentUpon>UserManagementForm.vb</DependentUpon>
@@ -292,6 +302,33 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icons8refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\brightness-and-contrast.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dmode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lmode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dmode%281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bg_light.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dmode%282%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bg_light1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bg_dark.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

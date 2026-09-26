@@ -78,6 +78,12 @@ Public Class AddEditRoomForm
                 cmd.ExecuteNonQuery()
             End Using
 
+            If RoomId = 0 Then
+                InsertLog("Add Room", "A new room " & txtRoomName.Text.Trim() & " was added.")
+            Else
+                InsertLog("Edit Room", "Room ID " & RoomId & " was updated.")
+            End If
+
             Me.DialogResult = DialogResult.OK
             Me.Close()
         Catch ex As Exception
@@ -88,6 +94,20 @@ Public Class AddEditRoomForm
     Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
         Me.DialogResult = DialogResult.Cancel
         Me.Close()
+    End Sub
+
+    Private Sub InsertLog(ByVal actionText As String, ByVal detailsText As String)
+        Try
+            If conn.State <> ConnectionState.Open Then conn.Open()
+            Dim query As String = "INSERT INTO tbl_logs (action, details) VALUES (@action, @details)"
+            Using cmd As New MySqlCommand(query, conn)
+                cmd.Parameters.AddWithValue("@action", actionText)
+                cmd.Parameters.AddWithValue("@details", detailsText)
+                cmd.ExecuteNonQuery()
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("Error saving log: " & ex.Message)
+        End Try
     End Sub
 
 End Class

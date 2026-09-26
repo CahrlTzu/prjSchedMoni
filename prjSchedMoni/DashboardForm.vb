@@ -6,10 +6,24 @@ Imports System.Windows.Forms.DataVisualization.Charting
 
 Public Class DashboardForm
 
+    Private OriginalColors As New Dictionary(Of Control, Color)
+    Private OriginalForeColor As New Dictionary(Of Control, Color)
+
+    Private Sub SaveOriginalColors(ByVal parent As Control)
+        For Each ctrl As Control In parent.Controls
+            If Not OriginalColors.ContainsKey(ctrl) Then
+                OriginalColors.Add(ctrl, ctrl.BackColor)
+                OriginalForeColor.Add(ctrl, ctrl.ForeColor)
+            End If
+            If ctrl.HasChildren Then
+                SaveOriginalColors(ctrl)
+            End If
+        Next
+    End Sub
+
     Private Sub DashboardForm_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
         dgvTodaysSchedule.AutoGenerateColumns = True
         dgvTodaysSchedule.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-
         FormatScheduleGrid()
 
         LoadDashboardMetrics()
@@ -19,10 +33,11 @@ Public Class DashboardForm
         LoadDayDropdown()
         LoadScheduleFromDatabase()
         LoadRoomsData()
-        LoadDashboardMetrics()
         LoadAvailabilityData()
         LoadConflictsData()
         LoadRoomChart()
+
+        SetupPlaceholders()
 
         ApplyAllRoundedCorners()
         UpdateDateTimeDisplay()
@@ -31,18 +46,65 @@ Public Class DashboardForm
         LoadUserProfile()
         ShowView(pnlDashboardView)
         HighlightActiveButton(btnDashboard)
+
         Dim currentUserRole As String = If(GlobalSession.UserRole Is Nothing, "", GlobalSession.UserRole.Trim())
         Dim isAdmin As Boolean = currentUserRole.IndexOf("Admin", StringComparison.OrdinalIgnoreCase) >= 0
         pictureBoxUserManagement.Visible = isAdmin
+
+        If Not isAdmin AndAlso btnConflicts IsNot Nothing Then
+            btnConflicts.Text = "🔒 Conflicts / Logs"
+        End If
+
+        SaveOriginalColors(Me)
+        
+    End Sub
+
+    Private Sub SetupPlaceholders()
+        If String.IsNullOrEmpty(txtSearchSchedule.Text) Then
+            txtSearchSchedule.Text = "Search..."
+            txtSearchSchedule.ForeColor = Color.Gray
+        End If
+        AddHandler txtSearchSchedule.Enter, AddressOf SearchTextBox_Enter
+        AddHandler txtSearchSchedule.Leave, AddressOf SearchTextBox_Leave
+
+        If String.IsNullOrEmpty(txtSearchRoom.Text) Then
+            txtSearchRoom.Text = "Search..."
+            txtSearchRoom.ForeColor = Color.Gray
+        End If
+        AddHandler txtSearchRoom.Enter, AddressOf SearchTextBox_Enter
+        AddHandler txtSearchRoom.Leave, AddressOf SearchTextBox_Leave
+
+        If String.IsNullOrEmpty(txtSearchAvailability.Text) Then
+            txtSearchAvailability.Text = "Search..."
+            txtSearchAvailability.ForeColor = Color.Gray
+        End If
+        AddHandler txtSearchAvailability.Enter, AddressOf SearchTextBox_Enter
+        AddHandler txtSearchAvailability.Leave, AddressOf SearchTextBox_Leave
+    End Sub
+
+    Private Sub SearchTextBox_Enter(ByVal sender As Object, ByVal e As EventArgs)
+        Dim txt As TextBox = CType(sender, TextBox)
+        If txt.Text = "Search..." Then
+            txt.Text = ""
+            txt.ForeColor = If(Toggle1 IsNot Nothing AndAlso Toggle1.Checked, Color.White, Color.Black)
+        End If
+    End Sub
+
+    Private Sub SearchTextBox_Leave(ByVal sender As Object, ByVal e As EventArgs)
+        Dim txt As TextBox = CType(sender, TextBox)
+        If String.IsNullOrWhiteSpace(txt.Text) Then
+            txt.Text = "Search..."
+            txt.ForeColor = Color.Gray
+        End If
     End Sub
 
     Private Sub LoadRoomDropdown()
         Try
             Dim query As String = "SELECT room_id, room_name FROM tbl_classrooms ORDER BY room_name ASC"
             Using cmd As New MySqlCommand(query, conn)
-                Dim adapter As New MySqlDataAdapter(cmd)
+                Dim dataAdapter As New MySqlDataAdapter(cmd)
                 Dim dt As New DataTable()
-                adapter.Fill(dt)
+                dataAdapter.Fill(dt)
 
                 Dim dr As DataRow = dt.NewRow()
                 dr("room_id") = 0
@@ -93,6 +155,10 @@ Public Class DashboardForm
                                   "JOIN tbl_users u ON s.instructor_id = u.user_id " & _
                                   "WHERE 1=1"
 
+            If chkMySchedule IsNot Nothing AndAlso chkMySchedule.Checked Then
+                query &= " AND s.instructor_id = @myUserId"
+            End If
+
             If cmbRoomFilter IsNot Nothing AndAlso cmbRoomFilter.SelectedValue IsNot Nothing Then
                 Dim selectedVal As Integer = 0
                 If Integer.TryParse(cmbRoomFilter.SelectedValue.ToString(), selectedVal) AndAlso selectedVal > 0 Then
@@ -113,13 +179,17 @@ Public Class DashboardForm
                 query &= " AND s.day_of_week = @filterDay"
             End If
 
-            If txtSearchSchedule IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(txtSearchSchedule.Text) Then
+            If txtSearchSchedule IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(txtSearchSchedule.Text) AndAlso txtSearchSchedule.Text <> "Search..." Then
                 query &= " AND (s.subject_code LIKE @search OR u.full_name LIKE @search)"
             End If
 
             query &= " ORDER BY FIELD(s.day_of_week, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'), s.time_start ASC"
 
             Using cmd As New MySqlCommand(query, conn)
+                If chkMySchedule IsNot Nothing AndAlso chkMySchedule.Checked Then
+                    cmd.Parameters.AddWithValue("@myUserId", GlobalSession.UserId)
+                End If
+
                 If cmbRoomFilter IsNot Nothing AndAlso cmbRoomFilter.SelectedValue IsNot Nothing Then
                     Dim selectedVal As Integer = 0
                     If Integer.TryParse(cmbRoomFilter.SelectedValue.ToString(), selectedVal) AndAlso selectedVal > 0 Then
@@ -131,13 +201,13 @@ Public Class DashboardForm
                     cmd.Parameters.AddWithValue("@filterDay", selectedDayText)
                 End If
 
-                If txtSearchSchedule IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(txtSearchSchedule.Text) Then
+                If txtSearchSchedule IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(txtSearchSchedule.Text) AndAlso txtSearchSchedule.Text <> "Search..." Then
                     cmd.Parameters.AddWithValue("@search", "%" & txtSearchSchedule.Text.Trim() & "%")
                 End If
 
-                Dim adapter As New MySqlDataAdapter(cmd)
+                Dim dataAdapter As New MySqlDataAdapter(cmd)
                 Dim dt As New DataTable()
-                adapter.Fill(dt)
+                dataAdapter.Fill(dt)
 
                 dgvSchedule.DataSource = dt
 
@@ -154,14 +224,22 @@ Public Class DashboardForm
                     row.Cells("Delete").Value = My.Resources.delete_icon
                 Next
 
+                Dim isDarkTheme As Boolean = Toggle1 IsNot Nothing AndAlso Toggle1.Checked
+                Dim gridBg As Color = If(isDarkTheme, Color.FromArgb(45, 45, 45), Color.White)
+                Dim gridAltBg As Color = If(isDarkTheme, Color.FromArgb(35, 35, 35), Color.FromArgb(248, 249, 250))
+                Dim gridText As Color = If(isDarkTheme, Color.White, Color.FromArgb(50, 50, 50))
+                Dim gridLine As Color = If(isDarkTheme, Color.FromArgb(60, 60, 60), Color.FromArgb(235, 238, 241))
+                Dim gridHeaderBg As Color = If(isDarkTheme, Color.FromArgb(50, 50, 50), Color.FromArgb(240, 242, 245))
+
                 With dgvSchedule
                     .BorderStyle = BorderStyle.None
-                    .AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(248, 249, 250)
+                    .AlternatingRowsDefaultCellStyle.BackColor = gridAltBg
+                    .AlternatingRowsDefaultCellStyle.ForeColor = gridText
                     .CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
-                    .DefaultCellStyle.SelectionBackColor = Color.FromArgb(225, 228, 232)
-                    .DefaultCellStyle.SelectionForeColor = Color.Black
-                    .BackgroundColor = Color.White
-                    .GridColor = Color.FromArgb(235, 238, 241)
+                    .DefaultCellStyle.SelectionBackColor = If(isDarkTheme, Color.FromArgb(60, 60, 60), Color.FromArgb(225, 228, 232))
+                    .DefaultCellStyle.SelectionForeColor = gridText
+                    .BackgroundColor = gridBg
+                    .GridColor = gridLine
                     .RowHeadersVisible = False
                     .SelectionMode = DataGridViewSelectionMode.FullRowSelect
                     .MultiSelect = False
@@ -173,13 +251,13 @@ Public Class DashboardForm
                     .EnableHeadersVisualStyles = False
                     .ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
                     .ColumnHeadersHeight = 28
-                    .ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(240, 242, 245)
-                    .ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(40, 40, 40)
+                    .ColumnHeadersDefaultCellStyle.BackColor = gridHeaderBg
+                    .ColumnHeadersDefaultCellStyle.ForeColor = gridText
                     .ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 8.5F, FontStyle.Bold)
                     .RowTemplate.Height = 25
                     .DefaultCellStyle.Font = New Font("Segoe UI", 8.0F, FontStyle.Regular)
-                    .DefaultCellStyle.ForeColor = Color.FromArgb(50, 50, 50)
-                    .DefaultCellStyle.BackColor = Color.White
+                    .DefaultCellStyle.ForeColor = gridText
+                    .DefaultCellStyle.BackColor = gridBg
                     .DefaultCellStyle.Padding = New Padding(1, 0, 1, 0)
 
                     If .Columns.Contains("ID") Then .Columns("ID").Visible = False
@@ -210,12 +288,20 @@ Public Class DashboardForm
                     End If
                 End With
 
+                For Each col As DataGridViewColumn In dgvSchedule.Columns
+                    col.SortMode = DataGridViewColumnSortMode.NotSortable
+                Next
+
                 dgvSchedule.ClearSelection()
             End Using
 
         Catch ex As Exception
             MessageBox.Show("Error loading schedules from database: " & ex.Message)
         End Try
+    End Sub
+
+    Private Sub chkMySchedule_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkMySchedule.CheckedChanged
+        LoadScheduleFromDatabase()
     End Sub
 
     Private Sub OptionsEditColumn()
@@ -298,20 +384,20 @@ Public Class DashboardForm
         Try
             Dim query As String = "SELECT room_id AS 'ID', room_name AS 'Room Name', room_type AS 'Room Type', capacity AS 'Capacity', status AS 'Status' FROM tbl_classrooms WHERE 1=1"
 
-            If txtSearchRoom IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(txtSearchRoom.Text) Then
+            If txtSearchRoom IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(txtSearchRoom.Text) AndAlso txtSearchRoom.Text <> "Search..." Then
                 query &= " AND room_name LIKE @search"
             End If
 
             query &= " ORDER BY room_name ASC"
 
             Using cmd As New MySqlCommand(query, conn)
-                If txtSearchRoom IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(txtSearchRoom.Text) Then
+                If txtSearchRoom IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(txtSearchRoom.Text) AndAlso txtSearchRoom.Text <> "Search..." Then
                     cmd.Parameters.AddWithValue("@search", "%" & txtSearchRoom.Text.Trim() & "%")
                 End If
 
-                Dim adapter As New MySqlDataAdapter(cmd)
+                Dim dataAdapter As New MySqlDataAdapter(cmd)
                 Dim dt As New DataTable()
-                adapter.Fill(dt)
+                dataAdapter.Fill(dt)
 
                 dgvRooms.DataSource = dt
 
@@ -336,14 +422,22 @@ Public Class DashboardForm
                     row.Cells("DeleteRoom").Value = My.Resources.delete_icon
                 Next
 
+                Dim isDarkTheme As Boolean = Toggle1 IsNot Nothing AndAlso Toggle1.Checked
+                Dim gridBg As Color = If(isDarkTheme, Color.FromArgb(45, 45, 45), Color.White)
+                Dim gridAltBg As Color = If(isDarkTheme, Color.FromArgb(35, 35, 35), Color.FromArgb(248, 249, 250))
+                Dim gridText As Color = If(isDarkTheme, Color.White, Color.FromArgb(50, 50, 50))
+                Dim gridLine As Color = If(isDarkTheme, Color.FromArgb(60, 60, 60), Color.FromArgb(235, 238, 241))
+                Dim gridHeaderBg As Color = If(isDarkTheme, Color.FromArgb(50, 50, 50), Color.FromArgb(240, 242, 245))
+
                 With dgvRooms
                     .BorderStyle = BorderStyle.None
-                    .AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(248, 249, 250)
+                    .AlternatingRowsDefaultCellStyle.BackColor = gridAltBg
+                    .AlternatingRowsDefaultCellStyle.ForeColor = gridText
                     .CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
-                    .DefaultCellStyle.SelectionBackColor = Color.FromArgb(225, 228, 232)
-                    .DefaultCellStyle.SelectionForeColor = Color.Black
-                    .BackgroundColor = Color.White
-                    .GridColor = Color.FromArgb(235, 238, 241)
+                    .DefaultCellStyle.SelectionBackColor = If(isDarkTheme, Color.FromArgb(60, 60, 60), Color.FromArgb(225, 228, 232))
+                    .DefaultCellStyle.SelectionForeColor = gridText
+                    .BackgroundColor = gridBg
+                    .GridColor = gridLine
                     .RowHeadersVisible = False
                     .SelectionMode = DataGridViewSelectionMode.FullRowSelect
                     .MultiSelect = False
@@ -355,13 +449,13 @@ Public Class DashboardForm
                     .EnableHeadersVisualStyles = False
                     .ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
                     .ColumnHeadersHeight = 42
-                    .ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(240, 242, 245)
-                    .ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(40, 40, 40)
+                    .ColumnHeadersDefaultCellStyle.BackColor = gridHeaderBg
+                    .ColumnHeadersDefaultCellStyle.ForeColor = gridText
                     .ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 11.0F, FontStyle.Bold)
                     .RowTemplate.Height = 38
                     .DefaultCellStyle.Font = New Font("Segoe UI", 10.5F, FontStyle.Regular)
-                    .DefaultCellStyle.ForeColor = Color.FromArgb(50, 50, 50)
-                    .DefaultCellStyle.BackColor = Color.White
+                    .DefaultCellStyle.ForeColor = gridText
+                    .DefaultCellStyle.BackColor = gridBg
                     .DefaultCellStyle.Padding = New Padding(2, 0, 2, 0)
 
                     If .Columns.Contains("ID") Then
@@ -395,6 +489,10 @@ Public Class DashboardForm
                         .Columns("DeleteRoom").MinimumWidth = 50
                     End If
                 End With
+
+                For Each col As DataGridViewColumn In dgvRooms.Columns
+                    col.SortMode = DataGridViewColumnSortMode.NotSortable
+                Next
 
                 dgvRooms.ClearSelection()
             End Using
@@ -471,6 +569,8 @@ Public Class DashboardForm
                         LoadRoomChart()
                         LoadAvailabilityData()
                         LoadConflictsData()
+
+                        InsertLog("Delete Schedule", "Deleted schedule ID " & scheduleId)
                     Catch ex As Exception
                         MessageBox.Show("Error deleting schedule: " & ex.Message)
                     End Try
@@ -570,6 +670,14 @@ Public Class DashboardForm
     End Sub
 
     Private Sub btnConflicts_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnConflicts.Click
+        Dim currentUserRole As String = If(GlobalSession.UserRole Is Nothing, "", GlobalSession.UserRole.Trim())
+        Dim isAdmin As Boolean = currentUserRole.IndexOf("Admin", StringComparison.OrdinalIgnoreCase) >= 0
+
+        If Not isAdmin Then
+            MessageBox.Show("No access for this panel. This section is restricted to administrators only.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+
         ShowView(pnlConflictsView)
         HighlightActiveButton(btnConflicts)
         LoadConflictsData()
@@ -642,9 +750,9 @@ Public Class DashboardForm
 
             Using cmd As New MySqlCommand(query, conn)
                 cmd.Parameters.AddWithValue("@today", todayName)
-                Dim adapter As New MySqlDataAdapter(cmd)
+                Dim dataAdapter As New MySqlDataAdapter(cmd)
                 Dim dt As New DataTable()
-                adapter.Fill(dt)
+                dataAdapter.Fill(dt)
 
                 dgvTodaysSchedule.DataSource = dt
 
@@ -657,6 +765,10 @@ Public Class DashboardForm
                     dgvTodaysSchedule.Columns("Status").HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter
                     dgvTodaysSchedule.Columns("Status").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
                 End If
+
+                For Each col As DataGridViewColumn In dgvTodaysSchedule.Columns
+                    col.SortMode = DataGridViewColumnSortMode.NotSortable
+                Next
 
                 dgvTodaysSchedule.ClearSelection()
             End Using
@@ -730,7 +842,10 @@ Public Class DashboardForm
     Private Sub pnlUserProfileCard_Paint(ByVal sender As Object, ByVal e As PaintEventArgs) Handles pnlUserProfileCard.Paint
         e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
 
-        Using pen As New Pen(Color.FromArgb(170, 170, 170), 1.5F)
+        Dim isDark As Boolean = Toggle1 IsNot Nothing AndAlso Toggle1.Checked
+        Dim penColor As Color = If(isDark, Color.FromArgb(80, 80, 80), Color.FromArgb(170, 170, 170))
+
+        Using pen As New Pen(penColor, 1.5F)
             Dim rect As New Rectangle(0, 0, pnlUserProfileCard.Width - 1, pnlUserProfileCard.Height - 1)
             Dim radius As Integer = 25
 
@@ -751,7 +866,11 @@ Public Class DashboardForm
             chartRoomOverview.Legends.Clear()
             chartRoomOverview.Titles.Clear()
 
-            chartRoomOverview.BackColor = Color.FromArgb(218, 218, 218)
+            Dim isDark As Boolean = Toggle1 IsNot Nothing AndAlso Toggle1.Checked
+            Dim chartBg As Color = If(isDark, Color.FromArgb(45, 45, 45), Color.FromArgb(240, 240, 240))
+            Dim legendFore As Color = If(isDark, Color.White, Color.Black)
+
+            chartRoomOverview.BackColor = chartBg
             If chartRoomOverview.ChartAreas.Count > 0 Then
                 chartRoomOverview.ChartAreas(0).BackColor = Color.Transparent
             End If
@@ -762,7 +881,7 @@ Public Class DashboardForm
             legend.LegendStyle = LegendStyle.Column
             legend.BackColor = Color.Transparent
             legend.Font = New Font("Segoe UI", 10.0F, FontStyle.Regular)
-            legend.ForeColor = Color.Black
+            legend.ForeColor = legendFore
             legend.InterlacedRows = False
             chartRoomOverview.Legends.Add(legend)
 
@@ -821,9 +940,12 @@ Public Class DashboardForm
             Dim countText As String = totalRooms.ToString()
             Dim subText As String = "Rooms"
 
+            Dim isDark As Boolean = Toggle1 IsNot Nothing AndAlso Toggle1.Checked
+            Dim textCol As Color = If(isDark, Color.White, Color.Black)
+
             Using fontCount As New Font("Segoe UI", 14.0F, FontStyle.Bold)
                 Using fontSub As New Font("Segoe UI", 11.0F, FontStyle.Bold)
-                    Using brush As New SolidBrush(Color.Black)
+                    Using brush As New SolidBrush(textCol)
                         Dim sf As New StringFormat()
                         sf.Alignment = StringAlignment.Center
                         sf.LineAlignment = StringAlignment.Center
@@ -837,11 +959,16 @@ Public Class DashboardForm
     End Sub
 
     Private Sub FormatScheduleGrid()
+        Dim isDark As Boolean = Toggle1 IsNot Nothing AndAlso Toggle1.Checked
+        Dim gridBg As Color = If(isDark, Color.FromArgb(45, 45, 45), Color.White)
+        Dim gridText As Color = If(isDark, Color.White, Color.FromArgb(50, 50, 50))
+        Dim gridLine As Color = If(isDark, Color.FromArgb(60, 60, 60), Color.FromArgb(235, 238, 241))
+
         With dgvTodaysSchedule
             .BorderStyle = BorderStyle.None
             .CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
-            .BackgroundColor = Color.FromArgb(215, 215, 215)
-            .GridColor = Color.FromArgb(180, 180, 180)
+            .BackgroundColor = gridBg
+            .GridColor = gridLine
             .SelectionMode = DataGridViewSelectionMode.FullRowSelect
             .MultiSelect = False
             .ReadOnly = True
@@ -853,26 +980,27 @@ Public Class DashboardForm
             .EnableHeadersVisualStyles = False
             .ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
             .ColumnHeadersHeight = 28
-            .ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(215, 215, 215)
-            .ColumnHeadersDefaultCellStyle.ForeColor = Color.Black
+            .ColumnHeadersDefaultCellStyle.BackColor = If(isDark, Color.FromArgb(50, 50, 50), Color.FromArgb(240, 242, 245))
+            .ColumnHeadersDefaultCellStyle.ForeColor = gridText
             .ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 8.5F, FontStyle.Bold)
 
             .RowTemplate.Height = 26
             .DefaultCellStyle.Font = New Font("Segoe UI", 8.0F, FontStyle.Regular)
-            .DefaultCellStyle.ForeColor = Color.Black
-            .DefaultCellStyle.BackColor = Color.FromArgb(215, 215, 215)
+            .DefaultCellStyle.ForeColor = gridText
+            .DefaultCellStyle.BackColor = gridBg
             .DefaultCellStyle.Padding = New Padding(2, 0, 2, 0)
 
-            .DefaultCellStyle.SelectionBackColor = Color.FromArgb(215, 215, 215)
-            .DefaultCellStyle.SelectionForeColor = Color.Black
+            .DefaultCellStyle.SelectionBackColor = If(isDark, Color.FromArgb(60, 60, 60), Color.FromArgb(225, 228, 232))
+            .DefaultCellStyle.SelectionForeColor = gridText
 
-            .AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(215, 215, 215)
+            .AlternatingRowsDefaultCellStyle.BackColor = If(isDark, Color.FromArgb(35, 35, 35), Color.FromArgb(248, 249, 250))
+            .AlternatingRowsDefaultCellStyle.ForeColor = gridText
         End With
     End Sub
 
-    Private Sub btnLogout_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnLogout.Click
-        Me.Close()
-        LoginForm.Show()
+    Private Sub btnLogout_Click(ByVal sender As Object, ByVal e As EventArgs)
+
+
     End Sub
 
     Private Sub btnViewAll_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles btnViewAll.LinkClicked
@@ -936,6 +1064,8 @@ Public Class DashboardForm
         ApplyRoundedRegion(pnlDay, 15)
         ApplyRoundedRegion(pnlRoomType, 15)
         ApplyRoundedRegion(pnlSearch, 15)
+        ApplyRoundedRegion(pnlCheckbox, 15)
+        ApplyRoundedRegion(pnlNormal, 15)
     End Sub
 
     Private Sub LoadUserProfile()
@@ -997,6 +1127,8 @@ Public Class DashboardForm
                         LoadRoomChart()
                         LoadAvailabilityData()
                         LoadConflictsData()
+
+                        InsertLog("Delete Room", "Deleted room ID " & roomId)
                     Catch ex As Exception
                         MessageBox.Show("Error deleting room: " & ex.Message)
                     End Try
@@ -1120,7 +1252,7 @@ Public Class DashboardForm
                 query &= " AND r.room_id = @room_id"
             End If
 
-            If txtSearchAvailability IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(txtSearchAvailability.Text) Then
+            If txtSearchAvailability IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(txtSearchAvailability.Text) AndAlso txtSearchAvailability.Text <> "Search..." Then
                 query &= " AND r.room_name LIKE @search"
             End If
 
@@ -1134,24 +1266,32 @@ Public Class DashboardForm
                     cmd.Parameters.AddWithValue("@room_id", cmbFilterRoom.SelectedValue)
                 End If
 
-                If txtSearchAvailability IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(txtSearchAvailability.Text) Then
+                If txtSearchAvailability IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(txtSearchAvailability.Text) AndAlso txtSearchAvailability.Text <> "Search..." Then
                     cmd.Parameters.AddWithValue("@search", "%" & txtSearchAvailability.Text.Trim() & "%")
                 End If
 
-                Dim adapter As New MySqlDataAdapter(cmd)
+                Dim dataAdapter As New MySqlDataAdapter(cmd)
                 Dim dt As New DataTable()
-                adapter.Fill(dt)
+                dataAdapter.Fill(dt)
 
                 dgvAvailability.DataSource = dt
 
+                Dim isDarkTheme As Boolean = Toggle1 IsNot Nothing AndAlso Toggle1.Checked
+                Dim gridBg As Color = If(isDarkTheme, Color.FromArgb(45, 45, 45), Color.White)
+                Dim gridAltBg As Color = If(isDarkTheme, Color.FromArgb(35, 35, 35), Color.FromArgb(248, 249, 250))
+                Dim gridText As Color = If(isDarkTheme, Color.White, Color.FromArgb(50, 50, 50))
+                Dim gridLine As Color = If(isDarkTheme, Color.FromArgb(60, 60, 60), Color.FromArgb(235, 238, 241))
+                Dim gridHeaderBg As Color = If(isDarkTheme, Color.FromArgb(50, 50, 50), Color.FromArgb(240, 242, 245))
+
                 With dgvAvailability
                     .BorderStyle = BorderStyle.None
-                    .AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(248, 249, 250)
+                    .AlternatingRowsDefaultCellStyle.BackColor = gridAltBg
+                    .AlternatingRowsDefaultCellStyle.ForeColor = gridText
                     .CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
-                    .DefaultCellStyle.SelectionBackColor = Color.FromArgb(225, 228, 232)
-                    .DefaultCellStyle.SelectionForeColor = Color.Black
-                    .BackgroundColor = Color.White
-                    .GridColor = Color.FromArgb(235, 238, 241)
+                    .DefaultCellStyle.SelectionBackColor = If(isDarkTheme, Color.FromArgb(60, 60, 60), Color.FromArgb(225, 228, 232))
+                    .DefaultCellStyle.SelectionForeColor = gridText
+                    .BackgroundColor = gridBg
+                    .GridColor = gridLine
                     .RowHeadersVisible = False
                     .SelectionMode = DataGridViewSelectionMode.FullRowSelect
                     .MultiSelect = False
@@ -1163,13 +1303,13 @@ Public Class DashboardForm
                     .EnableHeadersVisualStyles = False
                     .ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
                     .ColumnHeadersHeight = 42
-                    .ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(240, 242, 245)
-                    .ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(40, 40, 40)
+                    .ColumnHeadersDefaultCellStyle.BackColor = gridHeaderBg
+                    .ColumnHeadersDefaultCellStyle.ForeColor = gridText
                     .ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 11.0F, FontStyle.Bold)
                     .RowTemplate.Height = 38
                     .DefaultCellStyle.Font = New Font("Segoe UI", 10.5F, FontStyle.Regular)
-                    .DefaultCellStyle.ForeColor = Color.FromArgb(50, 50, 50)
-                    .DefaultCellStyle.BackColor = Color.White
+                    .DefaultCellStyle.ForeColor = gridText
+                    .DefaultCellStyle.BackColor = gridBg
                     .DefaultCellStyle.Padding = New Padding(2, 0, 2, 0)
 
                     If .Columns.Contains("Room Name") Then .Columns("Room Name").FillWeight = 100
@@ -1181,6 +1321,10 @@ Public Class DashboardForm
                     If .Columns.Contains("Current Schedule") Then .Columns("Current Schedule").FillWeight = 150
                     If .Columns.Contains("Instructor") Then .Columns("Instructor").FillWeight = 120
                 End With
+
+                For Each col As DataGridViewColumn In dgvAvailability.Columns
+                    col.SortMode = DataGridViewColumnSortMode.NotSortable
+                Next
 
                 dgvAvailability.ClearSelection()
             End Using
@@ -1206,8 +1350,8 @@ Public Class DashboardForm
             Try
                 Dim dtRooms As New DataTable()
                 Using cmd As New MySqlCommand("SELECT room_id, room_name FROM tbl_classrooms ORDER BY room_name ASC", conn)
-                    Dim adapter As New MySqlDataAdapter(cmd)
-                    adapter.Fill(dtRooms)
+                    Dim dataAdapter As New MySqlDataAdapter(cmd)
+                    dataAdapter.Fill(dtRooms)
                 End Using
 
                 Dim dr As DataRow = dtRooms.NewRow()
@@ -1234,11 +1378,6 @@ Public Class DashboardForm
     End Sub
 
     Private Sub txtSearchAvailability_TextChanged(ByVal sender As Object, ByVal e As EventArgs) Handles txtSearchAvailability.TextChanged
-        LoadAvailabilityData()
-    End Sub
-
-    Private Sub AvailabilityForm_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
-        LoadAvailabilityFilters()
         LoadAvailabilityData()
     End Sub
 
@@ -1376,9 +1515,9 @@ Public Class DashboardForm
                                   "ORDER BY r.room_name ASC"
 
             Using cmd As New MySqlCommand(query, conn)
-                Dim adapter As New MySqlDataAdapter(cmd)
+                Dim dataAdapter As New MySqlDataAdapter(cmd)
                 Dim dt As New DataTable()
-                adapter.Fill(dt)
+                dataAdapter.Fill(dt)
 
                 dgvConflicts.DataSource = Nothing
                 dgvConflicts.Columns.Clear()
@@ -1393,14 +1532,22 @@ Public Class DashboardForm
                     dgvConflicts.Columns.Add(btnCol)
                 End If
 
+                Dim isDarkTheme As Boolean = Toggle1 IsNot Nothing AndAlso Toggle1.Checked
+                Dim gridBg As Color = If(isDarkTheme, Color.FromArgb(45, 45, 45), Color.White)
+                Dim gridAltBg As Color = If(isDarkTheme, Color.FromArgb(35, 35, 35), Color.FromArgb(248, 249, 250))
+                Dim gridText As Color = If(isDarkTheme, Color.White, Color.FromArgb(50, 50, 50))
+                Dim gridLine As Color = If(isDarkTheme, Color.FromArgb(60, 60, 60), Color.FromArgb(235, 238, 241))
+                Dim gridHeaderBg As Color = If(isDarkTheme, Color.FromArgb(50, 50, 50), Color.FromArgb(240, 242, 245))
+
                 With dgvConflicts
                     .BorderStyle = BorderStyle.None
-                    .AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(248, 249, 250)
+                    .AlternatingRowsDefaultCellStyle.BackColor = gridAltBg
+                    .AlternatingRowsDefaultCellStyle.ForeColor = gridText
                     .CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
-                    .DefaultCellStyle.SelectionBackColor = Color.FromArgb(225, 228, 232)
-                    .DefaultCellStyle.SelectionForeColor = Color.Black
-                    .BackgroundColor = Color.White
-                    .GridColor = Color.FromArgb(235, 238, 241)
+                    .DefaultCellStyle.SelectionBackColor = If(isDarkTheme, Color.FromArgb(60, 60, 60), Color.FromArgb(225, 228, 232))
+                    .DefaultCellStyle.SelectionForeColor = gridText
+                    .BackgroundColor = gridBg
+                    .GridColor = gridLine
                     .RowHeadersVisible = False
                     .SelectionMode = DataGridViewSelectionMode.FullRowSelect
                     .MultiSelect = False
@@ -1412,13 +1559,13 @@ Public Class DashboardForm
                     .EnableHeadersVisualStyles = False
                     .ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
                     .ColumnHeadersHeight = 42
-                    .ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(240, 242, 245)
-                    .ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(40, 40, 40)
+                    .ColumnHeadersDefaultCellStyle.BackColor = gridHeaderBg
+                    .ColumnHeadersDefaultCellStyle.ForeColor = gridText
                     .ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 11.0F, FontStyle.Bold)
                     .RowTemplate.Height = 38
                     .DefaultCellStyle.Font = New Font("Segoe UI", 10.5F, FontStyle.Regular)
-                    .DefaultCellStyle.ForeColor = Color.FromArgb(50, 50, 50)
-                    .DefaultCellStyle.BackColor = Color.White
+                    .DefaultCellStyle.ForeColor = gridText
+                    .DefaultCellStyle.BackColor = gridBg
                     .DefaultCellStyle.Padding = New Padding(2, 0, 2, 0)
 
                     If .Columns.Contains("ID1") Then .Columns("ID1").Visible = False
@@ -1447,6 +1594,10 @@ Public Class DashboardForm
                         .Columns("Actions").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
                     End If
                 End With
+
+                For Each col As DataGridViewColumn In dgvConflicts.Columns
+                    col.SortMode = DataGridViewColumnSortMode.NotSortable
+                Next
 
                 dgvConflicts.ClearSelection()
             End Using
@@ -1497,4 +1648,204 @@ Public Class DashboardForm
         LoadAvailabilityData()
     End Sub
 
+    Private Sub btnToggleView_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnToggleView.Click
+        If btnToggleView.Text = "Logs" Then
+            Try
+                Dim query As String = "SELECT log_id, action, details, performed_by, log_date FROM tbl_logs ORDER BY log_date DESC"
+                Using cmd As New MySqlCommand(query, conn)
+                    Dim adapter As New MySqlDataAdapter(cmd)
+                    Dim dt As New DataTable()
+                    adapter.Fill(dt)
+
+                    dgvConflicts.DataSource = Nothing
+                    dgvConflicts.Columns.Clear()
+                    dgvConflicts.DataSource = dt
+
+                    dgvConflicts.ReadOnly = True
+                    dgvConflicts.AllowUserToAddRows = False
+                    dgvConflicts.AllowUserToDeleteRows = False
+
+                    dgvConflicts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+                    If dgvConflicts.Columns.Contains("details") Then
+                        dgvConflicts.Columns("details").FillWeight = 250
+                        dgvConflicts.Columns("details").DefaultCellStyle.WrapMode = DataGridViewTriState.True
+                    End If
+                    dgvConflicts.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
+
+                    dgvConflicts.BringToFront()
+                End Using
+
+                btnToggleView.Text = "Conflicts"
+            Catch ex As Exception
+                MessageBox.Show("Error loading logs: " & ex.Message)
+            End Try
+        Else
+            LoadConflictsData()
+            btnToggleView.Text = "Logs"
+        End If
+    End Sub
+
+    Private Sub InsertLog(ByVal actionText As String, ByVal detailsText As String)
+        Try
+            If conn.State <> ConnectionState.Open Then conn.Open()
+            Dim userName As String = "System / Administrator"
+
+            If GlobalSession.UserId > 0 Then
+                Dim userQuery As String = "SELECT full_name FROM tbl_users WHERE user_id = @uid"
+                Using cmdUser As New MySqlCommand(userQuery, conn)
+                    cmdUser.Parameters.AddWithValue("@uid", GlobalSession.UserId)
+                    Dim result = cmdUser.ExecuteScalar()
+                    If result IsNot Nothing AndAlso result IsNot DBNull.Value Then
+                        userName = result.ToString()
+                    End If
+                End Using
+            ElseIf Not String.IsNullOrEmpty(GlobalSession.UserRole) Then
+                userName = GlobalSession.UserRole.Trim()
+            End If
+
+            Dim query As String = "INSERT INTO tbl_logs (action, details, performed_by) VALUES (@action, @details, @performed_by)"
+            Using cmd As New MySqlCommand(query, conn)
+                cmd.Parameters.AddWithValue("@action", actionText)
+                cmd.Parameters.AddWithValue("@details", detailsText)
+                cmd.Parameters.AddWithValue("@performed_by", userName)
+                cmd.ExecuteNonQuery()
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("Error saving log: " & ex.Message)
+        End Try
+    End Sub
+
+    Private Sub Toggle1_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles Toggle1.CheckedChanged
+        Dim isDark As Boolean = Toggle1.Checked
+
+        Dim bgColor As Color = If(isDark, Color.FromArgb(30, 30, 30), Color.FromArgb(244, 245, 247))
+        Dim cardBgColor As Color = If(isDark, Color.FromArgb(45, 45, 45), Color.White)
+        Dim textColor As Color = If(isDark, Color.White, Color.FromArgb(30, 30, 30))
+        Dim sidebarColor As Color = If(isDark, Color.FromArgb(40, 40, 40), Color.FromArgb(235, 237, 240))
+        Dim gridBgColor As Color = If(isDark, Color.FromArgb(45, 45, 45), Color.White)
+        Dim gridAltColor As Color = If(isDark, Color.FromArgb(35, 35, 35), Color.FromArgb(248, 249, 250))
+        Dim gridLineColor As Color = If(isDark, Color.FromArgb(60, 60, 60), Color.FromArgb(235, 238, 241))
+
+        Me.BackColor = bgColor
+        Me.ForeColor = textColor
+
+        SetThemeRecursive(Me, bgColor, cardBgColor, textColor, sidebarColor, gridBgColor, gridAltColor, gridLineColor, isDark)
+
+        If chartRoomOverview IsNot Nothing Then
+            chartRoomOverview.BackColor = If(isDark, Color.FromArgb(45, 45, 45), Color.White)
+            If chartRoomOverview.Legends.Count > 0 Then
+                chartRoomOverview.Legends(0).ForeColor = textColor
+            End If
+            chartRoomOverview.Invalidate()
+        End If
+
+        Dim isDarkMode As Boolean = False
+
+        If isDark Then
+            pnlSidebar.BackgroundImage = My.Resources.bg_dark
+            pnlSidebar.BackColor = Color.Transparent
+        Else
+            pnlSidebar.BackgroundImage = My.Resources.bg_light1
+            pnlSidebar.BackColor = Color.Transparent
+        End If
+    End Sub
+
+    Private Sub SetThemeRecursive(ByVal parent As Control, ByVal bgColor As Color, ByVal cardBgColor As Color, ByVal textColor As Color, ByVal sidebarColor As Color, ByVal gridBgColor As Color, ByVal gridAltColor As Color, ByVal gridLineColor As Color, ByVal isDark As Boolean)
+        For Each ctrl As Control In parent.Controls
+            If TypeOf ctrl Is Panel Then
+                Dim panelName As String = ctrl.Name.ToLower()
+                If panelName.EndsWith("view") Then
+                    ctrl.BackColor = bgColor
+                ElseIf panelName.Contains("header") OrElse panelName.Contains("top") Then
+                    ctrl.BackColor = If(isDark, Color.FromArgb(50, 50, 50), Color.FromArgb(100, 100, 100))
+                ElseIf ctrl.Width < 250 Then
+                    ctrl.BackColor = sidebarColor
+                Else
+                    ctrl.BackColor = cardBgColor
+                End If
+                ctrl.ForeColor = textColor
+            ElseIf TypeOf ctrl Is Label Then
+                ctrl.ForeColor = textColor
+                ctrl.BackColor = Color.Transparent
+            ElseIf TypeOf ctrl Is PictureBox Then
+                ctrl.BackColor = Color.Transparent
+            ElseIf TypeOf ctrl Is CheckBox Or TypeOf ctrl Is LinkLabel Or TypeOf ctrl Is Button Then
+                ctrl.ForeColor = textColor
+                If TypeOf ctrl Is Button Then
+                    ctrl.BackColor = If(isDark, Color.FromArgb(60, 60, 60), Color.FromArgb(240, 240, 240))
+                End If
+            ElseIf TypeOf ctrl Is ComboBox Then
+                Dim cmb As ComboBox = CType(ctrl, ComboBox)
+                If isDark Then
+                    cmb.BackColor = Color.FromArgb(60, 60, 60)
+                    cmb.ForeColor = Color.White
+                Else
+                    cmb.BackColor = Color.White
+                    cmb.ForeColor = Color.Black
+                End If
+            ElseIf TypeOf ctrl Is TextBox Then
+                Dim txt As TextBox = CType(ctrl, TextBox)
+                If isDark Then
+                    txt.BackColor = Color.FromArgb(60, 60, 60)
+                    If txt.Text = "Search..." Then
+                        txt.ForeColor = Color.Gray
+                    Else
+                        txt.ForeColor = Color.White
+                    End If
+                Else
+                    txt.BackColor = Color.White
+                    If txt.Text = "Search..." Then
+                        txt.ForeColor = Color.Gray
+                    Else
+                        txt.ForeColor = Color.Black
+                    End If
+                End If
+            ElseIf TypeOf ctrl Is DataGridView Then
+                Dim dgv As DataGridView = CType(ctrl, DataGridView)
+                dgv.BackgroundColor = gridBgColor
+                dgv.GridColor = gridLineColor
+                dgv.DefaultCellStyle.BackColor = gridBgColor
+                dgv.DefaultCellStyle.ForeColor = textColor
+                dgv.DefaultCellStyle.SelectionBackColor = If(isDark, Color.FromArgb(60, 60, 60), Color.FromArgb(225, 228, 232))
+                dgv.DefaultCellStyle.SelectionForeColor = textColor
+                dgv.AlternatingRowsDefaultCellStyle.BackColor = gridAltColor
+                dgv.AlternatingRowsDefaultCellStyle.ForeColor = textColor
+                dgv.ColumnHeadersDefaultCellStyle.BackColor = If(isDark, Color.FromArgb(50, 50, 50), Color.FromArgb(240, 242, 245))
+                dgv.ColumnHeadersDefaultCellStyle.ForeColor = textColor
+            End If
+
+            If ctrl.HasChildren Then
+                SetThemeRecursive(ctrl, bgColor, cardBgColor, textColor, sidebarColor, gridBgColor, gridAltColor, gridLineColor, isDark)
+            End If
+        Next
+    End Sub
+
+    Private Sub btnNormalMode_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnNormalMode.Click
+
+        For Each kvp As KeyValuePair(Of Control, Color) In OriginalColors
+            If kvp.Key IsNot Nothing AndAlso Not kvp.Key.IsDisposed Then
+                kvp.Key.BackColor = kvp.Value
+            End If
+        Next
+
+        For Each kvp As KeyValuePair(Of Control, Color) In OriginalForeColor
+            If kvp.Key IsNot Nothing AndAlso Not kvp.Key.IsDisposed Then
+                kvp.Key.ForeColor = kvp.Value
+            End If
+        Next
+    End Sub
+
+    Private Sub Toggle1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Toggle1.Load
+        
+    End Sub
+
+    Private Sub Label20_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblLogout.Click
+        Me.Close()
+        LoginForm.Show()
+    End Sub
+
+    Private Sub PictureBox8_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PictureBox8.Click
+        Me.Close()
+        LoginForm.Show()
+    End Sub
 End Class
