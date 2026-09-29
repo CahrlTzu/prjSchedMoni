@@ -23,13 +23,13 @@ Partial Class DashboardForm
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ChartArea3 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend3 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series3 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim DataPoint7 As System.Windows.Forms.DataVisualization.Charting.DataPoint = New System.Windows.Forms.DataVisualization.Charting.DataPoint(0.0R, 15.0R)
-        Dim DataPoint8 As System.Windows.Forms.DataVisualization.Charting.DataPoint = New System.Windows.Forms.DataVisualization.Charting.DataPoint(0.0R, 12.0R)
-        Dim DataPoint9 As System.Windows.Forms.DataVisualization.Charting.DataPoint = New System.Windows.Forms.DataVisualization.Charting.DataPoint(0.0R, 3.0R)
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim DataPoint1 As System.Windows.Forms.DataVisualization.Charting.DataPoint = New System.Windows.Forms.DataVisualization.Charting.DataPoint(0.0R, 15.0R)
+        Dim DataPoint2 As System.Windows.Forms.DataVisualization.Charting.DataPoint = New System.Windows.Forms.DataVisualization.Charting.DataPoint(0.0R, 12.0R)
+        Dim DataPoint3 As System.Windows.Forms.DataVisualization.Charting.DataPoint = New System.Windows.Forms.DataVisualization.Charting.DataPoint(0.0R, 3.0R)
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(DashboardForm))
         Me.pnlDashboardView = New System.Windows.Forms.Panel()
         Me.Label6 = New System.Windows.Forms.Label()
@@ -109,6 +109,8 @@ Partial Class DashboardForm
         Me.PictureBox6 = New System.Windows.Forms.PictureBox()
         Me.btnAddRoom = New System.Windows.Forms.Button()
         Me.pnlSidebar = New System.Windows.Forms.Panel()
+        Me.PictureBox8 = New System.Windows.Forms.PictureBox()
+        Me.lblLogout = New System.Windows.Forms.Label()
         Me.Label19 = New System.Windows.Forms.Label()
         Me.Label18 = New System.Windows.Forms.Label()
         Me.pnlNormal = New System.Windows.Forms.Panel()
@@ -120,11 +122,11 @@ Partial Class DashboardForm
         Me.btnDashboard = New System.Windows.Forms.Button()
         Me.pnlUserProfileCard = New System.Windows.Forms.Panel()
         Me.pictureBoxUserManagement = New System.Windows.Forms.PictureBox()
+        Me.picUserProfile = New System.Windows.Forms.PictureBox()
         Me.lblUserName = New System.Windows.Forms.Label()
         Me.Toggle1 = New prjSchedMoni.Toggle()
-        Me.lblLogout = New System.Windows.Forms.Label()
-        Me.picUserProfile = New System.Windows.Forms.PictureBox()
-        Me.PictureBox8 = New System.Windows.Forms.PictureBox()
+        Me.LineShape1 = New Microsoft.VisualBasic.PowerPacks.LineShape()
+        Me.ShapeContainer2 = New Microsoft.VisualBasic.PowerPacks.ShapeContainer()
         Me.pnlDashboardView.SuspendLayout()
         CType(Me.chartRoomOverview, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgvTodaysSchedule, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -164,11 +166,11 @@ Partial Class DashboardForm
         CType(Me.picAvailRefresh, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlSidebar.SuspendLayout()
+        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlNormal.SuspendLayout()
         Me.pnlUserProfileCard.SuspendLayout()
         CType(Me.pictureBoxUserManagement, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.picUserProfile, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'pnlDashboardView
@@ -205,31 +207,31 @@ Partial Class DashboardForm
         'chartRoomOverview
         '
         Me.chartRoomOverview.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer))
-        ChartArea3.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer))
-        ChartArea3.Name = "ChartArea1"
-        Me.chartRoomOverview.ChartAreas.Add(ChartArea3)
-        Legend3.Alignment = System.Drawing.StringAlignment.Center
-        Legend3.BackColor = System.Drawing.Color.Transparent
-        Legend3.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom
-        Legend3.Name = "Legend1"
-        Me.chartRoomOverview.Legends.Add(Legend3)
+        ChartArea1.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer))
+        ChartArea1.Name = "ChartArea1"
+        Me.chartRoomOverview.ChartAreas.Add(ChartArea1)
+        Legend1.Alignment = System.Drawing.StringAlignment.Center
+        Legend1.BackColor = System.Drawing.Color.Transparent
+        Legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom
+        Legend1.Name = "Legend1"
+        Me.chartRoomOverview.Legends.Add(Legend1)
         Me.chartRoomOverview.Location = New System.Drawing.Point(520, 329)
         Me.chartRoomOverview.Name = "chartRoomOverview"
-        Series3.ChartArea = "ChartArea1"
-        Series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut
-        Series3.IsValueShownAsLabel = True
-        Series3.Legend = "Legend1"
-        Series3.Name = "Series1"
-        DataPoint7.AxisLabel = "Occupied"
-        DataPoint7.Color = System.Drawing.Color.Tomato
-        DataPoint8.AxisLabel = "Available"
-        DataPoint8.Color = System.Drawing.Color.PaleGreen
-        DataPoint9.AxisLabel = "Conflict"
-        DataPoint9.Color = System.Drawing.Color.Orange
-        Series3.Points.Add(DataPoint7)
-        Series3.Points.Add(DataPoint8)
-        Series3.Points.Add(DataPoint9)
-        Me.chartRoomOverview.Series.Add(Series3)
+        Series1.ChartArea = "ChartArea1"
+        Series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut
+        Series1.IsValueShownAsLabel = True
+        Series1.Legend = "Legend1"
+        Series1.Name = "Series1"
+        DataPoint1.AxisLabel = "Occupied"
+        DataPoint1.Color = System.Drawing.Color.Tomato
+        DataPoint2.AxisLabel = "Available"
+        DataPoint2.Color = System.Drawing.Color.PaleGreen
+        DataPoint3.AxisLabel = "Conflict"
+        DataPoint3.Color = System.Drawing.Color.Orange
+        Series1.Points.Add(DataPoint1)
+        Series1.Points.Add(DataPoint2)
+        Series1.Points.Add(DataPoint3)
+        Me.chartRoomOverview.Series.Add(Series1)
         Me.chartRoomOverview.Size = New System.Drawing.Size(270, 310)
         Me.chartRoomOverview.TabIndex = 20
         Me.chartRoomOverview.Text = "Chart1"
@@ -240,14 +242,14 @@ Partial Class DashboardForm
         Me.dgvTodaysSchedule.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.dgvTodaysSchedule.BackgroundColor = System.Drawing.Color.White
         Me.dgvTodaysSchedule.BorderStyle = System.Windows.Forms.BorderStyle.None
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black
-        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgvTodaysSchedule.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgvTodaysSchedule.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.dgvTodaysSchedule.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgvTodaysSchedule.EnableHeadersVisualStyles = False
         Me.dgvTodaysSchedule.Location = New System.Drawing.Point(25, 329)
@@ -757,6 +759,7 @@ Partial Class DashboardForm
         'cmbFilterRoom
         '
         Me.cmbFilterRoom.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer))
+        Me.cmbFilterRoom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbFilterRoom.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.cmbFilterRoom.Font = New System.Drawing.Font("Segoe UI", 11.25!)
         Me.cmbFilterRoom.ForeColor = System.Drawing.Color.Black
@@ -800,6 +803,7 @@ Partial Class DashboardForm
         'cmbDay
         '
         Me.cmbDay.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer))
+        Me.cmbDay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbDay.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.cmbDay.Font = New System.Drawing.Font("Segoe UI", 11.25!)
         Me.cmbDay.ForeColor = System.Drawing.Color.Black
@@ -954,7 +958,7 @@ Partial Class DashboardForm
         '
         'PictureBox2
         '
-        Me.PictureBox2.Image = CType(resources.GetObject("PictureBox2.Image"), System.Drawing.Image)
+        Me.PictureBox2.Image = Global.prjSchedMoni.My.Resources.Resources.checked
         Me.PictureBox2.Location = New System.Drawing.Point(65, 20)
         Me.PictureBox2.Name = "PictureBox2"
         Me.PictureBox2.Size = New System.Drawing.Size(50, 45)
@@ -1062,11 +1066,33 @@ Partial Class DashboardForm
         Me.pnlSidebar.Controls.Add(Me.btnSchedule)
         Me.pnlSidebar.Controls.Add(Me.btnDashboard)
         Me.pnlSidebar.Controls.Add(Me.pnlUserProfileCard)
+        Me.pnlSidebar.Controls.Add(Me.ShapeContainer2)
         Me.pnlSidebar.Dock = System.Windows.Forms.DockStyle.Left
         Me.pnlSidebar.Location = New System.Drawing.Point(0, 0)
         Me.pnlSidebar.Name = "pnlSidebar"
         Me.pnlSidebar.Size = New System.Drawing.Size(220, 720)
         Me.pnlSidebar.TabIndex = 0
+        '
+        'PictureBox8
+        '
+        Me.PictureBox8.Image = Global.prjSchedMoni.My.Resources.Resources.power_button
+        Me.PictureBox8.Location = New System.Drawing.Point(61, 604)
+        Me.PictureBox8.Name = "PictureBox8"
+        Me.PictureBox8.Size = New System.Drawing.Size(25, 25)
+        Me.PictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox8.TabIndex = 3
+        Me.PictureBox8.TabStop = False
+        '
+        'lblLogout
+        '
+        Me.lblLogout.AutoSize = True
+        Me.lblLogout.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLogout.ForeColor = System.Drawing.Color.FromArgb(CType(CType(20, Byte), Integer), CType(CType(20, Byte), Integer), CType(CType(20, Byte), Integer))
+        Me.lblLogout.Location = New System.Drawing.Point(89, 604)
+        Me.lblLogout.Name = "lblLogout"
+        Me.lblLogout.Size = New System.Drawing.Size(64, 21)
+        Me.lblLogout.TabIndex = 26
+        Me.lblLogout.Text = "Logout"
         '
         'Label19
         '
@@ -1229,6 +1255,16 @@ Partial Class DashboardForm
         Me.pictureBoxUserManagement.TabIndex = 2
         Me.pictureBoxUserManagement.TabStop = False
         '
+        'picUserProfile
+        '
+        Me.picUserProfile.Image = Global.prjSchedMoni.My.Resources.Resources.account1
+        Me.picUserProfile.Location = New System.Drawing.Point(4, 14)
+        Me.picUserProfile.Name = "picUserProfile"
+        Me.picUserProfile.Size = New System.Drawing.Size(35, 35)
+        Me.picUserProfile.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.picUserProfile.TabIndex = 0
+        Me.picUserProfile.TabStop = False
+        '
         'lblUserName
         '
         Me.lblUserName.AutoSize = True
@@ -1250,36 +1286,23 @@ Partial Class DashboardForm
         Me.Toggle1.Size = New System.Drawing.Size(41, 24)
         Me.Toggle1.TabIndex = 46
         '
-        'lblLogout
+        'LineShape1
         '
-        Me.lblLogout.AutoSize = True
-        Me.lblLogout.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLogout.ForeColor = System.Drawing.Color.FromArgb(CType(CType(20, Byte), Integer), CType(CType(20, Byte), Integer), CType(CType(20, Byte), Integer))
-        Me.lblLogout.Location = New System.Drawing.Point(89, 604)
-        Me.lblLogout.Name = "lblLogout"
-        Me.lblLogout.Size = New System.Drawing.Size(64, 21)
-        Me.lblLogout.TabIndex = 26
-        Me.lblLogout.Text = "Logout"
+        Me.LineShape1.Name = "LineShape1"
+        Me.LineShape1.X1 = 18
+        Me.LineShape1.X2 = 200
+        Me.LineShape1.Y1 = 593
+        Me.LineShape1.Y2 = 593
         '
-        'picUserProfile
+        'ShapeContainer2
         '
-        Me.picUserProfile.Image = Global.prjSchedMoni.My.Resources.Resources.account1
-        Me.picUserProfile.Location = New System.Drawing.Point(4, 14)
-        Me.picUserProfile.Name = "picUserProfile"
-        Me.picUserProfile.Size = New System.Drawing.Size(35, 35)
-        Me.picUserProfile.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.picUserProfile.TabIndex = 0
-        Me.picUserProfile.TabStop = False
-        '
-        'PictureBox8
-        '
-        Me.PictureBox8.Image = Global.prjSchedMoni.My.Resources.Resources.power_button
-        Me.PictureBox8.Location = New System.Drawing.Point(61, 604)
-        Me.PictureBox8.Name = "PictureBox8"
-        Me.PictureBox8.Size = New System.Drawing.Size(25, 25)
-        Me.PictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox8.TabIndex = 3
-        Me.PictureBox8.TabStop = False
+        Me.ShapeContainer2.Location = New System.Drawing.Point(0, 0)
+        Me.ShapeContainer2.Margin = New System.Windows.Forms.Padding(0)
+        Me.ShapeContainer2.Name = "ShapeContainer2"
+        Me.ShapeContainer2.Shapes.AddRange(New Microsoft.VisualBasic.PowerPacks.Shape() {Me.LineShape1})
+        Me.ShapeContainer2.Size = New System.Drawing.Size(220, 720)
+        Me.ShapeContainer2.TabIndex = 50
+        Me.ShapeContainer2.TabStop = False
         '
         'DashboardForm
         '
@@ -1287,12 +1310,13 @@ Partial Class DashboardForm
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1024, 720)
         Me.Controls.Add(Me.pnlDashboardView)
+        Me.Controls.Add(Me.pnlAvailabilityView)
         Me.Controls.Add(Me.pnlConflictsView)
         Me.Controls.Add(Me.pnlScheduleView)
-        Me.Controls.Add(Me.pnlAvailabilityView)
         Me.Controls.Add(Me.pnlRoomsView)
         Me.Controls.Add(Me.pnlSidebar)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "DashboardForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "DashboardForm"
@@ -1349,12 +1373,12 @@ Partial Class DashboardForm
         CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlSidebar.ResumeLayout(False)
         Me.pnlSidebar.PerformLayout()
+        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlNormal.ResumeLayout(False)
         Me.pnlUserProfileCard.ResumeLayout(False)
         Me.pnlUserProfileCard.PerformLayout()
         CType(Me.pictureBoxUserManagement, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.picUserProfile, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1452,4 +1476,6 @@ Partial Class DashboardForm
     Friend WithEvents PictureBox8 As System.Windows.Forms.PictureBox
     Friend WithEvents lblLogout As System.Windows.Forms.Label
     Friend WithEvents picUserProfile As System.Windows.Forms.PictureBox
+    Friend WithEvents ShapeContainer2 As Microsoft.VisualBasic.PowerPacks.ShapeContainer
+    Friend WithEvents LineShape1 As Microsoft.VisualBasic.PowerPacks.LineShape
 End Class

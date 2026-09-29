@@ -22,18 +22,19 @@ Partial Class UserManagementForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UserManagementForm))
         Me.Label1 = New System.Windows.Forms.Label()
         Me.pnlSearchContainer = New System.Windows.Forms.Panel()
+        Me.PictureBox5 = New System.Windows.Forms.PictureBox()
         Me.txtSearchUser = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.pnlAddSched = New System.Windows.Forms.Panel()
-        Me.dgvUsers = New System.Windows.Forms.DataGridView()
         Me.btnAddAccount = New System.Windows.Forms.Button()
-        Me.PictureBox5 = New System.Windows.Forms.PictureBox()
+        Me.dgvUsers = New System.Windows.Forms.DataGridView()
         Me.pnlSearchContainer.SuspendLayout()
+        CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlAddSched.SuspendLayout()
         CType(Me.dgvUsers, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Label1
@@ -55,6 +56,16 @@ Partial Class UserManagementForm
         Me.pnlSearchContainer.Name = "pnlSearchContainer"
         Me.pnlSearchContainer.Size = New System.Drawing.Size(368, 33)
         Me.pnlSearchContainer.TabIndex = 31
+        '
+        'PictureBox5
+        '
+        Me.PictureBox5.Image = Global.prjSchedMoni.My.Resources.Resources.loupe
+        Me.PictureBox5.Location = New System.Drawing.Point(10, 7)
+        Me.PictureBox5.Name = "PictureBox5"
+        Me.PictureBox5.Size = New System.Drawing.Size(20, 20)
+        Me.PictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox5.TabIndex = 31
+        Me.PictureBox5.TabStop = False
         '
         'txtSearchUser
         '
@@ -85,17 +96,6 @@ Partial Class UserManagementForm
         Me.pnlAddSched.Size = New System.Drawing.Size(152, 41)
         Me.pnlAddSched.TabIndex = 35
         '
-        'dgvUsers
-        '
-        Me.dgvUsers.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.dgvUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvUsers.Location = New System.Drawing.Point(20, 120)
-        Me.dgvUsers.Name = "dgvUsers"
-        Me.dgvUsers.Size = New System.Drawing.Size(740, 340)
-        Me.dgvUsers.TabIndex = 36
-        '
         'btnAddAccount
         '
         Me.btnAddAccount.AutoSize = True
@@ -113,15 +113,16 @@ Partial Class UserManagementForm
         Me.btnAddAccount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.btnAddAccount.UseVisualStyleBackColor = False
         '
-        'PictureBox5
+        'dgvUsers
         '
-        Me.PictureBox5.Image = Global.prjSchedMoni.My.Resources.Resources.loupe
-        Me.PictureBox5.Location = New System.Drawing.Point(10, 7)
-        Me.PictureBox5.Name = "PictureBox5"
-        Me.PictureBox5.Size = New System.Drawing.Size(20, 20)
-        Me.PictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox5.TabIndex = 31
-        Me.PictureBox5.TabStop = False
+        Me.dgvUsers.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.dgvUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvUsers.Location = New System.Drawing.Point(20, 120)
+        Me.dgvUsers.Name = "dgvUsers"
+        Me.dgvUsers.Size = New System.Drawing.Size(740, 340)
+        Me.dgvUsers.TabIndex = 36
         '
         'UserManagementForm
         '
@@ -135,15 +136,16 @@ Partial Class UserManagementForm
         Me.Controls.Add(Me.pnlSearchContainer)
         Me.Controls.Add(Me.Label1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "UserManagementForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "userForm"
+        Me.Text = "User Form"
         Me.pnlSearchContainer.ResumeLayout(False)
         Me.pnlSearchContainer.PerformLayout()
+        CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlAddSched.ResumeLayout(False)
         Me.pnlAddSched.PerformLayout()
         CType(Me.dgvUsers, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

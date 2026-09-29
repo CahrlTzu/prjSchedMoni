@@ -1745,7 +1745,7 @@ Public Class DashboardForm
             pnlSidebar.BackgroundImage = My.Resources.bg_dark
             pnlSidebar.BackColor = Color.Transparent
         Else
-            pnlSidebar.BackgroundImage = My.Resources.bg_light1
+            pnlSidebar.BackgroundImage = My.Resources.bg_light2
             pnlSidebar.BackColor = Color.Transparent
         End If
     End Sub

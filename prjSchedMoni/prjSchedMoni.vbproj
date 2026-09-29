@@ -319,9 +319,6 @@
     <None Include="Resources\dmode%281%29.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\bg_light.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\dmode%282%29.png" />
   </ItemGroup>
   <ItemGroup>
@@ -329,6 +326,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\bg_dark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bg_light.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\checked.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
