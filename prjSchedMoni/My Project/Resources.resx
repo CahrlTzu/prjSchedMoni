@@ -214,7 +214,7 @@
   <data name="uiforsystem" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\uiforsystem.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="brightness-and-contrast" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="brightness_" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\brightness-and-contrast.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="account1" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -255,5 +255,14 @@
   </data>
   <data name="checked" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\checked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bg_dark_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bg_dark_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bg_dark_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bg_dark_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bg_light_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bg_light_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

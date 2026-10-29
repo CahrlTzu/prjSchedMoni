@@ -333,6 +333,15 @@
   <ItemGroup>
     <None Include="Resources\checked.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bg_light_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bg_dark_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bg_dark_3.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

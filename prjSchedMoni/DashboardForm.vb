@@ -22,6 +22,9 @@ Public Class DashboardForm
     End Sub
 
     Private Sub DashboardForm_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
+        ' Maximize for clean full-screen presentation
+        Me.WindowState = FormWindowState.Maximized
+
         dgvTodaysSchedule.AutoGenerateColumns = True
         dgvTodaysSchedule.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         FormatScheduleGrid()
@@ -56,7 +59,7 @@ Public Class DashboardForm
         End If
 
         SaveOriginalColors(Me)
-        
+
     End Sub
 
     Private Sub SetupPlaceholders()
@@ -250,15 +253,15 @@ Public Class DashboardForm
                     .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
                     .EnableHeadersVisualStyles = False
                     .ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
-                    .ColumnHeadersHeight = 28
+                    .ColumnHeadersHeight = 36
                     .ColumnHeadersDefaultCellStyle.BackColor = gridHeaderBg
                     .ColumnHeadersDefaultCellStyle.ForeColor = gridText
-                    .ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 8.5F, FontStyle.Bold)
-                    .RowTemplate.Height = 25
-                    .DefaultCellStyle.Font = New Font("Segoe UI", 8.0F, FontStyle.Regular)
+                    .ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 10.0F, FontStyle.Bold)
+                    .RowTemplate.Height = 32
+                    .DefaultCellStyle.Font = New Font("Segoe UI", 9.5F, FontStyle.Regular)
                     .DefaultCellStyle.ForeColor = gridText
                     .DefaultCellStyle.BackColor = gridBg
-                    .DefaultCellStyle.Padding = New Padding(1, 0, 1, 0)
+                    .DefaultCellStyle.Padding = New Padding(2, 0, 2, 0)
 
                     If .Columns.Contains("ID") Then .Columns("ID").Visible = False
                     If .Columns.Contains("InstructorID") Then .Columns("InstructorID").Visible = False
@@ -275,16 +278,16 @@ Public Class DashboardForm
                     End If
 
                     If .Columns.Contains("Edit") Then
-                        .Columns("Edit").FillWeight = 32
+                        .Columns("Edit").FillWeight = 38
                         .Columns("Edit").AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                        .Columns("Edit").Width = 32
+                        .Columns("Edit").Width = 38
                     End If
 
                     If .Columns.Contains("Delete") Then
-                        .Columns("Delete").FillWeight = 35
+                        .Columns("Delete").FillWeight = 38
                         .Columns("Delete").AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                        .Columns("Delete").Width = 35
-                        .Columns("Delete").MinimumWidth = 35
+                        .Columns("Delete").Width = 38
+                        .Columns("Delete").MinimumWidth = 38
                     End If
                 End With
 
@@ -309,7 +312,7 @@ Public Class DashboardForm
         imgEdit.Name = "Edit"
         imgEdit.HeaderText = "Edit"
         imgEdit.ImageLayout = DataGridViewImageCellLayout.Normal
-        imgEdit.Width = 35
+        imgEdit.Width = 38
         dgvSchedule.Columns.Add(imgEdit)
     End Sub
 
@@ -318,7 +321,7 @@ Public Class DashboardForm
         imgDelete.Name = "Delete"
         imgDelete.HeaderText = "Delete"
         imgDelete.ImageLayout = DataGridViewImageCellLayout.Normal
-        imgDelete.Width = 35
+        imgDelete.Width = 38
         dgvSchedule.Columns.Add(imgDelete)
     End Sub
 
@@ -368,7 +371,7 @@ Public Class DashboardForm
                 Using sf As New StringFormat()
                     sf.Alignment = StringAlignment.Center
                     sf.LineAlignment = StringAlignment.Center
-                    Using boldFont As New Font("Segoe UI", 7.5F, FontStyle.Bold)
+                    Using boldFont As New Font("Segoe UI", 8.5F, FontStyle.Bold)
                         Using textBrush As New SolidBrush(foreColor)
                             e.Graphics.DrawString(val, boldFont, textBrush, rect, sf)
                         End Using
@@ -827,7 +830,7 @@ Public Class DashboardForm
                 Using sf As New StringFormat()
                     sf.Alignment = StringAlignment.Center
                     sf.LineAlignment = StringAlignment.Center
-                    Using boldFont As New Font("Segoe UI", 7.5F, FontStyle.Bold)
+                    Using boldFont As New Font("Segoe UI", 8.5F, FontStyle.Bold)
                         Using textBrush As New SolidBrush(foreColor)
                             e.Graphics.DrawString(val, boldFont, textBrush, rect, sf)
                         End Using
@@ -943,7 +946,7 @@ Public Class DashboardForm
             Dim isDark As Boolean = Toggle1 IsNot Nothing AndAlso Toggle1.Checked
             Dim textCol As Color = If(isDark, Color.White, Color.Black)
 
-            Using fontCount As New Font("Segoe UI", 14.0F, FontStyle.Bold)
+            Using fontCount As New Font("Segoe UI", 16.0F, FontStyle.Bold)
                 Using fontSub As New Font("Segoe UI", 11.0F, FontStyle.Bold)
                     Using brush As New SolidBrush(textCol)
                         Dim sf As New StringFormat()
@@ -951,7 +954,7 @@ Public Class DashboardForm
                         sf.LineAlignment = StringAlignment.Center
 
                         e.ChartGraphics.Graphics.DrawString(countText, fontCount, brush, centerX, centerY - 10, sf)
-                        e.ChartGraphics.Graphics.DrawString(subText, fontSub, brush, centerX, centerY + 10, sf)
+                        e.ChartGraphics.Graphics.DrawString(subText, fontSub, brush, centerX, centerY + 12, sf)
                     End Using
                 End Using
             End Using
@@ -979,16 +982,16 @@ Public Class DashboardForm
 
             .EnableHeadersVisualStyles = False
             .ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
-            .ColumnHeadersHeight = 28
+            .ColumnHeadersHeight = 36
             .ColumnHeadersDefaultCellStyle.BackColor = If(isDark, Color.FromArgb(50, 50, 50), Color.FromArgb(240, 242, 245))
             .ColumnHeadersDefaultCellStyle.ForeColor = gridText
-            .ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 8.5F, FontStyle.Bold)
+            .ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 10.0F, FontStyle.Bold)
 
-            .RowTemplate.Height = 26
-            .DefaultCellStyle.Font = New Font("Segoe UI", 8.0F, FontStyle.Regular)
+            .RowTemplate.Height = 32
+            .DefaultCellStyle.Font = New Font("Segoe UI", 9.5F, FontStyle.Regular)
             .DefaultCellStyle.ForeColor = gridText
             .DefaultCellStyle.BackColor = gridBg
-            .DefaultCellStyle.Padding = New Padding(2, 0, 2, 0)
+            .DefaultCellStyle.Padding = New Padding(4, 0, 4, 0)
 
             .DefaultCellStyle.SelectionBackColor = If(isDark, Color.FromArgb(60, 60, 60), Color.FromArgb(225, 228, 232))
             .DefaultCellStyle.SelectionForeColor = gridText
@@ -1192,7 +1195,7 @@ Public Class DashboardForm
                         textColor = Color.Black
                 End Select
 
-                Dim rect As New Rectangle(e.CellBounds.X + 8, e.CellBounds.Y + 5, e.CellBounds.Width - 16, e.CellBounds.Height - 10)
+                Dim rect As New Rectangle(e.CellBounds.X + 8, e.CellBounds.Y + 6, e.CellBounds.Width - 16, e.CellBounds.Height - 12)
 
                 Using path As Drawing2D.GraphicsPath = GetRoundedRect(rect, 5)
                     Using brush As New SolidBrush(bgColor)
@@ -1200,7 +1203,7 @@ Public Class DashboardForm
                     End Using
                 End Using
 
-                Using boldFont As New Font("Segoe UI", 9.0F, FontStyle.Bold)
+                Using boldFont As New Font("Segoe UI", 9.5F, FontStyle.Bold)
                     Using sf As New StringFormat()
                         sf.Alignment = StringAlignment.Center
                         sf.LineAlignment = StringAlignment.Center
@@ -1742,10 +1745,10 @@ Public Class DashboardForm
         Dim isDarkMode As Boolean = False
 
         If isDark Then
-            pnlSidebar.BackgroundImage = My.Resources.bg_dark
+            pnlSidebar.BackgroundImage = My.Resources.bg_dark_3
             pnlSidebar.BackColor = Color.Transparent
         Else
-            pnlSidebar.BackgroundImage = My.Resources.bg_light2
+            pnlSidebar.BackgroundImage = My.Resources.bg_light_2
             pnlSidebar.BackColor = Color.Transparent
         End If
     End Sub
@@ -1836,7 +1839,7 @@ Public Class DashboardForm
     End Sub
 
     Private Sub Toggle1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Toggle1.Load
-        
+
     End Sub
 
     Private Sub Label20_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblLogout.Click
