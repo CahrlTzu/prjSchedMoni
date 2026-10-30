@@ -32,26 +32,27 @@ Partial Class DashboardForm
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(DashboardForm))
         Me.pnlDashboardView = New System.Windows.Forms.Panel()
+        Me.lblTime = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.chartRoomOverview = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.dgvTodaysSchedule = New System.Windows.Forms.DataGridView()
         Me.pnlConflicts = New System.Windows.Forms.Panel()
         Me.lblConflictsCount = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
-        Me.PictureBox4 = New System.Windows.Forms.PictureBox()
+        Me.picConflicts = New System.Windows.Forms.PictureBox()
         Me.pnlOccupied = New System.Windows.Forms.Panel()
         Me.lblOccupiedCount = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
-        Me.PictureBox3 = New System.Windows.Forms.PictureBox()
+        Me.picOccupied = New System.Windows.Forms.PictureBox()
         Me.pnlAvailable = New System.Windows.Forms.Panel()
         Me.lblAvailableCount = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.PictureBox2 = New System.Windows.Forms.PictureBox()
+        Me.picAvailable = New System.Windows.Forms.PictureBox()
         Me.pnlTotalRooms = New System.Windows.Forms.Panel()
         Me.lblTotalRoomsCount = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
-        Me.lblDateTime = New System.Windows.Forms.Label()
+        Me.picTotalRooms = New System.Windows.Forms.PictureBox()
+        Me.lblDate = New System.Windows.Forms.Label()
         Me.lblWelcomeUser = New System.Windows.Forms.Label()
         Me.pnlScheduleContainer = New System.Windows.Forms.Panel()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -60,6 +61,8 @@ Partial Class DashboardForm
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.pnlScheduleView = New System.Windows.Forms.Panel()
+        Me.lblTime1 = New System.Windows.Forms.Label()
+        Me.lblDate1 = New System.Windows.Forms.Label()
         Me.pnlCheckbox = New System.Windows.Forms.Panel()
         Me.chkMySchedule = New System.Windows.Forms.CheckBox()
         Me.Label11 = New System.Windows.Forms.Label()
@@ -78,6 +81,8 @@ Partial Class DashboardForm
         Me.dgvSchedule = New System.Windows.Forms.DataGridView()
         Me.pnlSchedMan = New System.Windows.Forms.Panel()
         Me.pnlRoomsView = New System.Windows.Forms.Panel()
+        Me.lblTime2 = New System.Windows.Forms.Label()
+        Me.lblDate2 = New System.Windows.Forms.Label()
         Me.Label14 = New System.Windows.Forms.Label()
         Me.Label15 = New System.Windows.Forms.Label()
         Me.pnlSearchRoomContainer = New System.Windows.Forms.Panel()
@@ -88,6 +93,8 @@ Partial Class DashboardForm
         Me.pnlRoomManagement = New System.Windows.Forms.Panel()
         Me.dgvRooms = New System.Windows.Forms.DataGridView()
         Me.pnlAvailabilityView = New System.Windows.Forms.Panel()
+        Me.lblTime3 = New System.Windows.Forms.Label()
+        Me.lblDate3 = New System.Windows.Forms.Label()
         Me.dgvAvailability = New System.Windows.Forms.DataGridView()
         Me.pnlRoomType = New System.Windows.Forms.Panel()
         Me.cmbFilterRoom = New System.Windows.Forms.ComboBox()
@@ -101,20 +108,26 @@ Partial Class DashboardForm
         Me.pnlClassroomAvail = New System.Windows.Forms.Panel()
         Me.picAvailRefresh = New System.Windows.Forms.PictureBox()
         Me.pnlConflictsView = New System.Windows.Forms.Panel()
+        Me.pnlAllDates = New System.Windows.Forms.Panel()
+        Me.chkAllLogs = New System.Windows.Forms.CheckBox()
+        Me.pnlSearchConflicts = New System.Windows.Forms.Panel()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.txtSearchConflicts = New System.Windows.Forms.TextBox()
+        Me.pnlDatePickerLogs = New System.Windows.Forms.Panel()
+        Me.DateTimePicker2 = New System.Windows.Forms.DateTimePicker()
         Me.btnToggleView = New System.Windows.Forms.Button()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.Label13 = New System.Windows.Forms.Label()
         Me.pnlSchedConflicts = New System.Windows.Forms.Panel()
         Me.dgvConflicts = New System.Windows.Forms.DataGridView()
         Me.dgvLogs = New System.Windows.Forms.DataGridView()
+        Me.pnlSwitch = New System.Windows.Forms.Panel()
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
+        Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.pnlSidebar = New System.Windows.Forms.Panel()
         Me.PictureBox8 = New System.Windows.Forms.PictureBox()
         Me.lblLogout = New System.Windows.Forms.Label()
-        Me.Label19 = New System.Windows.Forms.Label()
         Me.Label18 = New System.Windows.Forms.Label()
-        Me.pnlNormal = New System.Windows.Forms.Panel()
-        Me.btnNormalMode = New System.Windows.Forms.Button()
         Me.btnConflicts = New System.Windows.Forms.Button()
         Me.btnAvailability = New System.Windows.Forms.Button()
         Me.btnRooms = New System.Windows.Forms.Button()
@@ -131,13 +144,13 @@ Partial Class DashboardForm
         CType(Me.chartRoomOverview, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgvTodaysSchedule, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlConflicts.SuspendLayout()
-        CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picConflicts, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlOccupied.SuspendLayout()
-        CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picOccupied, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlAvailable.SuspendLayout()
-        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picAvailable, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlTotalRooms.SuspendLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picTotalRooms, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlScheduleContainer.SuspendLayout()
         Me.pnlChartContainer.SuspendLayout()
         Me.pnlScheduleView.SuspendLayout()
@@ -163,12 +176,15 @@ Partial Class DashboardForm
         Me.pnlClassroomAvail.SuspendLayout()
         CType(Me.picAvailRefresh, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlConflictsView.SuspendLayout()
+        Me.pnlAllDates.SuspendLayout()
+        Me.pnlSearchConflicts.SuspendLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pnlDatePickerLogs.SuspendLayout()
         Me.pnlSchedConflicts.SuspendLayout()
         CType(Me.dgvConflicts, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgvLogs, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlSidebar.SuspendLayout()
         CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.pnlNormal.SuspendLayout()
         Me.pnlUserProfileCard.SuspendLayout()
         CType(Me.pictureBoxUserManagement, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.picUserProfile, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -181,6 +197,7 @@ Partial Class DashboardForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pnlDashboardView.BackColor = System.Drawing.Color.WhiteSmoke
         Me.pnlDashboardView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pnlDashboardView.Controls.Add(Me.lblTime)
         Me.pnlDashboardView.Controls.Add(Me.Label6)
         Me.pnlDashboardView.Controls.Add(Me.chartRoomOverview)
         Me.pnlDashboardView.Controls.Add(Me.dgvTodaysSchedule)
@@ -188,14 +205,26 @@ Partial Class DashboardForm
         Me.pnlDashboardView.Controls.Add(Me.pnlOccupied)
         Me.pnlDashboardView.Controls.Add(Me.pnlAvailable)
         Me.pnlDashboardView.Controls.Add(Me.pnlTotalRooms)
-        Me.pnlDashboardView.Controls.Add(Me.lblDateTime)
+        Me.pnlDashboardView.Controls.Add(Me.lblDate)
         Me.pnlDashboardView.Controls.Add(Me.lblWelcomeUser)
         Me.pnlDashboardView.Controls.Add(Me.pnlScheduleContainer)
         Me.pnlDashboardView.Controls.Add(Me.pnlChartContainer)
-        Me.pnlDashboardView.Location = New System.Drawing.Point(312, 0)
+        Me.pnlDashboardView.Location = New System.Drawing.Point(312, 26)
         Me.pnlDashboardView.Name = "pnlDashboardView"
-        Me.pnlDashboardView.Size = New System.Drawing.Size(1602, 1051)
+        Me.pnlDashboardView.Size = New System.Drawing.Size(1608, 1025)
         Me.pnlDashboardView.TabIndex = 1
+        '
+        'lblTime
+        '
+        Me.lblTime.AutoSize = True
+        Me.lblTime.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTime.ForeColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer))
+        Me.lblTime.Location = New System.Drawing.Point(1440, 18)
+        Me.lblTime.Name = "lblTime"
+        Me.lblTime.Size = New System.Drawing.Size(106, 30)
+        Me.lblTime.TabIndex = 26
+        Me.lblTime.Text = "12:30 PM"
+        Me.lblTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Label6
         '
@@ -210,8 +239,7 @@ Partial Class DashboardForm
         '
         'chartRoomOverview
         '
-        Me.chartRoomOverview.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.chartRoomOverview.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.chartRoomOverview.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer))
         ChartArea1.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer))
         ChartArea1.Name = "ChartArea1"
@@ -221,7 +249,7 @@ Partial Class DashboardForm
         Legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom
         Legend1.Name = "Legend1"
         Me.chartRoomOverview.Legends.Add(Legend1)
-        Me.chartRoomOverview.Location = New System.Drawing.Point(1202, 365)
+        Me.chartRoomOverview.Location = New System.Drawing.Point(1208, 365)
         Me.chartRoomOverview.Name = "chartRoomOverview"
         Series1.ChartArea = "ChartArea1"
         Series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut
@@ -238,7 +266,7 @@ Partial Class DashboardForm
         Series1.Points.Add(DataPoint2)
         Series1.Points.Add(DataPoint3)
         Me.chartRoomOverview.Series.Add(Series1)
-        Me.chartRoomOverview.Size = New System.Drawing.Size(386, 625)
+        Me.chartRoomOverview.Size = New System.Drawing.Size(380, 625)
         Me.chartRoomOverview.TabIndex = 20
         Me.chartRoomOverview.Text = "Chart1"
         '
@@ -258,11 +286,11 @@ Partial Class DashboardForm
         Me.dgvTodaysSchedule.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.dgvTodaysSchedule.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgvTodaysSchedule.EnableHeadersVisualStyles = False
-        Me.dgvTodaysSchedule.Location = New System.Drawing.Point(25, 365)
+        Me.dgvTodaysSchedule.Location = New System.Drawing.Point(28, 365)
         Me.dgvTodaysSchedule.Name = "dgvTodaysSchedule"
         Me.dgvTodaysSchedule.ReadOnly = True
         Me.dgvTodaysSchedule.RowHeadersVisible = False
-        Me.dgvTodaysSchedule.Size = New System.Drawing.Size(1162, 625)
+        Me.dgvTodaysSchedule.Size = New System.Drawing.Size(1156, 625)
         Me.dgvTodaysSchedule.TabIndex = 19
         '
         'pnlConflicts
@@ -270,7 +298,7 @@ Partial Class DashboardForm
         Me.pnlConflicts.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer))
         Me.pnlConflicts.Controls.Add(Me.lblConflictsCount)
         Me.pnlConflicts.Controls.Add(Me.Label7)
-        Me.pnlConflicts.Controls.Add(Me.PictureBox4)
+        Me.pnlConflicts.Controls.Add(Me.picConflicts)
         Me.pnlConflicts.Location = New System.Drawing.Point(1207, 112)
         Me.pnlConflicts.Name = "pnlConflicts"
         Me.pnlConflicts.Size = New System.Drawing.Size(380, 200)
@@ -296,22 +324,22 @@ Partial Class DashboardForm
         Me.Label7.Text = "Conflicts"
         Me.Label7.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
-        'PictureBox4
+        'picConflicts
         '
-        Me.PictureBox4.Image = Global.prjSchedMoni.My.Resources.Resources.Conflicts1
-        Me.PictureBox4.Location = New System.Drawing.Point(140, 20)
-        Me.PictureBox4.Name = "PictureBox4"
-        Me.PictureBox4.Size = New System.Drawing.Size(100, 100)
-        Me.PictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox4.TabIndex = 15
-        Me.PictureBox4.TabStop = False
+        Me.picConflicts.Image = Global.prjSchedMoni.My.Resources.Resources.sync2
+        Me.picConflicts.Location = New System.Drawing.Point(140, 20)
+        Me.picConflicts.Name = "picConflicts"
+        Me.picConflicts.Size = New System.Drawing.Size(100, 100)
+        Me.picConflicts.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.picConflicts.TabIndex = 15
+        Me.picConflicts.TabStop = False
         '
         'pnlOccupied
         '
         Me.pnlOccupied.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer))
         Me.pnlOccupied.Controls.Add(Me.lblOccupiedCount)
         Me.pnlOccupied.Controls.Add(Me.Label5)
-        Me.pnlOccupied.Controls.Add(Me.PictureBox3)
+        Me.pnlOccupied.Controls.Add(Me.picOccupied)
         Me.pnlOccupied.Location = New System.Drawing.Point(813, 112)
         Me.pnlOccupied.Name = "pnlOccupied"
         Me.pnlOccupied.Size = New System.Drawing.Size(380, 200)
@@ -337,22 +365,22 @@ Partial Class DashboardForm
         Me.Label5.Text = "Occupied"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
-        'PictureBox3
+        'picOccupied
         '
-        Me.PictureBox3.Image = Global.prjSchedMoni.My.Resources.Resources.occuu
-        Me.PictureBox3.Location = New System.Drawing.Point(140, 20)
-        Me.PictureBox3.Name = "PictureBox3"
-        Me.PictureBox3.Size = New System.Drawing.Size(100, 100)
-        Me.PictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox3.TabIndex = 15
-        Me.PictureBox3.TabStop = False
+        Me.picOccupied.Image = Global.prjSchedMoni.My.Resources.Resources.calendar1
+        Me.picOccupied.Location = New System.Drawing.Point(140, 20)
+        Me.picOccupied.Name = "picOccupied"
+        Me.picOccupied.Size = New System.Drawing.Size(100, 100)
+        Me.picOccupied.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.picOccupied.TabIndex = 15
+        Me.picOccupied.TabStop = False
         '
         'pnlAvailable
         '
         Me.pnlAvailable.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer))
         Me.pnlAvailable.Controls.Add(Me.lblAvailableCount)
         Me.pnlAvailable.Controls.Add(Me.Label3)
-        Me.pnlAvailable.Controls.Add(Me.PictureBox2)
+        Me.pnlAvailable.Controls.Add(Me.picAvailable)
         Me.pnlAvailable.Location = New System.Drawing.Point(419, 113)
         Me.pnlAvailable.Name = "pnlAvailable"
         Me.pnlAvailable.Size = New System.Drawing.Size(380, 200)
@@ -378,22 +406,22 @@ Partial Class DashboardForm
         Me.Label3.Text = "Available"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
-        'PictureBox2
+        'picAvailable
         '
-        Me.PictureBox2.Image = Global.prjSchedMoni.My.Resources.Resources.checked
-        Me.PictureBox2.Location = New System.Drawing.Point(140, 20)
-        Me.PictureBox2.Name = "PictureBox2"
-        Me.PictureBox2.Size = New System.Drawing.Size(100, 100)
-        Me.PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox2.TabIndex = 15
-        Me.PictureBox2.TabStop = False
+        Me.picAvailable.Image = Global.prjSchedMoni.My.Resources.Resources.checked
+        Me.picAvailable.Location = New System.Drawing.Point(140, 20)
+        Me.picAvailable.Name = "picAvailable"
+        Me.picAvailable.Size = New System.Drawing.Size(100, 100)
+        Me.picAvailable.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.picAvailable.TabIndex = 15
+        Me.picAvailable.TabStop = False
         '
         'pnlTotalRooms
         '
         Me.pnlTotalRooms.BackColor = System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer), CType(CType(215, Byte), Integer))
         Me.pnlTotalRooms.Controls.Add(Me.lblTotalRoomsCount)
         Me.pnlTotalRooms.Controls.Add(Me.Label1)
-        Me.pnlTotalRooms.Controls.Add(Me.PictureBox1)
+        Me.pnlTotalRooms.Controls.Add(Me.picTotalRooms)
         Me.pnlTotalRooms.Location = New System.Drawing.Point(25, 113)
         Me.pnlTotalRooms.Name = "pnlTotalRooms"
         Me.pnlTotalRooms.Size = New System.Drawing.Size(380, 200)
@@ -419,26 +447,27 @@ Partial Class DashboardForm
         Me.Label1.Text = "Total Rooms"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
-        'PictureBox1
+        'picTotalRooms
         '
-        Me.PictureBox1.Image = Global.prjSchedMoni.My.Resources.Resources.totalrooms1
-        Me.PictureBox1.Location = New System.Drawing.Point(140, 20)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(100, 100)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox1.TabIndex = 15
-        Me.PictureBox1.TabStop = False
+        Me.picTotalRooms.Image = Global.prjSchedMoni.My.Resources.Resources.rooms
+        Me.picTotalRooms.Location = New System.Drawing.Point(140, 20)
+        Me.picTotalRooms.Name = "picTotalRooms"
+        Me.picTotalRooms.Size = New System.Drawing.Size(100, 100)
+        Me.picTotalRooms.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.picTotalRooms.TabIndex = 15
+        Me.picTotalRooms.TabStop = False
         '
-        'lblDateTime
+        'lblDate
         '
-        Me.lblDateTime.AutoSize = True
-        Me.lblDateTime.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDateTime.ForeColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer))
-        Me.lblDateTime.Location = New System.Drawing.Point(1439, 48)
-        Me.lblDateTime.Name = "lblDateTime"
-        Me.lblDateTime.Size = New System.Drawing.Size(125, 34)
-        Me.lblDateTime.TabIndex = 10
-        Me.lblDateTime.Text = "September 15, 2026" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Tuesday"
+        Me.lblDate.AutoSize = True
+        Me.lblDate.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDate.ForeColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer))
+        Me.lblDate.Location = New System.Drawing.Point(1439, 48)
+        Me.lblDate.Name = "lblDate"
+        Me.lblDate.Size = New System.Drawing.Size(125, 34)
+        Me.lblDate.TabIndex = 10
+        Me.lblDate.Text = "September 15, 2026" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Tuesday"
+        Me.lblDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'lblWelcomeUser
         '
@@ -489,11 +518,10 @@ Partial Class DashboardForm
         '
         'pnlChartContainer
         '
-        Me.pnlChartContainer.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.pnlChartContainer.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.pnlChartContainer.BackColor = System.Drawing.Color.Gray
         Me.pnlChartContainer.Controls.Add(Me.Label4)
-        Me.pnlChartContainer.Location = New System.Drawing.Point(1202, 337)
+        Me.pnlChartContainer.Location = New System.Drawing.Point(1205, 337)
         Me.pnlChartContainer.Name = "pnlChartContainer"
         Me.pnlChartContainer.Size = New System.Drawing.Size(386, 672)
         Me.pnlChartContainer.TabIndex = 24
@@ -522,6 +550,8 @@ Partial Class DashboardForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pnlScheduleView.BackColor = System.Drawing.Color.WhiteSmoke
         Me.pnlScheduleView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pnlScheduleView.Controls.Add(Me.lblTime1)
+        Me.pnlScheduleView.Controls.Add(Me.lblDate1)
         Me.pnlScheduleView.Controls.Add(Me.pnlCheckbox)
         Me.pnlScheduleView.Controls.Add(Me.Label11)
         Me.pnlScheduleView.Controls.Add(Me.pnlDropRoom)
@@ -533,10 +563,34 @@ Partial Class DashboardForm
         Me.pnlScheduleView.Controls.Add(Me.pnlAddSched)
         Me.pnlScheduleView.Controls.Add(Me.dgvSchedule)
         Me.pnlScheduleView.Controls.Add(Me.pnlSchedMan)
-        Me.pnlScheduleView.Location = New System.Drawing.Point(312, 0)
+        Me.pnlScheduleView.Location = New System.Drawing.Point(312, 26)
         Me.pnlScheduleView.Name = "pnlScheduleView"
-        Me.pnlScheduleView.Size = New System.Drawing.Size(1602, 1051)
+        Me.pnlScheduleView.Size = New System.Drawing.Size(1608, 1025)
         Me.pnlScheduleView.TabIndex = 25
+        '
+        'lblTime1
+        '
+        Me.lblTime1.AutoSize = True
+        Me.lblTime1.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTime1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer))
+        Me.lblTime1.Location = New System.Drawing.Point(1440, 18)
+        Me.lblTime1.Name = "lblTime1"
+        Me.lblTime1.Size = New System.Drawing.Size(106, 30)
+        Me.lblTime1.TabIndex = 38
+        Me.lblTime1.Text = "12:30 PM"
+        Me.lblTime1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'lblDate1
+        '
+        Me.lblDate1.AutoSize = True
+        Me.lblDate1.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDate1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer))
+        Me.lblDate1.Location = New System.Drawing.Point(1439, 48)
+        Me.lblDate1.Name = "lblDate1"
+        Me.lblDate1.Size = New System.Drawing.Size(125, 34)
+        Me.lblDate1.TabIndex = 37
+        Me.lblDate1.Text = "September 15, 2026" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Tuesday"
+        Me.lblDate1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'pnlCheckbox
         '
@@ -710,18 +764,18 @@ Partial Class DashboardForm
         Me.dgvSchedule.AllowUserToResizeColumns = False
         Me.dgvSchedule.AllowUserToResizeRows = False
         Me.dgvSchedule.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-        Me.dgvSchedule.Location = New System.Drawing.Point(33, 280)
+        Me.dgvSchedule.Location = New System.Drawing.Point(34, 280)
         Me.dgvSchedule.Name = "dgvSchedule"
         Me.dgvSchedule.ReadOnly = True
-        Me.dgvSchedule.Size = New System.Drawing.Size(1538, 720)
+        Me.dgvSchedule.Size = New System.Drawing.Size(1535, 701)
         Me.dgvSchedule.TabIndex = 35
         '
         'pnlSchedMan
         '
-        Me.pnlSchedMan.BackColor = System.Drawing.SystemColors.AppWorkspace
+        Me.pnlSchedMan.BackColor = System.Drawing.Color.Gray
         Me.pnlSchedMan.Location = New System.Drawing.Point(32, 244)
         Me.pnlSchedMan.Name = "pnlSchedMan"
-        Me.pnlSchedMan.Size = New System.Drawing.Size(1539, 782)
+        Me.pnlSchedMan.Size = New System.Drawing.Size(1539, 757)
         Me.pnlSchedMan.TabIndex = 36
         '
         'pnlRoomsView
@@ -731,15 +785,41 @@ Partial Class DashboardForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pnlRoomsView.BackColor = System.Drawing.Color.WhiteSmoke
         Me.pnlRoomsView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pnlRoomsView.Controls.Add(Me.lblTime2)
+        Me.pnlRoomsView.Controls.Add(Me.lblDate2)
         Me.pnlRoomsView.Controls.Add(Me.Label14)
         Me.pnlRoomsView.Controls.Add(Me.Label15)
         Me.pnlRoomsView.Controls.Add(Me.pnlSearchRoomContainer)
         Me.pnlRoomsView.Controls.Add(Me.pnlAddRoom)
         Me.pnlRoomsView.Controls.Add(Me.pnlRoomManagement)
-        Me.pnlRoomsView.Location = New System.Drawing.Point(312, 0)
+        Me.pnlRoomsView.Location = New System.Drawing.Point(312, 26)
         Me.pnlRoomsView.Name = "pnlRoomsView"
-        Me.pnlRoomsView.Size = New System.Drawing.Size(1602, 1051)
+        Me.pnlRoomsView.Size = New System.Drawing.Size(1608, 1025)
         Me.pnlRoomsView.TabIndex = 26
+        '
+        'lblTime2
+        '
+        Me.lblTime2.AutoSize = True
+        Me.lblTime2.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTime2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer))
+        Me.lblTime2.Location = New System.Drawing.Point(1440, 18)
+        Me.lblTime2.Name = "lblTime2"
+        Me.lblTime2.Size = New System.Drawing.Size(106, 30)
+        Me.lblTime2.TabIndex = 51
+        Me.lblTime2.Text = "12:30 PM"
+        Me.lblTime2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'lblDate2
+        '
+        Me.lblDate2.AutoSize = True
+        Me.lblDate2.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDate2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer))
+        Me.lblDate2.Location = New System.Drawing.Point(1439, 48)
+        Me.lblDate2.Name = "lblDate2"
+        Me.lblDate2.Size = New System.Drawing.Size(125, 34)
+        Me.lblDate2.TabIndex = 50
+        Me.lblDate2.Text = "September 15, 2026" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Tuesday"
+        Me.lblDate2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Label14
         '
@@ -821,19 +901,19 @@ Partial Class DashboardForm
         '
         'pnlRoomManagement
         '
-        Me.pnlRoomManagement.BackColor = System.Drawing.SystemColors.AppWorkspace
+        Me.pnlRoomManagement.BackColor = System.Drawing.Color.Gray
         Me.pnlRoomManagement.Controls.Add(Me.dgvRooms)
         Me.pnlRoomManagement.Location = New System.Drawing.Point(41, 180)
         Me.pnlRoomManagement.Name = "pnlRoomManagement"
-        Me.pnlRoomManagement.Size = New System.Drawing.Size(1539, 846)
+        Me.pnlRoomManagement.Size = New System.Drawing.Size(1539, 829)
         Me.pnlRoomManagement.TabIndex = 49
         '
         'dgvRooms
         '
         Me.dgvRooms.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvRooms.Location = New System.Drawing.Point(0, 24)
+        Me.dgvRooms.Location = New System.Drawing.Point(3, 24)
         Me.dgvRooms.Name = "dgvRooms"
-        Me.dgvRooms.Size = New System.Drawing.Size(1539, 805)
+        Me.dgvRooms.Size = New System.Drawing.Size(1533, 786)
         Me.dgvRooms.TabIndex = 44
         '
         'pnlAvailabilityView
@@ -843,6 +923,8 @@ Partial Class DashboardForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pnlAvailabilityView.BackColor = System.Drawing.Color.WhiteSmoke
         Me.pnlAvailabilityView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pnlAvailabilityView.Controls.Add(Me.lblTime3)
+        Me.pnlAvailabilityView.Controls.Add(Me.lblDate3)
         Me.pnlAvailabilityView.Controls.Add(Me.dgvAvailability)
         Me.pnlAvailabilityView.Controls.Add(Me.pnlRoomType)
         Me.pnlAvailabilityView.Controls.Add(Me.Label16)
@@ -850,17 +932,41 @@ Partial Class DashboardForm
         Me.pnlAvailabilityView.Controls.Add(Me.pnlDay)
         Me.pnlAvailabilityView.Controls.Add(Me.pnlSearch)
         Me.pnlAvailabilityView.Controls.Add(Me.pnlClassroomAvail)
-        Me.pnlAvailabilityView.Location = New System.Drawing.Point(312, 0)
+        Me.pnlAvailabilityView.Location = New System.Drawing.Point(312, 26)
         Me.pnlAvailabilityView.Name = "pnlAvailabilityView"
-        Me.pnlAvailabilityView.Size = New System.Drawing.Size(1602, 1051)
+        Me.pnlAvailabilityView.Size = New System.Drawing.Size(1608, 1025)
         Me.pnlAvailabilityView.TabIndex = 27
+        '
+        'lblTime3
+        '
+        Me.lblTime3.AutoSize = True
+        Me.lblTime3.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTime3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer))
+        Me.lblTime3.Location = New System.Drawing.Point(1440, 18)
+        Me.lblTime3.Name = "lblTime3"
+        Me.lblTime3.Size = New System.Drawing.Size(106, 30)
+        Me.lblTime3.TabIndex = 30
+        Me.lblTime3.Text = "12:30 PM"
+        Me.lblTime3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'lblDate3
+        '
+        Me.lblDate3.AutoSize = True
+        Me.lblDate3.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDate3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer))
+        Me.lblDate3.Location = New System.Drawing.Point(1439, 48)
+        Me.lblDate3.Name = "lblDate3"
+        Me.lblDate3.Size = New System.Drawing.Size(125, 34)
+        Me.lblDate3.TabIndex = 29
+        Me.lblDate3.Text = "September 15, 2026" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Tuesday"
+        Me.lblDate3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'dgvAvailability
         '
         Me.dgvAvailability.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvAvailability.Location = New System.Drawing.Point(41, 200)
+        Me.dgvAvailability.Location = New System.Drawing.Point(43, 200)
         Me.dgvAvailability.Name = "dgvAvailability"
-        Me.dgvAvailability.Size = New System.Drawing.Size(1523, 800)
+        Me.dgvAvailability.Size = New System.Drawing.Size(1519, 781)
         Me.dgvAvailability.TabIndex = 44
         '
         'pnlRoomType
@@ -961,11 +1067,11 @@ Partial Class DashboardForm
         '
         'pnlClassroomAvail
         '
-        Me.pnlClassroomAvail.BackColor = System.Drawing.SystemColors.AppWorkspace
+        Me.pnlClassroomAvail.BackColor = System.Drawing.Color.Gray
         Me.pnlClassroomAvail.Controls.Add(Me.picAvailRefresh)
         Me.pnlClassroomAvail.Location = New System.Drawing.Point(40, 163)
         Me.pnlClassroomAvail.Name = "pnlClassroomAvail"
-        Me.pnlClassroomAvail.Size = New System.Drawing.Size(1524, 863)
+        Me.pnlClassroomAvail.Size = New System.Drawing.Size(1524, 838)
         Me.pnlClassroomAvail.TabIndex = 45
         '
         'picAvailRefresh
@@ -985,14 +1091,85 @@ Partial Class DashboardForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pnlConflictsView.BackColor = System.Drawing.Color.WhiteSmoke
         Me.pnlConflictsView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pnlConflictsView.Controls.Add(Me.pnlAllDates)
+        Me.pnlConflictsView.Controls.Add(Me.pnlSearchConflicts)
+        Me.pnlConflictsView.Controls.Add(Me.pnlDatePickerLogs)
         Me.pnlConflictsView.Controls.Add(Me.btnToggleView)
         Me.pnlConflictsView.Controls.Add(Me.Label12)
         Me.pnlConflictsView.Controls.Add(Me.Label13)
         Me.pnlConflictsView.Controls.Add(Me.pnlSchedConflicts)
-        Me.pnlConflictsView.Location = New System.Drawing.Point(312, 0)
+        Me.pnlConflictsView.Controls.Add(Me.pnlSwitch)
+        Me.pnlConflictsView.Location = New System.Drawing.Point(312, 27)
         Me.pnlConflictsView.Name = "pnlConflictsView"
-        Me.pnlConflictsView.Size = New System.Drawing.Size(1602, 1051)
+        Me.pnlConflictsView.Size = New System.Drawing.Size(1608, 1024)
         Me.pnlConflictsView.TabIndex = 28
+        '
+        'pnlAllDates
+        '
+        Me.pnlAllDates.BackColor = System.Drawing.Color.FromArgb(CType(CType(210, Byte), Integer), CType(CType(210, Byte), Integer), CType(CType(210, Byte), Integer))
+        Me.pnlAllDates.Controls.Add(Me.chkAllLogs)
+        Me.pnlAllDates.Location = New System.Drawing.Point(1118, 45)
+        Me.pnlAllDates.Name = "pnlAllDates"
+        Me.pnlAllDates.Size = New System.Drawing.Size(81, 43)
+        Me.pnlAllDates.TabIndex = 53
+        '
+        'chkAllLogs
+        '
+        Me.chkAllLogs.AutoSize = True
+        Me.chkAllLogs.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkAllLogs.Location = New System.Drawing.Point(3, 14)
+        Me.chkAllLogs.Name = "chkAllLogs"
+        Me.chkAllLogs.Size = New System.Drawing.Size(75, 19)
+        Me.chkAllLogs.TabIndex = 0
+        Me.chkAllLogs.Text = "All Dates"
+        Me.chkAllLogs.UseVisualStyleBackColor = True
+        '
+        'pnlSearchConflicts
+        '
+        Me.pnlSearchConflicts.BackColor = System.Drawing.Color.FromArgb(CType(CType(210, Byte), Integer), CType(CType(210, Byte), Integer), CType(CType(210, Byte), Integer))
+        Me.pnlSearchConflicts.Controls.Add(Me.PictureBox1)
+        Me.pnlSearchConflicts.Controls.Add(Me.txtSearchConflicts)
+        Me.pnlSearchConflicts.Location = New System.Drawing.Point(719, 45)
+        Me.pnlSearchConflicts.Name = "pnlSearchConflicts"
+        Me.pnlSearchConflicts.Size = New System.Drawing.Size(393, 43)
+        Me.pnlSearchConflicts.TabIndex = 52
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.Image = Global.prjSchedMoni.My.Resources.Resources.loupe
+        Me.PictureBox1.Location = New System.Drawing.Point(10, 7)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(28, 28)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox1.TabIndex = 31
+        Me.PictureBox1.TabStop = False
+        '
+        'txtSearchConflicts
+        '
+        Me.txtSearchConflicts.BackColor = System.Drawing.Color.FromArgb(CType(CType(210, Byte), Integer), CType(CType(210, Byte), Integer), CType(CType(210, Byte), Integer))
+        Me.txtSearchConflicts.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtSearchConflicts.Font = New System.Drawing.Font("Segoe UI Semibold", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSearchConflicts.Location = New System.Drawing.Point(49, 11)
+        Me.txtSearchConflicts.Name = "txtSearchConflicts"
+        Me.txtSearchConflicts.Size = New System.Drawing.Size(333, 22)
+        Me.txtSearchConflicts.TabIndex = 0
+        '
+        'pnlDatePickerLogs
+        '
+        Me.pnlDatePickerLogs.BackColor = System.Drawing.Color.FromArgb(CType(CType(210, Byte), Integer), CType(CType(210, Byte), Integer), CType(CType(210, Byte), Integer))
+        Me.pnlDatePickerLogs.Controls.Add(Me.DateTimePicker2)
+        Me.pnlDatePickerLogs.Location = New System.Drawing.Point(1205, 45)
+        Me.pnlDatePickerLogs.Name = "pnlDatePickerLogs"
+        Me.pnlDatePickerLogs.Size = New System.Drawing.Size(216, 43)
+        Me.pnlDatePickerLogs.TabIndex = 50
+        '
+        'DateTimePicker2
+        '
+        Me.DateTimePicker2.CalendarFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DateTimePicker2.Location = New System.Drawing.Point(6, 12)
+        Me.DateTimePicker2.Name = "DateTimePicker2"
+        Me.DateTimePicker2.Size = New System.Drawing.Size(204, 20)
+        Me.DateTimePicker2.TabIndex = 34
         '
         'btnToggleView
         '
@@ -1035,12 +1212,12 @@ Partial Class DashboardForm
         '
         'pnlSchedConflicts
         '
-        Me.pnlSchedConflicts.BackColor = System.Drawing.SystemColors.AppWorkspace
+        Me.pnlSchedConflicts.BackColor = System.Drawing.Color.Gray
         Me.pnlSchedConflicts.Controls.Add(Me.dgvConflicts)
         Me.pnlSchedConflicts.Controls.Add(Me.dgvLogs)
         Me.pnlSchedConflicts.Location = New System.Drawing.Point(38, 105)
         Me.pnlSchedConflicts.Name = "pnlSchedConflicts"
-        Me.pnlSchedConflicts.Size = New System.Drawing.Size(1530, 918)
+        Me.pnlSchedConflicts.Size = New System.Drawing.Size(1530, 895)
         Me.pnlSchedConflicts.TabIndex = 48
         '
         'dgvConflicts
@@ -1048,10 +1225,10 @@ Partial Class DashboardForm
         Me.dgvConflicts.AllowUserToAddRows = False
         Me.dgvConflicts.AllowUserToDeleteRows = False
         Me.dgvConflicts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvConflicts.Location = New System.Drawing.Point(0, 23)
+        Me.dgvConflicts.Location = New System.Drawing.Point(2, 23)
         Me.dgvConflicts.Name = "dgvConflicts"
         Me.dgvConflicts.ReadOnly = True
-        Me.dgvConflicts.Size = New System.Drawing.Size(1530, 872)
+        Me.dgvConflicts.Size = New System.Drawing.Size(1525, 852)
         Me.dgvConflicts.TabIndex = 47
         '
         'dgvLogs
@@ -1059,12 +1236,20 @@ Partial Class DashboardForm
         Me.dgvLogs.AllowUserToAddRows = False
         Me.dgvLogs.AllowUserToDeleteRows = False
         Me.dgvLogs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvLogs.Location = New System.Drawing.Point(0, 20)
+        Me.dgvLogs.Location = New System.Drawing.Point(0, 23)
         Me.dgvLogs.Name = "dgvLogs"
         Me.dgvLogs.ReadOnly = True
-        Me.dgvLogs.Size = New System.Drawing.Size(728, 550)
+        Me.dgvLogs.Size = New System.Drawing.Size(728, 547)
         Me.dgvLogs.TabIndex = 49
         Me.dgvLogs.Visible = False
+        '
+        'pnlSwitch
+        '
+        Me.pnlSwitch.BackColor = System.Drawing.Color.FromArgb(CType(CType(210, Byte), Integer), CType(CType(210, Byte), Integer), CType(CType(210, Byte), Integer))
+        Me.pnlSwitch.Location = New System.Drawing.Point(1427, 43)
+        Me.pnlSwitch.Name = "pnlSwitch"
+        Me.pnlSwitch.Size = New System.Drawing.Size(153, 45)
+        Me.pnlSwitch.TabIndex = 51
         '
         'DateTimePicker1
         '
@@ -1076,6 +1261,15 @@ Partial Class DashboardForm
         Me.DateTimePicker1.Size = New System.Drawing.Size(237, 27)
         Me.DateTimePicker1.TabIndex = 0
         '
+        'ToolStrip1
+        '
+        Me.ToolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
+        Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
+        Me.ToolStrip1.Name = "ToolStrip1"
+        Me.ToolStrip1.Size = New System.Drawing.Size(1914, 25)
+        Me.ToolStrip1.TabIndex = 29
+        Me.ToolStrip1.Text = "ToolStrip1"
+        '
         'pnlSidebar
         '
         Me.pnlSidebar.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -1086,9 +1280,7 @@ Partial Class DashboardForm
         Me.pnlSidebar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.pnlSidebar.Controls.Add(Me.PictureBox8)
         Me.pnlSidebar.Controls.Add(Me.lblLogout)
-        Me.pnlSidebar.Controls.Add(Me.Label19)
         Me.pnlSidebar.Controls.Add(Me.Label18)
-        Me.pnlSidebar.Controls.Add(Me.pnlNormal)
         Me.pnlSidebar.Controls.Add(Me.Toggle1)
         Me.pnlSidebar.Controls.Add(Me.btnConflicts)
         Me.pnlSidebar.Controls.Add(Me.btnAvailability)
@@ -1097,15 +1289,15 @@ Partial Class DashboardForm
         Me.pnlSidebar.Controls.Add(Me.btnDashboard)
         Me.pnlSidebar.Controls.Add(Me.pnlUserProfileCard)
         Me.pnlSidebar.Controls.Add(Me.ShapeContainer2)
-        Me.pnlSidebar.Location = New System.Drawing.Point(-1, 0)
+        Me.pnlSidebar.Location = New System.Drawing.Point(-1, 26)
         Me.pnlSidebar.Name = "pnlSidebar"
-        Me.pnlSidebar.Size = New System.Drawing.Size(315, 1051)
+        Me.pnlSidebar.Size = New System.Drawing.Size(315, 1025)
         Me.pnlSidebar.TabIndex = 0
         '
         'PictureBox8
         '
         Me.PictureBox8.Image = Global.prjSchedMoni.My.Resources.Resources.power_button
-        Me.PictureBox8.Location = New System.Drawing.Point(103, 866)
+        Me.PictureBox8.Location = New System.Drawing.Point(109, 864)
         Me.PictureBox8.Name = "PictureBox8"
         Me.PictureBox8.Size = New System.Drawing.Size(25, 25)
         Me.PictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -1117,64 +1309,28 @@ Partial Class DashboardForm
         Me.lblLogout.AutoSize = True
         Me.lblLogout.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLogout.ForeColor = System.Drawing.Color.FromArgb(CType(CType(20, Byte), Integer), CType(CType(20, Byte), Integer), CType(CType(20, Byte), Integer))
-        Me.lblLogout.Location = New System.Drawing.Point(131, 866)
+        Me.lblLogout.Location = New System.Drawing.Point(140, 866)
         Me.lblLogout.Name = "lblLogout"
         Me.lblLogout.Size = New System.Drawing.Size(64, 21)
         Me.lblLogout.TabIndex = 26
         Me.lblLogout.Text = "Logout"
         '
-        'Label19
-        '
-        Me.Label19.AutoSize = True
-        Me.Label19.BackColor = System.Drawing.Color.Transparent
-        Me.Label19.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label19.ForeColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer))
-        Me.Label19.Location = New System.Drawing.Point(163, 938)
-        Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(44, 13)
-        Me.Label19.TabIndex = 48
-        Me.Label19.Text = "Normal"
-        '
         'Label18
         '
         Me.Label18.AutoSize = True
         Me.Label18.BackColor = System.Drawing.Color.Transparent
-        Me.Label18.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label18.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label18.ForeColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer))
-        Me.Label18.Location = New System.Drawing.Point(94, 938)
+        Me.Label18.Location = New System.Drawing.Point(122, 957)
         Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(41, 13)
+        Me.Label18.Size = New System.Drawing.Size(68, 21)
         Me.Label18.TabIndex = 26
         Me.Label18.Text = "☀️ / 🌙"
-        '
-        'pnlNormal
-        '
-        Me.pnlNormal.BackColor = System.Drawing.Color.LightGray
-        Me.pnlNormal.Controls.Add(Me.btnNormalMode)
-        Me.pnlNormal.Location = New System.Drawing.Point(152, 911)
-        Me.pnlNormal.Name = "pnlNormal"
-        Me.pnlNormal.Size = New System.Drawing.Size(67, 24)
-        Me.pnlNormal.TabIndex = 47
-        '
-        'btnNormalMode
-        '
-        Me.btnNormalMode.BackColor = System.Drawing.Color.Transparent
-        Me.btnNormalMode.FlatAppearance.BorderSize = 0
-        Me.btnNormalMode.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
-        Me.btnNormalMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnNormalMode.Image = Global.prjSchedMoni.My.Resources.Resources.normal
-        Me.btnNormalMode.Location = New System.Drawing.Point(5, 0)
-        Me.btnNormalMode.Name = "btnNormalMode"
-        Me.btnNormalMode.Size = New System.Drawing.Size(54, 24)
-        Me.btnNormalMode.TabIndex = 47
-        Me.btnNormalMode.UseVisualStyleBackColor = False
         '
         'btnConflicts
         '
         Me.btnConflicts.AccessibleName = ""
-        Me.btnConflicts.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnConflicts.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.btnConflicts.BackColor = System.Drawing.Color.FromArgb(CType(CType(210, Byte), Integer), CType(CType(210, Byte), Integer), CType(CType(210, Byte), Integer))
         Me.btnConflicts.FlatAppearance.BorderSize = 0
         Me.btnConflicts.FlatStyle = System.Windows.Forms.FlatStyle.Flat
@@ -1182,7 +1338,7 @@ Partial Class DashboardForm
         Me.btnConflicts.ForeColor = System.Drawing.Color.Black
         Me.btnConflicts.Image = CType(resources.GetObject("btnConflicts.Image"), System.Drawing.Image)
         Me.btnConflicts.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnConflicts.Location = New System.Drawing.Point(15, 484)
+        Me.btnConflicts.Location = New System.Drawing.Point(15, 471)
         Me.btnConflicts.Name = "btnConflicts"
         Me.btnConflicts.Size = New System.Drawing.Size(280, 70)
         Me.btnConflicts.TabIndex = 7
@@ -1194,9 +1350,7 @@ Partial Class DashboardForm
         'btnAvailability
         '
         Me.btnAvailability.AccessibleName = ""
-        Me.btnAvailability.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnAvailability.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.btnAvailability.BackColor = System.Drawing.Color.FromArgb(CType(CType(210, Byte), Integer), CType(CType(210, Byte), Integer), CType(CType(210, Byte), Integer))
         Me.btnAvailability.FlatAppearance.BorderSize = 0
         Me.btnAvailability.FlatStyle = System.Windows.Forms.FlatStyle.Flat
@@ -1204,7 +1358,7 @@ Partial Class DashboardForm
         Me.btnAvailability.ForeColor = System.Drawing.Color.Black
         Me.btnAvailability.Image = Global.prjSchedMoni.My.Resources.Resources.event1
         Me.btnAvailability.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnAvailability.Location = New System.Drawing.Point(15, 408)
+        Me.btnAvailability.Location = New System.Drawing.Point(15, 395)
         Me.btnAvailability.Name = "btnAvailability"
         Me.btnAvailability.Size = New System.Drawing.Size(280, 70)
         Me.btnAvailability.TabIndex = 6
@@ -1216,9 +1370,7 @@ Partial Class DashboardForm
         'btnRooms
         '
         Me.btnRooms.AccessibleName = ""
-        Me.btnRooms.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnRooms.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.btnRooms.BackColor = System.Drawing.Color.FromArgb(CType(CType(210, Byte), Integer), CType(CType(210, Byte), Integer), CType(CType(210, Byte), Integer))
         Me.btnRooms.FlatAppearance.BorderSize = 0
         Me.btnRooms.FlatStyle = System.Windows.Forms.FlatStyle.Flat
@@ -1226,7 +1378,7 @@ Partial Class DashboardForm
         Me.btnRooms.ForeColor = System.Drawing.Color.Black
         Me.btnRooms.Image = CType(resources.GetObject("btnRooms.Image"), System.Drawing.Image)
         Me.btnRooms.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnRooms.Location = New System.Drawing.Point(15, 332)
+        Me.btnRooms.Location = New System.Drawing.Point(15, 319)
         Me.btnRooms.Name = "btnRooms"
         Me.btnRooms.Size = New System.Drawing.Size(280, 70)
         Me.btnRooms.TabIndex = 4
@@ -1238,9 +1390,7 @@ Partial Class DashboardForm
         'btnSchedule
         '
         Me.btnSchedule.AccessibleName = ""
-        Me.btnSchedule.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnSchedule.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.btnSchedule.BackColor = System.Drawing.Color.FromArgb(CType(CType(210, Byte), Integer), CType(CType(210, Byte), Integer), CType(CType(210, Byte), Integer))
         Me.btnSchedule.FlatAppearance.BorderSize = 0
         Me.btnSchedule.FlatStyle = System.Windows.Forms.FlatStyle.Flat
@@ -1248,7 +1398,7 @@ Partial Class DashboardForm
         Me.btnSchedule.ForeColor = System.Drawing.Color.Black
         Me.btnSchedule.Image = CType(resources.GetObject("btnSchedule.Image"), System.Drawing.Image)
         Me.btnSchedule.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnSchedule.Location = New System.Drawing.Point(15, 256)
+        Me.btnSchedule.Location = New System.Drawing.Point(15, 243)
         Me.btnSchedule.Name = "btnSchedule"
         Me.btnSchedule.Size = New System.Drawing.Size(280, 70)
         Me.btnSchedule.TabIndex = 3
@@ -1260,9 +1410,7 @@ Partial Class DashboardForm
         'btnDashboard
         '
         Me.btnDashboard.AccessibleName = ""
-        Me.btnDashboard.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnDashboard.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.btnDashboard.BackColor = System.Drawing.Color.FromArgb(CType(CType(210, Byte), Integer), CType(CType(210, Byte), Integer), CType(CType(210, Byte), Integer))
         Me.btnDashboard.FlatAppearance.BorderSize = 0
         Me.btnDashboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat
@@ -1270,7 +1418,7 @@ Partial Class DashboardForm
         Me.btnDashboard.ForeColor = System.Drawing.Color.Black
         Me.btnDashboard.Image = CType(resources.GetObject("btnDashboard.Image"), System.Drawing.Image)
         Me.btnDashboard.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnDashboard.Location = New System.Drawing.Point(15, 180)
+        Me.btnDashboard.Location = New System.Drawing.Point(15, 167)
         Me.btnDashboard.Name = "btnDashboard"
         Me.btnDashboard.Size = New System.Drawing.Size(280, 70)
         Me.btnDashboard.TabIndex = 2
@@ -1281,13 +1429,11 @@ Partial Class DashboardForm
         '
         'pnlUserProfileCard
         '
-        Me.pnlUserProfileCard.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.pnlUserProfileCard.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.pnlUserProfileCard.Controls.Add(Me.pictureBoxUserManagement)
         Me.pnlUserProfileCard.Controls.Add(Me.picUserProfile)
         Me.pnlUserProfileCard.Controls.Add(Me.lblUserName)
-        Me.pnlUserProfileCard.Location = New System.Drawing.Point(15, 25)
+        Me.pnlUserProfileCard.Location = New System.Drawing.Point(15, 12)
         Me.pnlUserProfileCard.Name = "pnlUserProfileCard"
         Me.pnlUserProfileCard.Size = New System.Drawing.Size(280, 73)
         Me.pnlUserProfileCard.TabIndex = 5
@@ -1305,7 +1451,7 @@ Partial Class DashboardForm
         'picUserProfile
         '
         Me.picUserProfile.Image = Global.prjSchedMoni.My.Resources.Resources.account1
-        Me.picUserProfile.Location = New System.Drawing.Point(4, 18)
+        Me.picUserProfile.Location = New System.Drawing.Point(4, 19)
         Me.picUserProfile.Name = "picUserProfile"
         Me.picUserProfile.Size = New System.Drawing.Size(35, 35)
         Me.picUserProfile.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -1317,7 +1463,7 @@ Partial Class DashboardForm
         Me.lblUserName.AutoSize = True
         Me.lblUserName.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblUserName.ForeColor = System.Drawing.Color.FromArgb(CType(CType(30, Byte), Integer), CType(CType(30, Byte), Integer), CType(CType(30, Byte), Integer))
-        Me.lblUserName.Location = New System.Drawing.Point(45, 28)
+        Me.lblUserName.Location = New System.Drawing.Point(45, 29)
         Me.lblUserName.Name = "lblUserName"
         Me.lblUserName.Size = New System.Drawing.Size(123, 17)
         Me.lblUserName.TabIndex = 1
@@ -1330,7 +1476,7 @@ Partial Class DashboardForm
         Me.ShapeContainer2.Margin = New System.Windows.Forms.Padding(0)
         Me.ShapeContainer2.Name = "ShapeContainer2"
         Me.ShapeContainer2.Shapes.AddRange(New Microsoft.VisualBasic.PowerPacks.Shape() {Me.LineShape1})
-        Me.ShapeContainer2.Size = New System.Drawing.Size(313, 1049)
+        Me.ShapeContainer2.Size = New System.Drawing.Size(313, 1023)
         Me.ShapeContainer2.TabIndex = 50
         Me.ShapeContainer2.TabStop = False
         '
@@ -1349,9 +1495,9 @@ Partial Class DashboardForm
         '
         Me.Toggle1.BackColor = System.Drawing.Color.Transparent
         Me.Toggle1.Checked = False
-        Me.Toggle1.Location = New System.Drawing.Point(94, 911)
+        Me.Toggle1.Location = New System.Drawing.Point(125, 922)
         Me.Toggle1.Name = "Toggle1"
-        Me.Toggle1.Size = New System.Drawing.Size(41, 24)
+        Me.Toggle1.Size = New System.Drawing.Size(63, 32)
         Me.Toggle1.TabIndex = 46
         '
         'DashboardForm
@@ -1359,18 +1505,19 @@ Partial Class DashboardForm
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1914, 1051)
-        Me.Controls.Add(Me.pnlDashboardView)
-        Me.Controls.Add(Me.pnlAvailabilityView)
+        Me.Controls.Add(Me.ToolStrip1)
         Me.Controls.Add(Me.pnlConflictsView)
         Me.Controls.Add(Me.pnlScheduleView)
+        Me.Controls.Add(Me.pnlDashboardView)
         Me.Controls.Add(Me.pnlRoomsView)
+        Me.Controls.Add(Me.pnlAvailabilityView)
         Me.Controls.Add(Me.pnlSidebar)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "DashboardForm"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.Text = "Class Scheduling & Availability Monitoring (CSTA)"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.pnlDashboardView.ResumeLayout(False)
@@ -1378,13 +1525,13 @@ Partial Class DashboardForm
         CType(Me.chartRoomOverview, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dgvTodaysSchedule, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlConflicts.ResumeLayout(False)
-        CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picConflicts, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlOccupied.ResumeLayout(False)
-        CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picOccupied, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlAvailable.ResumeLayout(False)
-        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picAvailable, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlTotalRooms.ResumeLayout(False)
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picTotalRooms, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlScheduleContainer.ResumeLayout(False)
         Me.pnlScheduleContainer.PerformLayout()
         Me.pnlChartContainer.ResumeLayout(False)
@@ -1422,18 +1569,24 @@ Partial Class DashboardForm
         CType(Me.picAvailRefresh, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlConflictsView.ResumeLayout(False)
         Me.pnlConflictsView.PerformLayout()
+        Me.pnlAllDates.ResumeLayout(False)
+        Me.pnlAllDates.PerformLayout()
+        Me.pnlSearchConflicts.ResumeLayout(False)
+        Me.pnlSearchConflicts.PerformLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pnlDatePickerLogs.ResumeLayout(False)
         Me.pnlSchedConflicts.ResumeLayout(False)
         CType(Me.dgvConflicts, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dgvLogs, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlSidebar.ResumeLayout(False)
         Me.pnlSidebar.PerformLayout()
         CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.pnlNormal.ResumeLayout(False)
         Me.pnlUserProfileCard.ResumeLayout(False)
         Me.pnlUserProfileCard.PerformLayout()
         CType(Me.pictureBoxUserManagement, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.picUserProfile, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents pnlSidebar As System.Windows.Forms.Panel
@@ -1445,22 +1598,22 @@ Partial Class DashboardForm
     Friend WithEvents pnlUserProfileCard As System.Windows.Forms.Panel
     Friend WithEvents btnConflicts As System.Windows.Forms.Button
     Friend WithEvents btnAvailability As System.Windows.Forms.Button
-    Friend WithEvents lblDateTime As System.Windows.Forms.Label
+    Friend WithEvents lblDate As System.Windows.Forms.Label
     Friend WithEvents lblWelcomeUser As System.Windows.Forms.Label
     Friend WithEvents pnlTotalRooms As System.Windows.Forms.Panel
-    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
+    Friend WithEvents picTotalRooms As System.Windows.Forms.PictureBox
     Friend WithEvents pnlConflicts As System.Windows.Forms.Panel
     Friend WithEvents lblConflictsCount As System.Windows.Forms.Label
     Friend WithEvents Label7 As System.Windows.Forms.Label
-    Friend WithEvents PictureBox4 As System.Windows.Forms.PictureBox
+    Friend WithEvents picConflicts As System.Windows.Forms.PictureBox
     Friend WithEvents pnlOccupied As System.Windows.Forms.Panel
     Friend WithEvents lblOccupiedCount As System.Windows.Forms.Label
     Friend WithEvents Label5 As System.Windows.Forms.Label
-    Friend WithEvents PictureBox3 As System.Windows.Forms.PictureBox
+    Friend WithEvents picOccupied As System.Windows.Forms.PictureBox
     Friend WithEvents pnlAvailable As System.Windows.Forms.Panel
     Friend WithEvents lblAvailableCount As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents PictureBox2 As System.Windows.Forms.PictureBox
+    Friend WithEvents picAvailable As System.Windows.Forms.PictureBox
     Friend WithEvents lblTotalRoomsCount As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents Label4 As System.Windows.Forms.Label
@@ -1523,13 +1676,26 @@ Partial Class DashboardForm
     Friend WithEvents btnToggleView As System.Windows.Forms.Button
     Friend WithEvents dgvLogs As System.Windows.Forms.DataGridView
     Friend WithEvents Toggle1 As prjSchedMoni.Toggle
-    Friend WithEvents btnNormalMode As System.Windows.Forms.Button
-    Friend WithEvents pnlNormal As System.Windows.Forms.Panel
-    Friend WithEvents Label19 As System.Windows.Forms.Label
     Friend WithEvents Label18 As System.Windows.Forms.Label
     Friend WithEvents PictureBox8 As System.Windows.Forms.PictureBox
     Friend WithEvents lblLogout As System.Windows.Forms.Label
     Friend WithEvents picUserProfile As System.Windows.Forms.PictureBox
     Friend WithEvents ShapeContainer2 As Microsoft.VisualBasic.PowerPacks.ShapeContainer
     Friend WithEvents LineShape1 As Microsoft.VisualBasic.PowerPacks.LineShape
+    Friend WithEvents lblTime As System.Windows.Forms.Label
+    Friend WithEvents lblTime1 As System.Windows.Forms.Label
+    Friend WithEvents lblDate1 As System.Windows.Forms.Label
+    Friend WithEvents lblTime2 As System.Windows.Forms.Label
+    Friend WithEvents lblDate2 As System.Windows.Forms.Label
+    Friend WithEvents lblTime3 As System.Windows.Forms.Label
+    Friend WithEvents lblDate3 As System.Windows.Forms.Label
+    Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
+    Friend WithEvents pnlDatePickerLogs As System.Windows.Forms.Panel
+    Friend WithEvents DateTimePicker2 As System.Windows.Forms.DateTimePicker
+    Friend WithEvents pnlSearchConflicts As System.Windows.Forms.Panel
+    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
+    Friend WithEvents txtSearchConflicts As System.Windows.Forms.TextBox
+    Friend WithEvents pnlSwitch As System.Windows.Forms.Panel
+    Friend WithEvents pnlAllDates As System.Windows.Forms.Panel
+    Friend WithEvents chkAllLogs As System.Windows.Forms.CheckBox
 End Class

@@ -342,6 +342,39 @@
   <ItemGroup>
     <None Include="Resources\bg_dark_3.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sync.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sync%281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sync1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\calendar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\checked_light.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\calendar1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\calendar_light.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rooms.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rooms_light.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\power_button_light.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8_light.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

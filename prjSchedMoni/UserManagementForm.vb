@@ -33,7 +33,7 @@ Public Class UserManagementForm
                 Dim imgEdit As New DataGridViewImageColumn()
                 imgEdit.Name = "EditUser"
                 imgEdit.HeaderText = "Edit"
-                imgEdit.ImageLayout = DataGridViewImageCellLayout.Normal ' Keeps original icon size
+                imgEdit.ImageLayout = DataGridViewImageCellLayout.Zoom
                 dgvUsers.Columns.Add(imgEdit)
             End If
 
@@ -41,62 +41,23 @@ Public Class UserManagementForm
                 Dim imgDelete As New DataGridViewImageColumn()
                 imgDelete.Name = "DeleteUser"
                 imgDelete.HeaderText = "Delete"
-                imgDelete.ImageLayout = DataGridViewImageCellLayout.Normal ' Keeps original icon size
+                imgDelete.ImageLayout = DataGridViewImageCellLayout.Zoom
                 dgvUsers.Columns.Add(imgDelete)
             End If
 
             For Each row As DataGridViewRow In dgvUsers.Rows
-                row.Cells("EditUser").Value = My.Resources.edit_icon
-                row.Cells("DeleteUser").Value = My.Resources.delete_icon
+                If Not row.IsNewRow Then
+                    row.Cells("EditUser").Value = My.Resources.edit_icon
+                    row.Cells("DeleteUser").Value = My.Resources.delete_icon
+                End If
             Next
 
-            With dgvUsers
-                .BorderStyle = BorderStyle.None
-                .AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(248, 249, 250)
-                .CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
-                .DefaultCellStyle.SelectionBackColor = Color.FromArgb(225, 228, 232)
-                .DefaultCellStyle.SelectionForeColor = Color.Black
-                .BackgroundColor = Color.White
-                .GridColor = Color.FromArgb(235, 238, 241)
-                .RowHeadersVisible = False
-                .SelectionMode = DataGridViewSelectionMode.FullRowSelect
-                .MultiSelect = False
-                .ReadOnly = True
-                .AllowUserToAddRows = False
-                .AllowUserToDeleteRows = False
-                .AllowUserToResizeRows = False
-                .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-                .EnableHeadersVisualStyles = False
-                .ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
-                .ColumnHeadersHeight = 42
-                .ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(240, 242, 245)
-                .ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(40, 40, 40)
-                .ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 10.0F, FontStyle.Bold)
-                .RowTemplate.Height = 40
-                .DefaultCellStyle.Font = New Font("Segoe UI", 9.5F, FontStyle.Regular)
-                .DefaultCellStyle.ForeColor = Color.FromArgb(50, 50, 50)
-                .DefaultCellStyle.BackColor = Color.White
-                .DefaultCellStyle.Padding = New Padding(6, 0, 6, 0)
+            If dgvUsers.Columns.Contains("ID") Then
+                dgvUsers.Columns("ID").Visible = False
+            End If
 
-                If .Columns.Contains("ID") Then
-                    .Columns("ID").Visible = False
-                End If
-
-                If .Columns.Contains("Username") Then .Columns("Username").FillWeight = 110
-                If .Columns.Contains("Full Name") Then .Columns("Full Name").FillWeight = 150
-                If .Columns.Contains("Role") Then .Columns("Role").FillWeight = 90
-
-                If .Columns.Contains("EditUser") Then
-                    .Columns("EditUser").AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                    .Columns("EditUser").Width = 55
-                    .Columns("EditUser").Resizable = DataGridViewTriState.False
-                End If
-                If .Columns.Contains("DeleteUser") Then
-                    .Columns("DeleteUser").AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                    .Columns("DeleteUser").Width = 60
-                    .Columns("DeleteUser").Resizable = DataGridViewTriState.False
-                End If
-            End With
+            ' Format and lock the grid layout
+            FormatUserGrid(dgvUsers)
 
             dgvUsers.ClearSelection()
 
@@ -110,7 +71,8 @@ Public Class UserManagementForm
     End Sub
 
     Private Sub dgvUsers_CellContentClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles dgvUsers.CellContentClick
-        If e.RowIndex < 0 Then Return
+        If e.RowIndex < 0 OrElse dgvUsers.Rows(e.RowIndex).IsNewRow Then Return
+        If dgvUsers.Rows(e.RowIndex).Cells("ID").Value Is DBNull.Value Then Return
 
         Dim userId As Integer = Convert.ToInt32(dgvUsers.Rows(e.RowIndex).Cells("ID").Value)
 
@@ -145,6 +107,71 @@ Public Class UserManagementForm
         Dim createForm As New AddEditUserForm()
         If createForm.ShowDialog() = DialogResult.OK Then
             LoadUsersData()
+        End If
+    End Sub
+
+    Public Sub FormatUserGrid(ByVal dgv As DataGridView)
+        ' 1. General Grid Appearance & Strict Layout Rules
+        dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        dgv.MultiSelect = False
+        dgv.RowHeadersVisible = False
+        dgv.BackgroundColor = Color.White
+        dgv.BorderStyle = BorderStyle.None
+        dgv.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
+        dgv.GridColor = Color.FromArgb(230, 230, 230)
+        dgv.AllowUserToAddRows = False
+        dgv.AllowUserToDeleteRows = False
+        dgv.AllowUserToResizeRows = False
+        dgv.AllowUserToResizeColumns = False
+        dgv.ReadOnly = True
+
+        ' 2. Header Styling
+        dgv.EnableHeadersVisualStyles = False
+        dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(52, 73, 94)
+        dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White
+        dgv.ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 10.5, FontStyle.Bold)
+        dgv.ColumnHeadersHeight = 45
+        dgv.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+        dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+
+        ' 3. Row Styling & Spacious Padding
+        dgv.DefaultCellStyle.Font = New Font("Segoe UI", 10)
+        dgv.DefaultCellStyle.ForeColor = Color.FromArgb(40, 40, 40)
+        dgv.DefaultCellStyle.SelectionBackColor = Color.FromArgb(52, 152, 219)
+        dgv.DefaultCellStyle.SelectionForeColor = Color.White
+        dgv.RowTemplate.Height = 48
+        dgv.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(248, 249, 250)
+
+        ' 4. Perfect Column Sizing (Fills the window width completely with no blank gaps)
+        dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None
+
+        If dgv.Columns.Contains("Username") Then
+            dgv.Columns("Username").Width = 150
+            dgv.Columns("Username").Resizable = DataGridViewTriState.False
+        End If
+
+        If dgv.Columns.Contains("Role") Then
+            dgv.Columns("Role").Width = 130
+            dgv.Columns("Role").Resizable = DataGridViewTriState.False
+        End If
+
+        For Each col As DataGridViewColumn In dgv.Columns
+            Dim colName As String = col.Name.ToLower()
+            Dim colText As String = col.HeaderText.ToLower()
+
+            If colName.Contains("edit") OrElse colName.Contains("delete") OrElse colText.Contains("edit") OrElse colText.Contains("delete") Then
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                col.Width = 65
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter
+                col.Resizable = DataGridViewTriState.False
+            End If
+        Next
+
+
+        If dgv.Columns.Contains("Full Name") Then
+            dgv.Columns("Full Name").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            dgv.Columns("Full Name").MinimumWidth = 180
         End If
     End Sub
 

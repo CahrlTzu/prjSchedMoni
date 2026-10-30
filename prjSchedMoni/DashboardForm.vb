@@ -22,8 +22,6 @@ Public Class DashboardForm
     End Sub
 
     Private Sub DashboardForm_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
-        ' Maximize for clean full-screen presentation
-        Me.WindowState = FormWindowState.Maximized
 
         dgvTodaysSchedule.AutoGenerateColumns = True
         dgvTodaysSchedule.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
@@ -59,7 +57,7 @@ Public Class DashboardForm
         End If
 
         SaveOriginalColors(Me)
-
+        ToolStrip1.BringToFront()
     End Sub
 
     Private Sub SetupPlaceholders()
@@ -83,6 +81,16 @@ Public Class DashboardForm
         End If
         AddHandler txtSearchAvailability.Enter, AddressOf SearchTextBox_Enter
         AddHandler txtSearchAvailability.Leave, AddressOf SearchTextBox_Leave
+
+        ' Setup placeholder for Conflicts/Logs search box if it exists
+        If txtSearchConflicts IsNot Nothing Then
+            If String.IsNullOrEmpty(txtSearchConflicts.Text) Then
+                txtSearchConflicts.Text = "Search..."
+                txtSearchConflicts.ForeColor = Color.Gray
+            End If
+            AddHandler txtSearchConflicts.Enter, AddressOf SearchTextBox_Enter
+            AddHandler txtSearchConflicts.Leave, AddressOf SearchTextBox_Leave
+        End If
     End Sub
 
     Private Sub SearchTextBox_Enter(ByVal sender As Object, ByVal e As EventArgs)
@@ -611,7 +619,14 @@ Public Class DashboardForm
     End Sub
 
     Private Sub UpdateDateTimeDisplay()
-        lblDateTime.Text = DateTime.Now.ToString("MMMM dd, yyyy") & Environment.NewLine & DateTime.Now.ToString("dddd")
+        lblTime.Text = DateTime.Now.ToString("hh:mm tt")
+        lblDate.Text = DateTime.Now.ToString("MMMM dd, yyyy") & Environment.NewLine & DateTime.Now.ToString("dddd")
+        lblTime1.Text = DateTime.Now.ToString("hh:mm tt")
+        lblDate1.Text = DateTime.Now.ToString("MMMM dd, yyyy") & Environment.NewLine & DateTime.Now.ToString("dddd")
+        lblTime2.Text = DateTime.Now.ToString("hh:mm tt")
+        lblDate2.Text = DateTime.Now.ToString("MMMM dd, yyyy") & Environment.NewLine & DateTime.Now.ToString("dddd")
+        lblTime3.Text = DateTime.Now.ToString("hh:mm tt")
+        lblDate3.Text = DateTime.Now.ToString("MMMM dd, yyyy") & Environment.NewLine & DateTime.Now.ToString("dddd")
     End Sub
 
     Private Sub ShowView(ByVal targetPanel As Panel)
@@ -652,24 +667,28 @@ Public Class DashboardForm
         LoadDashboardMetrics()
         LoadTodaysSchedule()
         LoadRoomChart()
+        ToolStrip1.BringToFront()
     End Sub
 
     Private Sub btnSchedule_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnSchedule.Click
         ShowView(pnlScheduleView)
         HighlightActiveButton(btnSchedule)
         LoadScheduleFromDatabase()
+        ToolStrip1.BringToFront()
     End Sub
 
     Private Sub btnRooms_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRooms.Click
         ShowView(pnlRoomsView)
         HighlightActiveButton(btnRooms)
         LoadRoomsData()
+        ToolStrip1.BringToFront()
     End Sub
 
     Private Sub btnAvailability_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAvailability.Click
         ShowView(pnlAvailabilityView)
         HighlightActiveButton(btnAvailability)
         LoadAvailabilityData()
+        ToolStrip1.BringToFront()
     End Sub
 
     Private Sub btnConflicts_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnConflicts.Click
@@ -684,6 +703,7 @@ Public Class DashboardForm
         ShowView(pnlConflictsView)
         HighlightActiveButton(btnConflicts)
         LoadConflictsData()
+        ToolStrip1.BringToFront()
     End Sub
 
     Private Sub LoadDashboardMetrics()
@@ -1068,7 +1088,11 @@ Public Class DashboardForm
         ApplyRoundedRegion(pnlRoomType, 15)
         ApplyRoundedRegion(pnlSearch, 15)
         ApplyRoundedRegion(pnlCheckbox, 15)
-        ApplyRoundedRegion(pnlNormal, 15)
+        ApplyRoundedRegion(pnlSearchConflicts, 15)
+        ApplyRoundedRegion(pnlDatePickerLogs, 15)
+        ApplyRoundedRegion(pnlSwitch, 15)
+        ApplyRoundedRegion(pnlAllDates, 15)
+
     End Sub
 
     Private Sub LoadUserProfile()
@@ -1503,6 +1527,10 @@ Public Class DashboardForm
 
     Public Sub LoadConflictsData()
         Try
+            Dim searchTerm As String = If(txtSearchConflicts IsNot Nothing AndAlso txtSearchConflicts.Text <> "Search...", txtSearchConflicts.Text.Trim(), "")
+            Dim selectedDate As DateTime = If(DateTimePicker2 IsNot Nothing, DateTimePicker2.Value, DateTime.Now)
+            Dim selectedDayName As String = selectedDate.DayOfWeek.ToString()
+
             Dim query As String = "SELECT s1.schedule_id AS 'ID1', s2.schedule_id AS 'ID2', " & _
                                   "r.room_name AS 'Room Name', " & _
                                   "CONCAT(TIME_FORMAT(GREATEST(s1.time_start, s2.time_start), '%h:%i %p'), ' - ', TIME_FORMAT(LEAST(s1.time_end, s2.time_end), '%h:%i %p')) AS 'Time', " & _
@@ -1515,9 +1543,20 @@ Public Class DashboardForm
                                   "AND s1.time_start < s2.time_end " & _
                                   "AND s1.time_end > s2.time_start " & _
                                   "JOIN tbl_classrooms r ON s1.room_id = r.room_id " & _
-                                  "ORDER BY r.room_name ASC"
+                                  "WHERE s1.day_of_week = @day"
+
+            If Not String.IsNullOrEmpty(searchTerm) Then
+                query &= " AND (r.room_name LIKE @search OR s1.subject_code LIKE @search)"
+            End If
+
+            query &= " ORDER BY r.room_name ASC"
 
             Using cmd As New MySqlCommand(query, conn)
+                cmd.Parameters.AddWithValue("@day", selectedDayName)
+                If Not String.IsNullOrEmpty(searchTerm) Then
+                    cmd.Parameters.AddWithValue("@search", "%" & searchTerm & "%")
+                End If
+
                 Dim dataAdapter As New MySqlDataAdapter(cmd)
                 Dim dt As New DataTable()
                 dataAdapter.Fill(dt)
@@ -1610,6 +1649,85 @@ Public Class DashboardForm
         End Try
     End Sub
 
+    Private Sub DateTimePicker2_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DateTimePicker2.ValueChanged
+        ' Only reload if "All Logs" is unchecked (otherwise date changes won't trigger unwanted reloads)
+        If chkAllLogs IsNot Nothing AndAlso Not chkAllLogs.Checked Then
+            If btnToggleView.Text = "Logs" Then
+                LoadConflictsData()
+            Else
+                LoadLogsData()
+            End If
+        End If
+    End Sub
+
+    Private Sub chkAllLogs_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAllLogs.CheckedChanged
+        ' Enable/Disable DateTimePicker depending on whether "All Logs" is checked
+        If DateTimePicker2 IsNot Nothing Then
+            DateTimePicker2.Enabled = Not chkAllLogs.Checked
+        End If
+
+        ' Refresh the current view
+        If btnToggleView.Text = "Logs" Then
+            LoadConflictsData()
+        Else
+            LoadLogsData()
+        End If
+    End Sub
+
+    Public Sub LoadLogsData()
+        Try
+            Dim searchTerm As String = If(txtSearchConflicts IsNot Nothing AndAlso txtSearchConflicts.Text <> "Search..." AndAlso txtSearchConflicts.Text <> "", txtSearchConflicts.Text.Trim(), "")
+            Dim selectedDate As DateTime = If(DateTimePicker2 IsNot Nothing, DateTimePicker2.Value, DateTime.Now)
+            Dim showAll As Boolean = (chkAllLogs IsNot Nothing AndAlso chkAllLogs.Checked)
+
+            ' Base query
+            Dim query As String = "SELECT log_id, action, details, performed_by, log_date FROM tbl_logs WHERE 1=1"
+
+            ' Apply date filter only if "All Logs" is NOT checked
+            If Not showAll Then
+                query &= " AND DATE(log_date) = @logDate"
+            End If
+
+            If Not String.IsNullOrEmpty(searchTerm) Then
+                query &= " AND (action LIKE @search OR details LIKE @search OR performed_by LIKE @search)"
+            End If
+
+            query &= " ORDER BY log_date DESC"
+
+            Using cmd As New MySqlCommand(query, conn)
+                If Not showAll Then
+                    cmd.Parameters.AddWithValue("@logDate", selectedDate.ToString("yyyy-MM-dd"))
+                End If
+
+                If Not String.IsNullOrEmpty(searchTerm) Then
+                    cmd.Parameters.AddWithValue("@search", "%" & searchTerm & "%")
+                End If
+
+                Using adapter As New MySqlDataAdapter(cmd)
+                    Dim dt As New DataTable()
+                    adapter.Fill(dt)
+
+                    dgvConflicts.DataSource = Nothing
+                    dgvConflicts.Columns.Clear()
+                    dgvConflicts.DataSource = dt
+
+                    dgvConflicts.ReadOnly = True
+                    dgvConflicts.AllowUserToAddRows = False
+                    dgvConflicts.AllowUserToDeleteRows = False
+
+                    dgvConflicts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+                    If dgvConflicts.Columns.Contains("details") Then
+                        dgvConflicts.Columns("details").FillWeight = 250
+                        dgvConflicts.Columns("details").DefaultCellStyle.WrapMode = DataGridViewTriState.True
+                    End If
+                    dgvConflicts.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
+                End Using
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("Error loading logs: " & ex.Message)
+        End Try
+    End Sub
+
     Private Sub dgvConflicts_CellContentClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles dgvConflicts.CellContentClick
         If e.RowIndex >= 0 AndAlso dgvConflicts.Columns(e.ColumnIndex).Name = "Actions" Then
 
@@ -1653,35 +1771,8 @@ Public Class DashboardForm
 
     Private Sub btnToggleView_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnToggleView.Click
         If btnToggleView.Text = "Logs" Then
-            Try
-                Dim query As String = "SELECT log_id, action, details, performed_by, log_date FROM tbl_logs ORDER BY log_date DESC"
-                Using cmd As New MySqlCommand(query, conn)
-                    Dim adapter As New MySqlDataAdapter(cmd)
-                    Dim dt As New DataTable()
-                    adapter.Fill(dt)
-
-                    dgvConflicts.DataSource = Nothing
-                    dgvConflicts.Columns.Clear()
-                    dgvConflicts.DataSource = dt
-
-                    dgvConflicts.ReadOnly = True
-                    dgvConflicts.AllowUserToAddRows = False
-                    dgvConflicts.AllowUserToDeleteRows = False
-
-                    dgvConflicts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-                    If dgvConflicts.Columns.Contains("details") Then
-                        dgvConflicts.Columns("details").FillWeight = 250
-                        dgvConflicts.Columns("details").DefaultCellStyle.WrapMode = DataGridViewTriState.True
-                    End If
-                    dgvConflicts.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
-
-                    dgvConflicts.BringToFront()
-                End Using
-
-                btnToggleView.Text = "Conflicts"
-            Catch ex As Exception
-                MessageBox.Show("Error loading logs: " & ex.Message)
-            End Try
+            LoadLogsData()
+            btnToggleView.Text = "Conflicts"
         Else
             LoadConflictsData()
             btnToggleView.Text = "Logs"
@@ -1721,36 +1812,101 @@ Public Class DashboardForm
     Private Sub Toggle1_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles Toggle1.CheckedChanged
         Dim isDark As Boolean = Toggle1.Checked
 
-        Dim bgColor As Color = If(isDark, Color.FromArgb(30, 30, 30), Color.FromArgb(244, 245, 247))
-        Dim cardBgColor As Color = If(isDark, Color.FromArgb(45, 45, 45), Color.White)
-        Dim textColor As Color = If(isDark, Color.White, Color.FromArgb(30, 30, 30))
-        Dim sidebarColor As Color = If(isDark, Color.FromArgb(40, 40, 40), Color.FromArgb(235, 237, 240))
-        Dim gridBgColor As Color = If(isDark, Color.FromArgb(45, 45, 45), Color.White)
-        Dim gridAltColor As Color = If(isDark, Color.FromArgb(35, 35, 35), Color.FromArgb(248, 249, 250))
-        Dim gridLineColor As Color = If(isDark, Color.FromArgb(60, 60, 60), Color.FromArgb(235, 238, 241))
-
-        Me.BackColor = bgColor
-        Me.ForeColor = textColor
-
-        SetThemeRecursive(Me, bgColor, cardBgColor, textColor, sidebarColor, gridBgColor, gridAltColor, gridLineColor, isDark)
-
-        If chartRoomOverview IsNot Nothing Then
-            chartRoomOverview.BackColor = If(isDark, Color.FromArgb(45, 45, 45), Color.White)
-            If chartRoomOverview.Legends.Count > 0 Then
-                chartRoomOverview.Legends(0).ForeColor = textColor
-            End If
-            chartRoomOverview.Invalidate()
-        End If
-
-        Dim isDarkMode As Boolean = False
-
         If isDark Then
+            ' --- DARK MODE ---
+            Dim bgColor As Color = Color.FromArgb(30, 30, 30)
+            Dim cardBgColor As Color = Color.FromArgb(45, 45, 45)
+            Dim textColor As Color = Color.White
+            Dim sidebarColor As Color = Color.FromArgb(40, 40, 40)
+            Dim gridBgColor As Color = Color.FromArgb(45, 45, 45)
+            Dim gridAltColor As Color = Color.FromArgb(35, 35, 35)
+            Dim gridLineColor As Color = Color.FromArgb(60, 60, 60)
+
+            Me.BackColor = bgColor
+            Me.ForeColor = textColor
+
+            SetThemeRecursive(Me, bgColor, cardBgColor, textColor, sidebarColor, gridBgColor, gridAltColor, gridLineColor, True)
+
+            If chartRoomOverview IsNot Nothing Then
+                chartRoomOverview.BackColor = Color.FromArgb(45, 45, 45)
+                If chartRoomOverview.Legends.Count > 0 Then
+                    chartRoomOverview.Legends(0).ForeColor = textColor
+                End If
+                chartRoomOverview.Invalidate()
+            End If
+
             pnlSidebar.BackgroundImage = My.Resources.bg_dark_3
             pnlSidebar.BackColor = Color.Transparent
+            picTotalRooms.Image = My.Resources.rooms_light
+            picAvailable.Image = My.Resources.checked_light
+            picOccupied.Image = My.Resources.calendar_light
+            picConflicts.Image = My.Resources.sync1
+            picAvailRefresh.Image = My.Resources.icons8_light
+
         Else
+            ' --- NORMAL MODE ---
+            If OriginalColors IsNot Nothing Then
+                For Each kvp As KeyValuePair(Of Control, Color) In OriginalColors
+                    If kvp.Key IsNot Nothing AndAlso Not kvp.Key.IsDisposed Then
+                        kvp.Key.BackColor = kvp.Value
+                    End If
+                Next
+            End If
+
+            If OriginalForeColor IsNot Nothing Then
+                For Each kvp As KeyValuePair(Of Control, Color) In OriginalForeColor
+                    If kvp.Key IsNot Nothing AndAlso Not kvp.Key.IsDisposed Then
+                        kvp.Key.ForeColor = kvp.Value
+                    End If
+                Next
+            End If
+
+            ResetDataGridViewsRecursive(Me, False)
+            LoadTodaysSchedule()
+
+            If chartRoomOverview IsNot Nothing Then
+                chartRoomOverview.BackColor = Color.White
+                If chartRoomOverview.Legends.Count > 0 Then
+                    chartRoomOverview.Legends(0).ForeColor = Color.Black
+                End If
+                chartRoomOverview.Invalidate()
+            End If
+
             pnlSidebar.BackgroundImage = My.Resources.bg_light_2
             pnlSidebar.BackColor = Color.Transparent
+            picTotalRooms.Image = My.Resources.rooms
+            picAvailable.Image = My.Resources.checked
+            picOccupied.Image = My.Resources.calendar1
+            picConflicts.Image = My.Resources.sync2
+            picAvailRefresh.Image = My.Resources.icons8refresh
         End If
+    End Sub
+
+    Private Sub ResetDataGridViewsRecursive(ByVal parent As Control, ByVal isDark As Boolean)
+        For Each ctrl As Control In parent.Controls
+            If TypeOf ctrl Is DataGridView Then
+                Dim dgv As DataGridView = CType(ctrl, DataGridView)
+                Dim gridBgColor As Color = If(isDark, Color.FromArgb(45, 45, 45), Color.White)
+                Dim gridAltColor As Color = If(isDark, Color.FromArgb(35, 35, 35), Color.FromArgb(248, 249, 250))
+                Dim gridLineColor As Color = If(isDark, Color.FromArgb(60, 60, 60), Color.FromArgb(235, 238, 241))
+                Dim textColor As Color = If(isDark, Color.White, Color.FromArgb(30, 30, 30))
+
+                dgv.BackgroundColor = gridBgColor
+                dgv.GridColor = gridLineColor
+                dgv.DefaultCellStyle.BackColor = gridBgColor
+                dgv.DefaultCellStyle.ForeColor = textColor
+                dgv.DefaultCellStyle.SelectionBackColor = If(isDark, Color.FromArgb(60, 60, 60), Color.FromArgb(225, 228, 232))
+                dgv.DefaultCellStyle.SelectionForeColor = textColor
+                dgv.AlternatingRowsDefaultCellStyle.BackColor = gridAltColor
+                dgv.AlternatingRowsDefaultCellStyle.ForeColor = textColor
+                dgv.ColumnHeadersDefaultCellStyle.BackColor = If(isDark, Color.FromArgb(50, 50, 50), Color.FromArgb(240, 242, 245))
+                dgv.ColumnHeadersDefaultCellStyle.ForeColor = textColor
+            End If
+
+            If ctrl.HasChildren Then
+                ResetDataGridViewsRecursive(ctrl, isDark)
+            End If
+        Next
     End Sub
 
     Private Sub SetThemeRecursive(ByVal parent As Control, ByVal bgColor As Color, ByVal cardBgColor As Color, ByVal textColor As Color, ByVal sidebarColor As Color, ByVal gridBgColor As Color, ByVal gridAltColor As Color, ByVal gridLineColor As Color, ByVal isDark As Boolean)
@@ -1815,25 +1971,19 @@ Public Class DashboardForm
                 dgv.AlternatingRowsDefaultCellStyle.ForeColor = textColor
                 dgv.ColumnHeadersDefaultCellStyle.BackColor = If(isDark, Color.FromArgb(50, 50, 50), Color.FromArgb(240, 242, 245))
                 dgv.ColumnHeadersDefaultCellStyle.ForeColor = textColor
+            ElseIf TypeOf ctrl Is ToolStrip Then
+                Dim toolBar As ToolStrip = CType(ctrl, ToolStrip)
+                If isDark Then
+                    toolBar.BackColor = Color.FromArgb(45, 45, 45)
+                    toolBar.ForeColor = Color.White
+                Else
+                    toolBar.BackColor = Color.FromArgb(240, 242, 245)
+                    toolBar.ForeColor = Color.Black
+                End If
             End If
 
             If ctrl.HasChildren Then
                 SetThemeRecursive(ctrl, bgColor, cardBgColor, textColor, sidebarColor, gridBgColor, gridAltColor, gridLineColor, isDark)
-            End If
-        Next
-    End Sub
-
-    Private Sub btnNormalMode_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnNormalMode.Click
-
-        For Each kvp As KeyValuePair(Of Control, Color) In OriginalColors
-            If kvp.Key IsNot Nothing AndAlso Not kvp.Key.IsDisposed Then
-                kvp.Key.BackColor = kvp.Value
-            End If
-        Next
-
-        For Each kvp As KeyValuePair(Of Control, Color) In OriginalForeColor
-            If kvp.Key IsNot Nothing AndAlso Not kvp.Key.IsDisposed Then
-                kvp.Key.ForeColor = kvp.Value
             End If
         Next
     End Sub
@@ -1850,5 +2000,31 @@ Public Class DashboardForm
     Private Sub PictureBox8_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PictureBox8.Click
         Me.Close()
         LoginForm.Show()
+    End Sub
+
+    Private Sub lblTime_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblTime.Click
+
+    End Sub
+
+    Private Sub lblDate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblDate.Click
+
+    End Sub
+
+    Private Sub ToolStrip1_ItemClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolStripItemClickedEventArgs) Handles ToolStrip1.ItemClicked
+
+    End Sub
+
+    
+
+
+
+    Private Sub txtSearchConflicts_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchConflicts.TextChanged
+        If btnToggleView.Text = "Logs" Then
+            ' Currently viewing Conflicts
+            LoadConflictsData()
+        Else
+            ' Currently viewing Logs (supports searching whether "All Logs" is checked or not)
+            LoadLogsData()
+        End If
     End Sub
 End Class

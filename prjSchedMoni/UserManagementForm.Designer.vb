@@ -115,12 +115,15 @@ Partial Class UserManagementForm
         '
         'dgvUsers
         '
+        Me.dgvUsers.AllowUserToAddRows = False
+        Me.dgvUsers.AllowUserToDeleteRows = False
         Me.dgvUsers.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgvUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgvUsers.Location = New System.Drawing.Point(20, 120)
         Me.dgvUsers.Name = "dgvUsers"
+        Me.dgvUsers.ReadOnly = True
         Me.dgvUsers.Size = New System.Drawing.Size(740, 340)
         Me.dgvUsers.TabIndex = 36
         '

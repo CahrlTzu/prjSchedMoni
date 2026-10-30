@@ -91,8 +91,17 @@ Public Class AddEditUserForm
             Me.DialogResult = DialogResult.OK
             Me.Close()
 
+        Catch ex As MySqlException
+            ' Specifically intercept duplicate entry errors (Error Code 1062)
+            If ex.Number = 1062 Then
+                MessageBox.Show("Username already exists! Please choose a different username.",
+                                "Duplicate Username", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Else
+                MessageBox.Show("Database Error: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+
         Catch ex As Exception
-            MessageBox.Show("Error saving user: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error saving user: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -100,4 +109,14 @@ Public Class AddEditUserForm
         Me.DialogResult = DialogResult.Cancel
         Me.Close()
     End Sub
+
+    ' Prevents users from typing spaces in Username and Password fields
+    Private Sub txtPreventSpaces_KeyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles txtUsername.KeyPress, txtPassword.KeyPress
+        If e.KeyChar = ChrW(Keys.Space) Then
+            e.Handled = True
+            MessageBox.Show("Spaces are not allowed.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End If
+    End Sub
+
+
 End Class

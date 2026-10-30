@@ -62,4 +62,10 @@ Public Class LoginForm
             MessageBox.Show("Error: " & ex.Message)
         End Try
     End Sub
+    Private Sub txtPreventSpaces_KeyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles txtUsername.KeyPress, txtPassword.KeyPress
+        If e.KeyChar = ChrW(Keys.Space) Then
+            e.Handled = True
+            MessageBox.Show("Spaces are not allowed.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End If
+    End Sub
 End Class
