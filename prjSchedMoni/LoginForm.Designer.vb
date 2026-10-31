@@ -78,7 +78,7 @@ Partial Class LoginForm
         'picEye
         '
         Me.picEye.Image = Global.prjSchedMoni.My.Resources.Resources.eye_closed
-        Me.picEye.Location = New System.Drawing.Point(8, 11)
+        Me.picEye.Location = New System.Drawing.Point(8, 12)
         Me.picEye.Name = "picEye"
         Me.picEye.Size = New System.Drawing.Size(20, 20)
         Me.picEye.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage

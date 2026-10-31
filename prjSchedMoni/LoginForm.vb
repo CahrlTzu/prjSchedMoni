@@ -9,9 +9,13 @@ Public Class LoginForm
 
     End Sub
 
-    Private Sub txtPassword_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtPassword.TextChanged
-
+    Private Sub txtPassword_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtPassword.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            e.SuppressKeyPress = True
+            Me.SelectNextControl(ActiveControl, True, True, True, True)
+        End If
     End Sub
+
 
     Private Sub picEye_Click(ByVal sender As Object, ByVal e As EventArgs) Handles picEye.Click
         If txtPassword.UseSystemPasswordChar = True Then
@@ -62,10 +66,21 @@ Public Class LoginForm
             MessageBox.Show("Error: " & ex.Message)
         End Try
     End Sub
+
+    Private Sub txtUsername_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtUsername.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            e.SuppressKeyPress = True
+            Me.SelectNextControl(ActiveControl, True, True, True, True)
+        End If
+    End Sub
     Private Sub txtPreventSpaces_KeyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles txtUsername.KeyPress, txtPassword.KeyPress
         If e.KeyChar = ChrW(Keys.Space) Then
             e.Handled = True
             MessageBox.Show("Spaces are not allowed.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End If
+    End Sub
+
+    Private Sub txtUsername_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtUsername.TextChanged
+        
     End Sub
 End Class

@@ -124,10 +124,27 @@ Partial Class DashboardForm
         Me.pnlSwitch = New System.Windows.Forms.Panel()
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
+        Me.btnAccount = New System.Windows.Forms.ToolStripSplitButton()
+        Me.ManageAccountsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.LogoutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.btnNav = New System.Windows.Forms.ToolStripSplitButton()
+        Me.DashboardToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ScheduleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AddToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MyScheduleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AllScheduleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RoomsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AddToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AvailabilToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ConflictsLogsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ConflictsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.LogsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.pnlSidebar = New System.Windows.Forms.Panel()
-        Me.PictureBox8 = New System.Windows.Forms.PictureBox()
+        Me.picLogout = New System.Windows.Forms.PictureBox()
         Me.lblLogout = New System.Windows.Forms.Label()
         Me.Label18 = New System.Windows.Forms.Label()
+        Me.Toggle1 = New prjSchedMoni.Toggle()
         Me.btnConflicts = New System.Windows.Forms.Button()
         Me.btnAvailability = New System.Windows.Forms.Button()
         Me.btnRooms = New System.Windows.Forms.Button()
@@ -139,7 +156,8 @@ Partial Class DashboardForm
         Me.lblUserName = New System.Windows.Forms.Label()
         Me.ShapeContainer2 = New Microsoft.VisualBasic.PowerPacks.ShapeContainer()
         Me.LineShape1 = New Microsoft.VisualBasic.PowerPacks.LineShape()
-        Me.Toggle1 = New prjSchedMoni.Toggle()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.pnlDashboardView.SuspendLayout()
         CType(Me.chartRoomOverview, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgvTodaysSchedule, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -183,8 +201,9 @@ Partial Class DashboardForm
         Me.pnlSchedConflicts.SuspendLayout()
         CType(Me.dgvConflicts, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgvLogs, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ToolStrip1.SuspendLayout()
         Me.pnlSidebar.SuspendLayout()
-        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picLogout, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlUserProfileCard.SuspendLayout()
         CType(Me.pictureBoxUserManagement, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.picUserProfile, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -708,7 +727,7 @@ Partial Class DashboardForm
         Me.pnlSearchContainer.Controls.Add(Me.txtSearchSchedule)
         Me.pnlSearchContainer.Location = New System.Drawing.Point(30, 186)
         Me.pnlSearchContainer.Name = "pnlSearchContainer"
-        Me.pnlSearchContainer.Size = New System.Drawing.Size(873, 42)
+        Me.pnlSearchContainer.Size = New System.Drawing.Size(749, 42)
         Me.pnlSearchContainer.TabIndex = 30
         '
         'PictureBox5
@@ -728,7 +747,7 @@ Partial Class DashboardForm
         Me.txtSearchSchedule.Font = New System.Drawing.Font("Segoe UI Semibold", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtSearchSchedule.Location = New System.Drawing.Point(49, 11)
         Me.txtSearchSchedule.Name = "txtSearchSchedule"
-        Me.txtSearchSchedule.Size = New System.Drawing.Size(325, 22)
+        Me.txtSearchSchedule.Size = New System.Drawing.Size(687, 22)
         Me.txtSearchSchedule.TabIndex = 0
         '
         'pnlAddSched
@@ -870,7 +889,7 @@ Partial Class DashboardForm
         Me.txtSearchRoom.Font = New System.Drawing.Font("Segoe UI Semibold", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtSearchRoom.Location = New System.Drawing.Point(49, 11)
         Me.txtSearchRoom.Name = "txtSearchRoom"
-        Me.txtSearchRoom.Size = New System.Drawing.Size(637, 22)
+        Me.txtSearchRoom.Size = New System.Drawing.Size(668, 22)
         Me.txtSearchRoom.TabIndex = 0
         '
         'pnlAddRoom
@@ -1062,7 +1081,7 @@ Partial Class DashboardForm
         Me.txtSearchAvailability.Font = New System.Drawing.Font("Segoe UI Semibold", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtSearchAvailability.Location = New System.Drawing.Point(49, 11)
         Me.txtSearchAvailability.Name = "txtSearchAvailability"
-        Me.txtSearchAvailability.Size = New System.Drawing.Size(250, 22)
+        Me.txtSearchAvailability.Size = New System.Drawing.Size(416, 22)
         Me.txtSearchAvailability.TabIndex = 0
         '
         'pnlClassroomAvail
@@ -1116,13 +1135,14 @@ Partial Class DashboardForm
         'chkAllLogs
         '
         Me.chkAllLogs.AutoSize = True
+        Me.chkAllLogs.BackColor = System.Drawing.Color.Transparent
         Me.chkAllLogs.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.chkAllLogs.Location = New System.Drawing.Point(3, 14)
         Me.chkAllLogs.Name = "chkAllLogs"
         Me.chkAllLogs.Size = New System.Drawing.Size(75, 19)
         Me.chkAllLogs.TabIndex = 0
         Me.chkAllLogs.Text = "All Dates"
-        Me.chkAllLogs.UseVisualStyleBackColor = True
+        Me.chkAllLogs.UseVisualStyleBackColor = False
         '
         'pnlSearchConflicts
         '
@@ -1195,9 +1215,9 @@ Partial Class DashboardForm
         Me.Label12.ForeColor = System.Drawing.Color.FromArgb(CType(CType(20, Byte), Integer), CType(CType(20, Byte), Integer), CType(CType(20, Byte), Integer))
         Me.Label12.Location = New System.Drawing.Point(36, 61)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(254, 21)
+        Me.Label12.Size = New System.Drawing.Size(320, 21)
         Me.Label12.TabIndex = 46
-        Me.Label12.Text = "View/resolve scheduling conflicts"
+        Me.Label12.Text = "View/resolve scheduling conflicts and logs"
         '
         'Label13
         '
@@ -1206,9 +1226,9 @@ Partial Class DashboardForm
         Me.Label13.ForeColor = System.Drawing.Color.FromArgb(CType(CType(20, Byte), Integer), CType(CType(20, Byte), Integer), CType(CType(20, Byte), Integer))
         Me.Label13.Location = New System.Drawing.Point(36, 25)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(224, 32)
+        Me.Label13.Size = New System.Drawing.Size(302, 32)
         Me.Label13.TabIndex = 45
-        Me.Label13.Text = "Schedule Conflicts"
+        Me.Label13.Text = "Schedule Conflicts / Logs"
         '
         'pnlSchedConflicts
         '
@@ -1264,11 +1284,119 @@ Partial Class DashboardForm
         'ToolStrip1
         '
         Me.ToolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripSeparator2, Me.btnAccount, Me.ToolStripSeparator3, Me.btnNav, Me.ToolStripSeparator1})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(1914, 25)
         Me.ToolStrip1.TabIndex = 29
         Me.ToolStrip1.Text = "ToolStrip1"
+        '
+        'btnAccount
+        '
+        Me.btnAccount.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.btnAccount.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ManageAccountsToolStripMenuItem, Me.LogoutToolStripMenuItem})
+        Me.btnAccount.Image = Global.prjSchedMoni.My.Resources.Resources.profile
+        Me.btnAccount.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.btnAccount.Name = "btnAccount"
+        Me.btnAccount.Size = New System.Drawing.Size(32, 22)
+        Me.btnAccount.Text = "ToolStripSplitButton1"
+        '
+        'ManageAccountsToolStripMenuItem
+        '
+        Me.ManageAccountsToolStripMenuItem.Name = "ManageAccountsToolStripMenuItem"
+        Me.ManageAccountsToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
+        Me.ManageAccountsToolStripMenuItem.Text = "Manage (admin only)"
+        '
+        'LogoutToolStripMenuItem
+        '
+        Me.LogoutToolStripMenuItem.Name = "LogoutToolStripMenuItem"
+        Me.LogoutToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
+        Me.LogoutToolStripMenuItem.Text = "Logout"
+        '
+        'btnNav
+        '
+        Me.btnNav.BackColor = System.Drawing.Color.Transparent
+        Me.btnNav.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DashboardToolStripMenuItem, Me.ScheduleToolStripMenuItem, Me.RoomsToolStripMenuItem, Me.AvailabilToolStripMenuItem, Me.ConflictsLogsToolStripMenuItem})
+        Me.btnNav.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnNav.Image = Global.prjSchedMoni.My.Resources.Resources.nav_blue
+        Me.btnNav.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.btnNav.Name = "btnNav"
+        Me.btnNav.Size = New System.Drawing.Size(98, 22)
+        Me.btnNav.Text = "Shortcuts"
+        '
+        'DashboardToolStripMenuItem
+        '
+        Me.DashboardToolStripMenuItem.Name = "DashboardToolStripMenuItem"
+        Me.DashboardToolStripMenuItem.Size = New System.Drawing.Size(160, 22)
+        Me.DashboardToolStripMenuItem.Text = "Dashboard"
+        '
+        'ScheduleToolStripMenuItem
+        '
+        Me.ScheduleToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToolStripMenuItem, Me.MyScheduleToolStripMenuItem, Me.AllScheduleToolStripMenuItem})
+        Me.ScheduleToolStripMenuItem.Name = "ScheduleToolStripMenuItem"
+        Me.ScheduleToolStripMenuItem.Size = New System.Drawing.Size(160, 22)
+        Me.ScheduleToolStripMenuItem.Text = "Schedule"
+        '
+        'AddToolStripMenuItem
+        '
+        Me.AddToolStripMenuItem.Name = "AddToolStripMenuItem"
+        Me.AddToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.AddToolStripMenuItem.Text = "Add"
+        '
+        'MyScheduleToolStripMenuItem
+        '
+        Me.MyScheduleToolStripMenuItem.Name = "MyScheduleToolStripMenuItem"
+        Me.MyScheduleToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.MyScheduleToolStripMenuItem.Text = "My Schedule"
+        '
+        'AllScheduleToolStripMenuItem
+        '
+        Me.AllScheduleToolStripMenuItem.Name = "AllScheduleToolStripMenuItem"
+        Me.AllScheduleToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.AllScheduleToolStripMenuItem.Text = "All Schedule"
+        '
+        'RoomsToolStripMenuItem
+        '
+        Me.RoomsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToolStripMenuItem1})
+        Me.RoomsToolStripMenuItem.Name = "RoomsToolStripMenuItem"
+        Me.RoomsToolStripMenuItem.Size = New System.Drawing.Size(160, 22)
+        Me.RoomsToolStripMenuItem.Text = "Rooms"
+        '
+        'AddToolStripMenuItem1
+        '
+        Me.AddToolStripMenuItem1.Name = "AddToolStripMenuItem1"
+        Me.AddToolStripMenuItem1.Size = New System.Drawing.Size(101, 22)
+        Me.AddToolStripMenuItem1.Text = "Add"
+        '
+        'AvailabilToolStripMenuItem
+        '
+        Me.AvailabilToolStripMenuItem.Name = "AvailabilToolStripMenuItem"
+        Me.AvailabilToolStripMenuItem.Size = New System.Drawing.Size(160, 22)
+        Me.AvailabilToolStripMenuItem.Text = "Availability"
+        '
+        'ConflictsLogsToolStripMenuItem
+        '
+        Me.ConflictsLogsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConflictsToolStripMenuItem, Me.LogsToolStripMenuItem})
+        Me.ConflictsLogsToolStripMenuItem.Name = "ConflictsLogsToolStripMenuItem"
+        Me.ConflictsLogsToolStripMenuItem.Size = New System.Drawing.Size(160, 22)
+        Me.ConflictsLogsToolStripMenuItem.Text = "Conflicts/Logs"
+        '
+        'ConflictsToolStripMenuItem
+        '
+        Me.ConflictsToolStripMenuItem.Name = "ConflictsToolStripMenuItem"
+        Me.ConflictsToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
+        Me.ConflictsToolStripMenuItem.Text = "Conflicts"
+        '
+        'LogsToolStripMenuItem
+        '
+        Me.LogsToolStripMenuItem.Name = "LogsToolStripMenuItem"
+        Me.LogsToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
+        Me.LogsToolStripMenuItem.Text = "Logs"
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
         '
         'pnlSidebar
         '
@@ -1278,7 +1406,7 @@ Partial Class DashboardForm
         Me.pnlSidebar.BackgroundImage = Global.prjSchedMoni.My.Resources.Resources.bg_light_2
         Me.pnlSidebar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.pnlSidebar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.pnlSidebar.Controls.Add(Me.PictureBox8)
+        Me.pnlSidebar.Controls.Add(Me.picLogout)
         Me.pnlSidebar.Controls.Add(Me.lblLogout)
         Me.pnlSidebar.Controls.Add(Me.Label18)
         Me.pnlSidebar.Controls.Add(Me.Toggle1)
@@ -1294,15 +1422,15 @@ Partial Class DashboardForm
         Me.pnlSidebar.Size = New System.Drawing.Size(315, 1025)
         Me.pnlSidebar.TabIndex = 0
         '
-        'PictureBox8
+        'picLogout
         '
-        Me.PictureBox8.Image = Global.prjSchedMoni.My.Resources.Resources.power_button
-        Me.PictureBox8.Location = New System.Drawing.Point(109, 864)
-        Me.PictureBox8.Name = "PictureBox8"
-        Me.PictureBox8.Size = New System.Drawing.Size(25, 25)
-        Me.PictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox8.TabIndex = 3
-        Me.PictureBox8.TabStop = False
+        Me.picLogout.Image = Global.prjSchedMoni.My.Resources.Resources.power_button
+        Me.picLogout.Location = New System.Drawing.Point(109, 864)
+        Me.picLogout.Name = "picLogout"
+        Me.picLogout.Size = New System.Drawing.Size(25, 25)
+        Me.picLogout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.picLogout.TabIndex = 3
+        Me.picLogout.TabStop = False
         '
         'lblLogout
         '
@@ -1327,6 +1455,15 @@ Partial Class DashboardForm
         Me.Label18.TabIndex = 26
         Me.Label18.Text = "☀️ / 🌙"
         '
+        'Toggle1
+        '
+        Me.Toggle1.BackColor = System.Drawing.Color.Transparent
+        Me.Toggle1.Checked = False
+        Me.Toggle1.Location = New System.Drawing.Point(125, 922)
+        Me.Toggle1.Name = "Toggle1"
+        Me.Toggle1.Size = New System.Drawing.Size(63, 32)
+        Me.Toggle1.TabIndex = 46
+        '
         'btnConflicts
         '
         Me.btnConflicts.AccessibleName = ""
@@ -1336,7 +1473,7 @@ Partial Class DashboardForm
         Me.btnConflicts.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnConflicts.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnConflicts.ForeColor = System.Drawing.Color.Black
-        Me.btnConflicts.Image = CType(resources.GetObject("btnConflicts.Image"), System.Drawing.Image)
+        Me.btnConflicts.Image = Global.prjSchedMoni.My.Resources.Resources.icons8_new_contact_24
         Me.btnConflicts.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnConflicts.Location = New System.Drawing.Point(15, 471)
         Me.btnConflicts.Name = "btnConflicts"
@@ -1356,7 +1493,7 @@ Partial Class DashboardForm
         Me.btnAvailability.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnAvailability.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAvailability.ForeColor = System.Drawing.Color.Black
-        Me.btnAvailability.Image = Global.prjSchedMoni.My.Resources.Resources.event1
+        Me.btnAvailability.Image = Global.prjSchedMoni.My.Resources.Resources.icons8_event_24
         Me.btnAvailability.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnAvailability.Location = New System.Drawing.Point(15, 395)
         Me.btnAvailability.Name = "btnAvailability"
@@ -1376,7 +1513,7 @@ Partial Class DashboardForm
         Me.btnRooms.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnRooms.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnRooms.ForeColor = System.Drawing.Color.Black
-        Me.btnRooms.Image = CType(resources.GetObject("btnRooms.Image"), System.Drawing.Image)
+        Me.btnRooms.Image = Global.prjSchedMoni.My.Resources.Resources.icons8_room_24
         Me.btnRooms.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnRooms.Location = New System.Drawing.Point(15, 319)
         Me.btnRooms.Name = "btnRooms"
@@ -1396,7 +1533,7 @@ Partial Class DashboardForm
         Me.btnSchedule.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnSchedule.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnSchedule.ForeColor = System.Drawing.Color.Black
-        Me.btnSchedule.Image = CType(resources.GetObject("btnSchedule.Image"), System.Drawing.Image)
+        Me.btnSchedule.Image = Global.prjSchedMoni.My.Resources.Resources.icons8_clock_24
         Me.btnSchedule.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnSchedule.Location = New System.Drawing.Point(15, 243)
         Me.btnSchedule.Name = "btnSchedule"
@@ -1416,7 +1553,7 @@ Partial Class DashboardForm
         Me.btnDashboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnDashboard.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnDashboard.ForeColor = System.Drawing.Color.Black
-        Me.btnDashboard.Image = CType(resources.GetObject("btnDashboard.Image"), System.Drawing.Image)
+        Me.btnDashboard.Image = Global.prjSchedMoni.My.Resources.Resources.icons8_dashboard_24
         Me.btnDashboard.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnDashboard.Location = New System.Drawing.Point(15, 167)
         Me.btnDashboard.Name = "btnDashboard"
@@ -1491,14 +1628,15 @@ Partial Class DashboardForm
         Me.LineShape1.Y1 = 848
         Me.LineShape1.Y2 = 848
         '
-        'Toggle1
+        'ToolStripSeparator1
         '
-        Me.Toggle1.BackColor = System.Drawing.Color.Transparent
-        Me.Toggle1.Checked = False
-        Me.Toggle1.Location = New System.Drawing.Point(125, 922)
-        Me.Toggle1.Name = "Toggle1"
-        Me.Toggle1.Size = New System.Drawing.Size(63, 32)
-        Me.Toggle1.TabIndex = 46
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripSeparator3
+        '
+        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 25)
         '
         'DashboardForm
         '
@@ -1506,11 +1644,11 @@ Partial Class DashboardForm
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1914, 1051)
         Me.Controls.Add(Me.ToolStrip1)
-        Me.Controls.Add(Me.pnlConflictsView)
-        Me.Controls.Add(Me.pnlScheduleView)
         Me.Controls.Add(Me.pnlDashboardView)
+        Me.Controls.Add(Me.pnlScheduleView)
         Me.Controls.Add(Me.pnlRoomsView)
         Me.Controls.Add(Me.pnlAvailabilityView)
+        Me.Controls.Add(Me.pnlConflictsView)
         Me.Controls.Add(Me.pnlSidebar)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -1578,9 +1716,11 @@ Partial Class DashboardForm
         Me.pnlSchedConflicts.ResumeLayout(False)
         CType(Me.dgvConflicts, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dgvLogs, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ToolStrip1.ResumeLayout(False)
+        Me.ToolStrip1.PerformLayout()
         Me.pnlSidebar.ResumeLayout(False)
         Me.pnlSidebar.PerformLayout()
-        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picLogout, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlUserProfileCard.ResumeLayout(False)
         Me.pnlUserProfileCard.PerformLayout()
         CType(Me.pictureBoxUserManagement, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1677,7 +1817,7 @@ Partial Class DashboardForm
     Friend WithEvents dgvLogs As System.Windows.Forms.DataGridView
     Friend WithEvents Toggle1 As prjSchedMoni.Toggle
     Friend WithEvents Label18 As System.Windows.Forms.Label
-    Friend WithEvents PictureBox8 As System.Windows.Forms.PictureBox
+    Friend WithEvents picLogout As System.Windows.Forms.PictureBox
     Friend WithEvents lblLogout As System.Windows.Forms.Label
     Friend WithEvents picUserProfile As System.Windows.Forms.PictureBox
     Friend WithEvents ShapeContainer2 As Microsoft.VisualBasic.PowerPacks.ShapeContainer
@@ -1698,4 +1838,22 @@ Partial Class DashboardForm
     Friend WithEvents pnlSwitch As System.Windows.Forms.Panel
     Friend WithEvents pnlAllDates As System.Windows.Forms.Panel
     Friend WithEvents chkAllLogs As System.Windows.Forms.CheckBox
+    Friend WithEvents btnNav As System.Windows.Forms.ToolStripSplitButton
+    Friend WithEvents DashboardToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ScheduleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RoomsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AvailabilToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ConflictsLogsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AddToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MyScheduleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AllScheduleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AddToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ConflictsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents LogsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents btnAccount As System.Windows.Forms.ToolStripSplitButton
+    Friend WithEvents ManageAccountsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents LogoutToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
 End Class

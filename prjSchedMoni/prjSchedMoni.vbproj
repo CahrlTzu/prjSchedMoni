@@ -375,6 +375,54 @@
   <ItemGroup>
     <None Include="Resources\icons8_light.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\menu1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\menu_light.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\menu2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\nav.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\nav_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8_dashboard_light.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-clock-24_light.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock_light.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\room_light.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-event-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\event_light.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\contact_light.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\account_light.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\setting_light.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\profile.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

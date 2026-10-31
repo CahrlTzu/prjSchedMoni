@@ -23,6 +23,10 @@ Public Class DashboardForm
 
     Private Sub DashboardForm_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
 
+        ToolStrip1.RenderMode = ToolStripRenderMode.System
+
+        btnNav.BackColor = ToolStrip1.BackColor
+
         dgvTodaysSchedule.AutoGenerateColumns = True
         dgvTodaysSchedule.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         FormatScheduleGrid()
@@ -287,13 +291,13 @@ Public Class DashboardForm
 
                     If .Columns.Contains("Edit") Then
                         .Columns("Edit").FillWeight = 38
-                        .Columns("Edit").AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                        .Columns("Edit").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
                         .Columns("Edit").Width = 38
                     End If
 
                     If .Columns.Contains("Delete") Then
                         .Columns("Delete").FillWeight = 38
-                        .Columns("Delete").AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                        .Columns("Delete").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
                         .Columns("Delete").Width = 38
                         .Columns("Delete").MinimumWidth = 38
                     End If
@@ -490,12 +494,12 @@ Public Class DashboardForm
 
                     If .Columns.Contains("EditRoom") Then
                         .Columns("EditRoom").FillWeight = 50
-                        .Columns("EditRoom").AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                        .Columns("EditRoom").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
                         .Columns("EditRoom").Width = 50
                     End If
                     If .Columns.Contains("DeleteRoom") Then
                         .Columns("DeleteRoom").FillWeight = 50
-                        .Columns("DeleteRoom").AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                        .Columns("DeleteRoom").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
                         .Columns("DeleteRoom").Width = 50
                         .Columns("DeleteRoom").MinimumWidth = 50
                     End If
@@ -689,6 +693,7 @@ Public Class DashboardForm
         HighlightActiveButton(btnAvailability)
         LoadAvailabilityData()
         ToolStrip1.BringToFront()
+        LoadAvailabilityFilters()
     End Sub
 
     Private Sub btnConflicts_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnConflicts.Click
@@ -700,6 +705,7 @@ Public Class DashboardForm
             Return
         End If
 
+        chkAllLogs.Checked = True
         ShowView(pnlConflictsView)
         HighlightActiveButton(btnConflicts)
         LoadConflictsData()
@@ -1254,9 +1260,6 @@ Public Class DashboardForm
         Return path
     End Function
 
-    Private Sub pnlRoomsView_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles pnlRoomsView.Paint
-
-    End Sub
 
     Private Sub pictureBoxUserManagement_Click(ByVal sender As Object, ByVal e As EventArgs) Handles pictureBoxUserManagement.Click
         Dim userForm As New UserManagementForm()
@@ -1809,6 +1812,8 @@ Public Class DashboardForm
         End Try
     End Sub
 
+
+
     Private Sub Toggle1_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles Toggle1.CheckedChanged
         Dim isDark As Boolean = Toggle1.Checked
 
@@ -1827,6 +1832,21 @@ Public Class DashboardForm
 
             SetThemeRecursive(Me, bgColor, cardBgColor, textColor, sidebarColor, gridBgColor, gridAltColor, gridLineColor, True)
 
+
+            If chartRoomOverview IsNot Nothing Then
+                chartRoomOverview.BackColor = Color.FromArgb(45, 45, 45)
+                If chartRoomOverview.Legends.Count > 0 Then
+                    chartRoomOverview.Legends(0).ForeColor = textColor
+                End If
+                chartRoomOverview.Invalidate()
+            End If
+
+            If ToolStrip1 IsNot Nothing Then
+                ToolStrip1.BackColor = Color.FromArgb(45, 45, 45)
+                ToolStrip1.ForeColor = Color.White
+                ToolStrip1.GripStyle = ToolStripGripStyle.Hidden
+            End If
+
             If chartRoomOverview IsNot Nothing Then
                 chartRoomOverview.BackColor = Color.FromArgb(45, 45, 45)
                 If chartRoomOverview.Legends.Count > 0 Then
@@ -1842,6 +1862,14 @@ Public Class DashboardForm
             picOccupied.Image = My.Resources.calendar_light
             picConflicts.Image = My.Resources.sync1
             picAvailRefresh.Image = My.Resources.icons8_light
+            picUserProfile.Image = My.Resources.account_light
+            btnSchedule.Image = My.Resources.icons8_clock_24_light
+            btnDashboard.Image = My.Resources.icons8_dashboard_light
+            btnRooms.Image = My.Resources.room_light
+            btnAvailability.Image = My.Resources.event_light
+            btnConflicts.Image = My.Resources.contact_light
+            picLogout.Image = My.Resources.power_button_light
+            pictureBoxUserManagement.Image = My.Resources.setting_light
 
         Else
             ' --- NORMAL MODE ---
@@ -1864,6 +1892,20 @@ Public Class DashboardForm
             ResetDataGridViewsRecursive(Me, False)
             LoadTodaysSchedule()
 
+
+            If chartRoomOverview IsNot Nothing Then
+                chartRoomOverview.BackColor = Color.White
+                If chartRoomOverview.Legends.Count > 0 Then
+                    chartRoomOverview.Legends(0).ForeColor = Color.Black
+                End If
+                chartRoomOverview.Invalidate()
+            End If
+
+            If ToolStrip1 IsNot Nothing Then
+                ToolStrip1.BackColor = Color.FromArgb(240, 242, 245) ' Or match your original designer color
+                ToolStrip1.ForeColor = Color.Black
+            End If
+
             If chartRoomOverview IsNot Nothing Then
                 chartRoomOverview.BackColor = Color.White
                 If chartRoomOverview.Legends.Count > 0 Then
@@ -1879,6 +1921,15 @@ Public Class DashboardForm
             picOccupied.Image = My.Resources.calendar1
             picConflicts.Image = My.Resources.sync2
             picAvailRefresh.Image = My.Resources.icons8refresh
+            picUserProfile.Image = My.Resources.account1
+            btnSchedule.Image = My.Resources.icons8_clock_24
+            btnDashboard.Image = My.Resources.icons8_dashboard_24
+            btnRooms.Image = My.Resources.icons8_room_24
+            btnAvailability.Image = My.Resources.event1
+            btnConflicts.Image = My.Resources.icons8_new_contact_24
+            picLogout.Image = My.Resources.power_button
+            pictureBoxUserManagement.Image = My.Resources.settings
+
         End If
     End Sub
 
@@ -1901,6 +1952,10 @@ Public Class DashboardForm
                 dgv.AlternatingRowsDefaultCellStyle.ForeColor = textColor
                 dgv.ColumnHeadersDefaultCellStyle.BackColor = If(isDark, Color.FromArgb(50, 50, 50), Color.FromArgb(240, 242, 245))
                 dgv.ColumnHeadersDefaultCellStyle.ForeColor = textColor
+                dgv.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
+                dgv.BorderStyle = BorderStyle.None
+                dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
+                dgv.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
             End If
 
             If ctrl.HasChildren Then
@@ -1976,6 +2031,7 @@ Public Class DashboardForm
                 If isDark Then
                     toolBar.BackColor = Color.FromArgb(45, 45, 45)
                     toolBar.ForeColor = Color.White
+
                 Else
                     toolBar.BackColor = Color.FromArgb(240, 242, 245)
                     toolBar.ForeColor = Color.Black
@@ -1997,7 +2053,7 @@ Public Class DashboardForm
         LoginForm.Show()
     End Sub
 
-    Private Sub PictureBox8_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PictureBox8.Click
+    Private Sub PictureBox8_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles picLogout.Click
         Me.Close()
         LoginForm.Show()
     End Sub
@@ -2014,10 +2070,6 @@ Public Class DashboardForm
 
     End Sub
 
-    
-
-
-
     Private Sub txtSearchConflicts_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchConflicts.TextChanged
         If btnToggleView.Text = "Logs" Then
             ' Currently viewing Conflicts
@@ -2027,4 +2079,230 @@ Public Class DashboardForm
             LoadLogsData()
         End If
     End Sub
+    
+    Private Sub DashboardToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DashboardToolStripMenuItem.Click
+        ShowView(pnlDashboardView)
+        HighlightActiveButton(btnDashboard)
+        LoadDashboardMetrics()
+        LoadTodaysSchedule()
+        LoadRoomChart()
+        ToolStrip1.BringToFront()
+    End Sub
+
+    Private Sub ScheduleToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ScheduleToolStripMenuItem.Click
+        ShowView(pnlScheduleView)
+        HighlightActiveButton(btnSchedule)
+        LoadScheduleFromDatabase()
+        ToolStrip1.BringToFront()
+    End Sub
+
+    Private Sub RoomsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RoomsToolStripMenuItem.Click
+        ShowView(pnlRoomsView)
+        HighlightActiveButton(btnRooms)
+        LoadRoomsData()
+        ToolStrip1.BringToFront()
+    End Sub
+
+    Private Sub AvailabilToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AvailabilToolStripMenuItem.Click
+        ShowView(pnlAvailabilityView)
+        HighlightActiveButton(btnAvailability)
+        LoadAvailabilityData()
+        LoadAvailabilityFilters()
+        ToolStrip1.BringToFront()
+    End Sub
+
+    Private Sub ConflictsLogsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ConflictsLogsToolStripMenuItem.Click
+        Dim currentUserRole As String = If(GlobalSession.UserRole Is Nothing, "", GlobalSession.UserRole.Trim())
+        Dim isAdmin As Boolean = currentUserRole.IndexOf("Admin", StringComparison.OrdinalIgnoreCase) >= 0
+
+        If Not isAdmin Then
+            MessageBox.Show("No access for this panel. This section is restricted to administrators only.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+
+        chkAllLogs.Checked = True
+        ShowView(pnlConflictsView)
+        HighlightActiveButton(btnConflicts)
+        LoadConflictsData()
+        ToolStrip1.BringToFront()
+
+    End Sub
+
+    Private Sub AddToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddToolStripMenuItem.Click
+        ShowView(pnlScheduleView)
+        HighlightActiveButton(btnSchedule)
+        LoadScheduleFromDatabase()
+        ToolStrip1.BringToFront()
+
+        Dim addForm As New AddEditScheduleForm()
+        If addForm.ShowDialog() = DialogResult.OK Then
+            LoadScheduleFromDatabase()
+            LoadTodaysSchedule()
+            LoadDashboardMetrics()
+            LoadRoomChart()
+            LoadAvailabilityData()
+            LoadConflictsData()
+        End If
+    End Sub
+
+    Private Sub MyScheduleToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyScheduleToolStripMenuItem.Click
+        chkMySchedule.Checked = True
+        ShowView(pnlScheduleView)
+        HighlightActiveButton(btnSchedule)
+        LoadScheduleFromDatabase()
+        ToolStrip1.BringToFront()
+    End Sub
+
+    Private Sub AllScheduleToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AllScheduleToolStripMenuItem.Click
+        chkMySchedule.Checked = False
+        ShowView(pnlScheduleView)
+        HighlightActiveButton(btnSchedule)
+        LoadScheduleFromDatabase()
+        ToolStrip1.BringToFront()
+    End Sub
+
+    Private Sub AddToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddToolStripMenuItem1.Click
+        ShowView(pnlRoomsView)
+        HighlightActiveButton(btnRooms)
+        LoadRoomsData()
+        ToolStrip1.BringToFront()
+
+        Dim currentUserRole As String = If(GlobalSession.UserRole Is Nothing, "", GlobalSession.UserRole.Trim())
+        Dim isAdmin As Boolean = currentUserRole.IndexOf("Admin", StringComparison.OrdinalIgnoreCase) >= 0
+
+        If Not isAdmin Then
+            MessageBox.Show("Access Denied: Only administrators can add rooms.", "Permission Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+
+        Dim addForm As New AddEditRoomForm()
+        If addForm.ShowDialog() = DialogResult.OK Then
+            LoadRoomsData()
+            LoadRoomDropdown()
+            LoadDashboardMetrics()
+            LoadRoomChart()
+            LoadAvailabilityData()
+        End If
+    End Sub
+
+    Private Sub ToolStripComboBox1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+
+    End Sub
+
+    Private Sub ConflictsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ConflictsToolStripMenuItem.Click
+        Dim currentUserRole As String = If(GlobalSession.UserRole Is Nothing, "", GlobalSession.UserRole.Trim())
+        Dim isAdmin As Boolean = currentUserRole.IndexOf("Admin", StringComparison.OrdinalIgnoreCase) >= 0
+
+        If Not isAdmin Then
+            MessageBox.Show("No access for this panel. This section is restricted to administrators only.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+
+        btnToggleView.PerformClick()
+        ShowView(pnlConflictsView)
+        HighlightActiveButton(btnConflicts)
+        LoadConflictsData()
+        ToolStrip1.BringToFront()
+    End Sub
+
+    Private Sub LogsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LogsToolStripMenuItem.Click
+        Dim currentUserRole As String = If(GlobalSession.UserRole Is Nothing, "", GlobalSession.UserRole.Trim())
+        Dim isAdmin As Boolean = currentUserRole.IndexOf("Admin", StringComparison.OrdinalIgnoreCase) >= 0
+
+        If Not isAdmin Then
+            MessageBox.Show("No access for this panel. This section is restricted to administrators only.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+
+        btnToggleView.PerformClick()
+
+        ShowView(pnlConflictsView)
+        HighlightActiveButton(btnConflicts)
+        LoadConflictsData()
+        ToolStrip1.BringToFront()
+    End Sub
+
+    Private Sub picTotalRooms_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles picTotalRooms.Click
+
+    End Sub
+
+    Private Sub btnNav_ButtonClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNav.ButtonClick
+        btnNav.ShowDropDown()
+    End Sub
+
+    Private Sub btnNav_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnNav.MouseEnter
+        btnNav.ShowDropDown()
+    End Sub
+
+    
+    Private Sub MainMenuForm_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        ' Reusing your exact role checking logic
+        Dim currentUserRole As String = If(GlobalSession.UserRole Is Nothing, "", GlobalSession.UserRole.Trim())
+        Dim isAdmin As Boolean = currentUserRole.IndexOf("Admin", StringComparison.OrdinalIgnoreCase) >= 0
+
+        If isAdmin Then
+            ManageAccountsToolStripMenuItem.Enabled = True
+            ManageAccountsToolStripMenuItem.ToolTipText = "Manage system accounts."
+
+        Else
+            ManageAccountsToolStripMenuItem.Enabled = False
+            ManageAccountsToolStripMenuItem.ToolTipText = "Only admin can manage account for this system."
+        End If
+    End Sub
+
+    Private Sub ManageAccountsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ManageAccountsToolStripMenuItem.Click
+        Dim userForm As New UserManagementForm()
+        userForm.ShowDialog()
+    End Sub
+
+    Private Sub LogoutToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LogoutToolStripMenuItem.Click
+        Me.Close()
+        LoginForm.Show()
+    End Sub
+
+    Public Class DarkColorTable
+        Inherits ProfessionalColorTable
+
+        Public Overrides ReadOnly Property MenuItemSelected() As Color
+            Get
+                Return Color.FromArgb(70, 70, 70) ' Hover color
+            End Get
+        End Property
+
+        Public Overrides ReadOnly Property MenuItemBorder() As Color
+            Get
+                Return Color.FromArgb(80, 80, 80)
+            End Get
+        End Property
+
+        Public Overrides ReadOnly Property MenuBorder() As Color
+            Get
+                Return Color.FromArgb(60, 60, 60)
+            End Get
+        End Property
+
+        Public Overrides ReadOnly Property ToolStripDropDownBackground() As Color
+            Get
+                Return Color.FromArgb(45, 45, 45) ' Dropdown background
+            End Get
+        End Property
+
+        Public Overrides ReadOnly Property ImageMarginGradientBegin() As Color
+            Get
+                Return Color.FromArgb(40, 40, 40)
+            End Get
+        End Property
+
+        Public Overrides ReadOnly Property ImageMarginGradientMiddle() As Color
+            Get
+                Return Color.FromArgb(40, 40, 40)
+            End Get
+        End Property
+
+        Public Overrides ReadOnly Property ImageMarginGradientEnd() As Color
+            Get
+                Return Color.FromArgb(40, 40, 40)
+            End Get
+        End Property
+    End Class
 End Class
